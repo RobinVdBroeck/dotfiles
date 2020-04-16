@@ -114,24 +114,24 @@ if [[ -d "$HOME/.pyenv" ]] then
     eval "$(pyenv virtualenv-init -)"
 fi
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# Add RVM to PATH for scripting.
 if [[ -d "$HOME/.rvm" ]] then
     export PATH="$PATH:$HOME/.rvm/bin"
 fi 
 
 # Cargo
-if [[ command -v cargo &2>/dev/null ]] then
+if [[ -d "$HOME/.cargo" ]] then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # Node setup
-if [[ command -v npm &2>/dev/null ]] then
+if [[ -x "$(command -v npm)" ]] then
     NPM_PACKAGES="$HOME/.npm-packages"
     export PATH="$PATH:$NPM_PACKAGES/bin"
     export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 fi
 
-# THIS MUST BE AT THE fi OF THE FILE FOR SDKMAN TO WORK!!!
+# Sdk
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
