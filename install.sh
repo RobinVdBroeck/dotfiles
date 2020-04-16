@@ -14,3 +14,8 @@ if [ -x "$(command -v vim)" ]; then
     echo "Linking vim"
     stow vim
 fi
+
+if [ -x "$(command -v git)" ]; then
+    echo "Linking git"
+    stow git
+fi
