@@ -119,6 +119,11 @@ if [[ -d "$HOME/.rvm" ]] then
     export PATH="$PATH:$HOME/.rvm/bin"
 fi 
 
+# Cargo
+if [[ command -v cargo &2>/dev/null ]] then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 # Node setup
 if [[ command -v npm &2>/dev/null ]] then
     NPM_PACKAGES="$HOME/.npm-packages"
