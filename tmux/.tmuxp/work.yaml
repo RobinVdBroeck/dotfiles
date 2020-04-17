@@ -1,0 +1,21 @@
+session_name: work
+windows:
+  - window_name: servers
+    layout: tiled
+    shell_command_before:
+      - cd $MF
+    panes:
+      - npm run local-login
+      - npm run local-gp
+  - window_name: test
+    layout: tiled
+    shell_command_before:
+      - cd $MF
+    panes:
+      - npm run test -- --watch --runInBand --passWithNoTests
+  - window_name: zsh
+    layout: tiled
+    shell_comand_before:
+      - cd $MF
+    panes:
+      - echo "You can enter commands here"

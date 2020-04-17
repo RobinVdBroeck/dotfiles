@@ -19,3 +19,8 @@ if [ -x "$(command -v git)" ]; then
     echo "Linking git"
     stow git
 fi
+
+if [ -x "$(command -v tmux)" ]; then 
+    echo "Linking tmux"
+    stow tmux
+fi

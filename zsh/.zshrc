@@ -103,6 +103,8 @@ alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias reloadzsh="source ~/.zshrc"
 
+# Setting for tmuxp
+export DISABLE_AUTO_TITLE=true
 # Make ctrl-s + ctrl-q not freeze the terminal, since I use those to save
 # accidently alot
 stty -ixon
