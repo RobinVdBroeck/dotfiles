@@ -6,3 +6,6 @@
 	driver = npx npm-merge-driver merge %A %O %B %P
 [core]
 	pager = less -F -X
+[alias]
+	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+	update-master = fetch origin master:master
