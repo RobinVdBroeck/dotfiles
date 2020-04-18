@@ -24,3 +24,8 @@ if [ -x "$(command -v tmux)" ]; then
     echo "Linking tmux"
     stow tmux
 fi
+
+if [ -x "$(command -v alacritty)" ]; then 
+    echo "Linking alacritty"
+    stow alacritty
+fi

@@ -10,4 +10,5 @@ cd dotfiles
 1. zsh (auto install oh-my-zsh)
 2. vim
 3. git
-4. tmux (With tmuxp)_
+4. tmux (With tmuxp)
+5. Alacritty
