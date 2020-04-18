@@ -1,3 +1,6 @@
 [submodule "zsh/.oh-my-zsh"]
 	path = zsh/.oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh
+[submodule "vim/gruvbox"]
+	path = vim/.vim/pack/default/start/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
