@@ -4,3 +4,9 @@
 [submodule "vim/gruvbox"]
 	path = vim/.vim/pack/default/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
+[submodule "vim/syntastic"]
+	path = vim/.vim/pack/default/start/syntastic
+	url = git@github.com:vim-syntastic/syntastic.git
+[submodule "vim/ale"]
+	path = vim/.vim/pack/default/start/ale
+	url = git@github.com:dense-analysis/ale.git

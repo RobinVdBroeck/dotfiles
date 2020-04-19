@@ -48,3 +48,4 @@ nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
 
 " Use :W to save files as root
 command W :execute ':silent w !sudo tee % > dev/null/' | :edit!
+
