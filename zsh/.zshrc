@@ -87,7 +87,7 @@ source $ZSH/oh-my-zsh.sh
 if [[ -n $SSH_CONECTION ]]; then
     export EDITOR='vim'
 else
-    export EDITOR='vim'
+    export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -116,6 +116,12 @@ if [[ -x $(command -v node) ]] then
     export MANPATH="$HOME/.node/share/man:$MANPATH"
 fi
 
+# Alias vim and vi to nvim if it exists
+if [[ -x $(command -v nvim) ]] then
+    alias vim="nvim"
+    alias vi="nvim"
+fi
+
 # Pyenv
 if [[ -d "$HOME/.pyenv" ]] then
     export PATH="$HOME/.pyenv/bin:$PATH"
@@ -123,9 +129,11 @@ if [[ -d "$HOME/.pyenv" ]] then
     eval "$(pyenv virtualenv-init -)"
 fi
 
-# Add RVM to PATH for scripting.
+# Add RVM to PATH for scripting, or default ruby if we have that.
 if [[ -d "$HOME/.rvm" ]] then
     export PATH="$PATH:$HOME/.rvm/bin"
+elif which ruby >/dev/null && which gem >/dev/null; then
+    export PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi 
 
 # Cargo

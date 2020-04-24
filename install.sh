@@ -15,6 +15,11 @@ if [ -x "$(command -v vim)" ]; then
     stow vim
 fi
 
+if [ -x "$(command -v nvim)" ]; then
+    echo "Linking nvim"
+    stow nvim
+fi
+
 if [ -x "$(command -v git)" ]; then
     echo "Linking git"
     stow git
@@ -30,7 +35,7 @@ if [ -x "$(command -v alacritty)" ]; then
     stow alacritty
 fi
 
-if [ -x "$(command -v alacritty)" ]; then
+if [ -x "$(command -v node)" ]; then
     echo "Linking node"
     stow node
 fi
