@@ -110,6 +110,12 @@ export DISABLE_AUTO_TITLE=true
 # accidently alot
 stty -ixon
 
+if [[ -x $(command -v node) ]] then
+    export PATH="$HOME/.node/bin:$PATH"
+    export NODE_PATH="$HOME/.node/lib/node_modules:$NODE_PATH"
+    export MANPATH="$HOME/.node/share/man:$MANPATH"
+fi
+
 # Pyenv
 if [[ -d "$HOME/.pyenv" ]] then
     export PATH="$HOME/.pyenv/bin:$PATH"
