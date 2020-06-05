@@ -122,6 +122,11 @@ if [[ -x $(command -v nvim) ]] then
     alias vi="nvim"
 fi
 
+# Emacs is for plebs
+if [[ -x $(command -v vim) ]] then
+    alias emacs="vim"
+fi
+
 # Pyenv
 if [[ -d "$HOME/.pyenv" ]] then
     export PATH="$HOME/.pyenv/bin:$PATH"
