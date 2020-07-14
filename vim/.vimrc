@@ -1,6 +1,18 @@
+" Setup plugins
+if empty(glob('~/.vim/autoload/plug.vim'))
+      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      autocmd VimEnter * PLugInstall --sync | source $MYVIMRC
+endif
+
+
+call plug#begin("~/.vim/plugged") 
+Plug 'morhetz/gruvbox', { 'tag': 'v2.0.0' }
+Plug 'dense-analysis/ale', { 'tag': 'v2.7.0' }
+call plug#end()
+
 " Basic stuff
 set nocompatible " Dont try to be compatible with vi
-syntax on " Highlight syntax
 set modelines=0 " Don't excute modelines for security
 set encoding=utf-8 "UTF-8 is the only relevant encoding, dont try to tell me otherwise
 
@@ -9,8 +21,8 @@ set number relativenumber
 set nu rnu
 set ruler
 set visualbell " Fuck beeping
+let g:gruvbox_contract_dark='hard'
 colorscheme gruvbox
-set background=dark
 
 " Whitespace settings
 set wrap
