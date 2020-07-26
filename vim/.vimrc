@@ -5,11 +5,16 @@ if empty(glob('~/.vim/autoload/plug.vim'))
       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
 call plug#begin("~/.vim/plugged") 
-Plug 'morhetz/gruvbox', { 'tag': 'v2.0.0' }
-Plug 'dense-analysis/ale', { 'tag': 'v2.7.0' }
+    " General plugins
+    Plug 'morhetz/gruvbox', { 'tag': 'v2.0.0' }
+    Plug 'dense-analysis/ale', { 'tag': 'v2.7.0' }
+
+    " Javascript
+    Plug 'pangloss/vim-javascript', { 'tag': 'v1.2.2' }
+    Plug 'maxmellon/vim-jsx-pretty', { 'tag': 'v3.0.0' }
 call plug#end()
+
 
 " Basic stuff
 set nocompatible " Dont try to be compatible with vi
