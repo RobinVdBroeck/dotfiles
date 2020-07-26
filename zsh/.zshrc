@@ -72,7 +72,10 @@ ZSH_THEME="ys"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    git
+    poetry
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -127,11 +130,17 @@ if [[ -x $(command -v vim) ]] then
     alias emacs="vim"
 fi
 
+#
 # Pyenv
 if [[ -d "$HOME/.pyenv" ]] then
     export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
+fi
+#
+# Pipenv autocompletion
+if [[ -x $(command -v pipenv) ]] then
+    eval "$(pipenv --completion)"
 fi
 
 # Add RVM to PATH for scripting, or default ruby if we have that.
