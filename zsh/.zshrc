@@ -152,6 +152,12 @@ if [[ -x "$(command -v npm)" ]] then
 fi
 
 # Sdk
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+if [[ -d "$HOME/.sdkman" ]] then
+    export SDKMAN_DIR="$HOME/.sdkman"
+    source "$SDKMAN_DIR/bin/sdkman-init.sh"
+fi
 
+# Dart setup
+if [[ -n "$(command -v dart)" ]] then
+    export PATH="$PATH:/usr/lib/dart/bin"
+fi
