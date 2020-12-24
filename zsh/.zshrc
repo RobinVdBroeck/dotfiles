@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+#
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -70,10 +71,14 @@ ZSH_THEME="ys"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
-    poetry
+    dotenv
 )
 
-source $ZSH/oh-my-zsh.sh
+if [[ -f $ZSH/oh-my-zsh.sh ]]; then
+    source $ZSH/oh-my-zsh.sh
+else
+    echo "oh-my-zsh not loaded"
+fi
 
 # User configuration
 
@@ -86,7 +91,7 @@ source $ZSH/oh-my-zsh.sh
 if [[ -n $SSH_CONECTION ]]; then
     export EDITOR='vim'
 else
-    export EDITOR='nvim'
+    #export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -105,7 +110,7 @@ alias reloadzsh="source ~/.zshrc"
 # Setting for tmuxp
 export DISABLE_AUTO_TITLE=true
 
- #Make ctrl-s + ctrl-q not freeze the terminal, since I use those to save
+# Make ctrl-s + ctrl-q not freeze the terminal, since I use those to save
 # accidently alot
 stty -ixon
 
@@ -115,25 +120,13 @@ if [[ -x $(command -v node) ]] then
     export MANPATH="$HOME/.node/share/man:$MANPATH"
 fi
 
-# Alias vim and vi to nvim if it exists
-if [[ -x $(command -v nvim) ]] then
-    alias vim="nvim"
-    alias vi="nvim"
-fi
-
-# Emacs is for plebs
-if [[ -x $(command -v vim) ]] then
-    alias emacs="vim"
-fi
-
-#
 # Pyenv
 if [[ -d "$HOME/.pyenv" ]] then
     export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 fi
-#
+
 # Pipenv autocompletion
 if [[ -x $(command -v pipenv) ]] then
     eval "$(pipenv --completion)"
