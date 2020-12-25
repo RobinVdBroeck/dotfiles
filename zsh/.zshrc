@@ -1,6 +1,5 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-#
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -114,7 +113,10 @@ export DISABLE_AUTO_TITLE=true
 # accidently alot
 stty -ixon
 
-if [[ -x $(command -v node) ]] then
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+if [[ -s "$NVM_DIR/nvm.sh" ]] then
+    source "$NVM_DIR/nvm.sh" 
+elif [[ -x $(command -v node) ]] then
     export PATH="$HOME/.node/bin:$PATH"
     export NODE_PATH="$HOME/.node/lib/node_modules:$NODE_PATH"
     export MANPATH="$HOME/.node/share/man:$MANPATH"
@@ -160,4 +162,5 @@ fi
 # Dart setup
 if [[ -n "$(command -v dart)" ]] then
     export PATH="$PATH:/usr/lib/dart/bin"
+    export PATH="$PATH:$HOME/.pub-cache/bin"
 fi
