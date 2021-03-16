@@ -90,7 +90,7 @@ fi
 if [[ -n $SSH_CONECTION ]]; then
     export EDITOR='vim'
 else
-    #export EDITOR='nvim'
+    export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -113,13 +113,16 @@ export DISABLE_AUTO_TITLE=true
 # accidently alot
 stty -ixon
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-if [[ -s "$NVM_DIR/nvm.sh" ]] then
-    source "$NVM_DIR/nvm.sh" 
-elif [[ -x $(command -v node) ]] then
-    export PATH="$HOME/.node/bin:$PATH"
-    export NODE_PATH="$HOME/.node/lib/node_modules:$NODE_PATH"
-    export MANPATH="$HOME/.node/share/man:$MANPATH"
+# Prefer fnm over nvm
+# See: https://github.com/Schniz/fnm
+if [[ -d "$HOME/.fnm" ]] then
+    export PATH="$HOME/.fnm":$PATH
+    eval "`fnm env`"
+else
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    if [[ -s "$NVM_DIR/nvm.sh" ]] then
+        source "$NVM_DIR/nvm.sh" 
+    fi
 fi
 
 # Pyenv
@@ -144,13 +147,6 @@ fi
 # Cargo
 if [[ -d "$HOME/.cargo" ]] then
     export PATH="$HOME/.cargo/bin:$PATH"
-fi
-
-# Node setup
-if [[ -x "$(command -v npm)" ]] then
-    NPM_PACKAGES="$HOME/.npm-packages"
-    export PATH="$PATH:$NPM_PACKAGES/bin"
-    export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 fi
 
 # Sdk
