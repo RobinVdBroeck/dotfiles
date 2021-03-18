@@ -94,6 +94,10 @@ elif [[ -n $(command -v vim) ]] then
     export EDITOR="vim"
 fi
 
+# Add local path
+export PATH=$(systemd-path user-binaries):$PATH
+
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -103,8 +107,8 @@ fi
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
+alias zshconfig="$EDITOR ~/.zshrc"
+alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
 alias reloadzsh="source ~/.zshrc"
 
 # Setting for tmuxp

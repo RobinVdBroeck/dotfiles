@@ -34,3 +34,7 @@ if [ -x "$(command -v alacritty)" ]; then
     echo "Linking alacritty"
     stow alacritty
 fi
+if [ -x "$(command -v dmenu)" ]; then 
+    echo "Linking dmenu"
+    stow dmenu
+fi

@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+# Creates shortcuts for opening config files
+
+import os
+import subprocess
+import sys
+
+try:
+    editor = os.environ['EDITOR'] 
+except KeyError:
+    editor = 'xdg-open'
+
+try:
+    home = os.environ['HOME']
+except KeyError:
+    sys.exit(1)
+
+# Add entries here
+entries = {
+    "nvim": f"{home}/.config/nvim/init.vim",
+    "vim": f"{home}/.vimrc",
+    "xresources": f"{home}/.XResources",
+    "xinit": f"{home}/.xinitrc",
+    "qtile": f"{home}/.config/qtile/config.py",
+    "zsh": f"{home}/.zshrc",
+    "dmconfig": f"{home}/.local/bin/dmconfig", #dmconfig exception 
+} 
+
+dmenu = subprocess.Popen(
+        ["dmenu", "-i", "-l", "20","-p", "Edit config"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=sys.stderr,
+)
+
+stdin = dmenu.stdin
+if stdin is None:
+    sys.exit(1)
+stdout = dmenu.stdout
+if stdout is None:
+    sys.exit(1)
+
+for key in sorted(entries.keys()):
+    byterepr = bytes(key + "\n", "utf-8")
+    stdin.write(byterepr)
+stdin.close()
+
+# wait for dmenu to be closed 
+dmenu.wait()
+
+val = str(stdout.read(), "utf-8").strip()
+os.system(editor +  " " + entries[val])
