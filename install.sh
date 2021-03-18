@@ -34,8 +34,3 @@ if [ -x "$(command -v alacritty)" ]; then
     echo "Linking alacritty"
     stow alacritty
 fi
-
-if [ -x "$(command -v node)" ]; then
-    echo "Linking node"
-    stow node
-fi
