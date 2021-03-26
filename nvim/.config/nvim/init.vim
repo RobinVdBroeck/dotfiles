@@ -1,4 +1,7 @@
-" Setup plugins
+"""""""""""""""""
+" Setup plugins "
+"""""""""""""""""
+
 let autoload_plug_path = stdpath('config') . '/site/autoload/plug.vim'
 if !filereadable(autoload_plug_path)
     execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
@@ -29,13 +32,16 @@ call plug#begin(plugins_path)
     
     " Web development
     Plug 'mattn/emmet-vim'
-    
+   
     " Syntax highlighting
     Plug 'sheerun/vim-polyglot'
 call plug#end()
 unlet plugins_path
 
-" Basic stuff
+""""""""""""""""""""
+" GENERAL SETTINGS "
+""""""""""""""""""""
+
 set modelines=0 " Don't excute modelines for security
 set mouse=a
 set nobackup
