@@ -8,7 +8,8 @@ cd dotfiles
 
 ## Supports:
 1. zsh (auto install oh-my-zsh)
-2. vim
+2. nvim
 3. git
-4. tmux (With tmuxp)
+4. tmux (+ tmuxp)
 5. Alacritty
+6. scripts (usefull scripts that I use)

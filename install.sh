@@ -5,6 +5,9 @@ if ! [ -x "$(command -v stow)" ]; then
     exit 1
 fi
 
+echo "Linking scripts"
+stow scripts
+
 if [ -x "$(command -v zsh)" ]; then
     echo "Linking zsh"
     stow zsh
