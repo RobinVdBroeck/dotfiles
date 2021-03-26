@@ -1,4 +1,4 @@
-#/usr/bin/env sh
+#/usr/bin/env bash
 
 if ! [ -x "$(command -v stow)" ]; then
     echo "Please install stow first" >&2
@@ -8,11 +8,6 @@ fi
 if [ -x "$(command -v zsh)" ]; then
     echo "Linking zsh"
     stow zsh
-fi
-
-if [ -x "$(command -v vim)" ]; then
-    echo "Linking vim"
-    stow vim
 fi
 
 if [ -x "$(command -v nvim)" ]; then

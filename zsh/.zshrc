@@ -165,3 +165,4 @@ if [[ -n "$(command -v dart)" ]] then
     export PATH="$PATH:/usr/lib/dart/bin"
     export PATH="$PATH:$HOME/.pub-cache/bin"
 fi
+
