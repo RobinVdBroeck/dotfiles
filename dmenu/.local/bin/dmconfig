@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 try:
-    editor = os.environ['EDITOR'] 
+    editor = os.environ['EDITOR']
 except KeyError:
     editor = 'xdg-open'
 
@@ -17,14 +17,17 @@ except KeyError:
 
 # Add entries here
 entries = {
+    "dmconfig": f"{home}/.local/bin/dmconfig",
+    "i3": f"{home}/.config/i3/config",
     "nvim": f"{home}/.config/nvim/init.vim",
-    "vim": f"{home}/.vimrc",
-    "xresources": f"{home}/.XResources",
-    "xinit": f"{home}/.xinitrc",
+    "picom": f"{home}/.config/picom/picom.conf",
+    "polybar": f"{home}/.config/polybar/config",
     "qtile": f"{home}/.config/qtile/config.py",
+    "vim": f"{home}/.vimrc",
+    "xinit": f"{home}/.xinitrc",
+    "xresources": f"{home}/.XResources",
     "zsh": f"{home}/.zshrc",
-    "dmconfig": f"{home}/.local/bin/dmconfig", #dmconfig exception 
-} 
+}
 
 dmenu = subprocess.Popen(
         ["dmenu", "-i", "-l", "20","-p", "Edit config"],
@@ -50,3 +53,4 @@ dmenu.wait()
 
 val = str(stdout.read(), "utf-8").strip()
 os.system(editor +  " " + entries[val])
+
