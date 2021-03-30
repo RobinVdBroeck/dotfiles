@@ -1,53 +1,14 @@
-"""""""""""""""""
-" Setup plugins "
-"""""""""""""""""
-
-let autoload_plug_path = stdpath('config') . '/site/autoload/plug.vim'
-if !filereadable(autoload_plug_path)
-    execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-unlet autoload_plug_path
-
-let plugins_path = stdpath('data') . '/plugged'
-call plug#begin(plugins_path) 
-    " General vim plugins
-    Plug 'editorconfig/editorconfig-vim', { 'tag': 'v1.1.1' }
-    Plug 'junegunn/fzf', {'do' : { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-    Plug 'lambdalisue/suda.vim'
-    Plug 'dracula/vim', { 'as': 'dracula' }
-
-    " General programming plugins
-    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-    let g:coc_global_extensions = [
-                \ 'coc-css',
-                \ 'coc-ember',
-                \ 'coc-eslint',
-                \ 'coc-git',
-                \ 'coc-html',
-                \ 'coc-json',
-                \ 'coc-prettier',
-                \ 'coc-tsserver',
-                \ 'coc-vimlsp',
-                \]
-    
-    " Web development
-    Plug 'mattn/emmet-vim'
-   
-    " Syntax highlighting
-    Plug 'sheerun/vim-polyglot'
-call plug#end()
-unlet plugins_path
-
 """"""""""""""""""""
 " GENERAL SETTINGS "
 """"""""""""""""""""
-
 set modelines=0 " Don't excute modelines for security
 set mouse=a
 set nobackup
 set nowritebackup
+
+" Title
+set title
+set titlestring=%f%(\ [%M]%)
 
 " Splits
 set splitbelow
@@ -85,10 +46,53 @@ set ignorecase
 set smartcase
 set showmatch
 
-" plugin settings
-let mapleader = "\<SPACE>"
+
+"""""""""""""""""
+" Setup plugins "
+"""""""""""""""""
+let autoload_plug_path = stdpath('config') . '/site/autoload/plug.vim'
+if !filereadable(autoload_plug_path)
+    execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+unlet autoload_plug_path
+
+let plugins_path = stdpath('data') . '/plugged'
+call plug#begin(plugins_path) 
+    " General vim plugins
+    Plug 'editorconfig/editorconfig-vim', { 'tag': 'v1.1.1' }
+    Plug 'junegunn/fzf', {'do' : { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    Plug 'lambdalisue/suda.vim'
+    Plug 'dracula/vim', { 'as': 'dracula' }
+
+    " General programming plugins
+    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+    let g:coc_global_extensions = [
+                \ 'coc-css',
+                \ 'coc-ember',
+                \ 'coc-eslint',
+                \ 'coc-git',
+                \ 'coc-html',
+                \ 'coc-json',
+                \ 'coc-prettier',
+                \ 'coc-tsserver',
+                \ 'coc-vimlsp',
+                \ 'coc-pyright',
+                \]
+    
+    " Web development
+    Plug 'mattn/emmet-vim'
+   
+    " Syntax highlighting
+    Plug 'sheerun/vim-polyglot'
+call plug#end()
+unlet plugins_path
+
+"" Settings for plugins that do now have their own section
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden -g ' . shellescape('!.git') " This makes :Files behave like :GFiles but with untracked files (but not ignored)
 let g:suda_smart_edit = 1
+
 
 """""""""""
 " Theming "
@@ -98,6 +102,20 @@ if has('termguicolors')
     syntax enable
     colorscheme dracula
 endif
+
+
+"""""""""""""""""""
+" Custom commands "
+"""""""""""""""""""
+command! -nargs=0 ReloadConfig :source $MYVIMRC
+
+""""""""""""""
+" Keymapping "
+""""""""""""""
+" Note: plugin specific maps can be found in their section
+let mapleader = "\\"
+
+nnoremap <leader>of :Files<CR> 
 
 """""""
 " COC "
@@ -177,9 +195,3 @@ command! -nargs=0 OrganizeImports :call CocAction('runCommand', 'editor.action.o
 
 " other stuff
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
-
-"""
-""" other shortcuts
-""" 
-nnoremap <leader>of :Files<CR> 
