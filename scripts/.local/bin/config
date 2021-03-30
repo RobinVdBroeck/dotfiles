@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+# Command line utility to edit config files
+# Can either be run as `config` to open a dmenu with all possible combinations
+# or `config <config to edit>`
+
+import os
+import sys
+
+try:
+    editor = os.environ['EDITOR']
+except KeyError:
+    editor = 'xdg-open'
+
+try:
+    home = os.environ['HOME']
+except KeyError:
+    print("home env variable is not setup", file=sys.stdout)
+    sys.exit(1)
+
+# Add entries here
+entries = {
+    "config": f"{home}/.local/bin/config",
+    "i3": f"{home}/.config/i3/config",
+    "nvim": f"{home}/.config/nvim/init.vim",
+    "picom": f"{home}/.config/picom/picom.conf",
+    "polybar": f"{home}/.config/polybar/config",
+    "qtile": f"{home}/.config/qtile/config.py",
+    "vim": f"{home}/.vimrc",
+    "xinit": f"{home}/.xinitrc",
+    "xresources": f"{home}/.XResources",
+    "zsh": f"{home}/.zshrc",
+}
+
+def open_dmenu() -> str:
+    """ 
+    Opens dmenu and request the user for ther input
+    Returns the output from the user 
+    """ 
+    import shutil
+    import subprocess
+    
+    if shutil.which("dmenu") is None:
+        print("cannot run config without arguments when dmenu is not installed",
+              file=sys.stdout)
+        sys.exit(1)
+    dmenu = subprocess.Popen(
+        ["dmenu", "-i", "-l", "20","-p", "Edit config"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=sys.stderr,
+    )
+
+    stdin = dmenu.stdin
+    if stdin is None:
+        sys.exit(1)
+    stdout = dmenu.stdout
+    if stdout is None:
+        sys.exit(1)
+
+    for key in sorted(entries.keys()):
+        byterepr = bytes(key + "\n", "utf-8")
+        stdin.write(byterepr)
+    stdin.close()
+
+    # wait for dmenu to be closed 
+    dmenu.wait()
+    val = str(stdout.read(), "utf-8").strip()
+    return val
+
+if __name__ == "__main__":
+    args = sys.argv
+    if len(args) == 1:
+        choice = open_dmenu()
+        if choice == "":
+         sys.exit(0)
+    elif len(args) == 2:
+        choice = args[1]
+    else:
+        print("either run dmconfig with 0 or 1 argument", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        entry = entries[choice]
+    except KeyError:
+        print(f"config for {choice} does not exist", file=sys.stderr)
+        sys.exit(1)
+
+    os.system(editor +  " " + entry)
+
