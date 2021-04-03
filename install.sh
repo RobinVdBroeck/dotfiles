@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/bin/sh
 
 if ! [ -x "$(command -v stow)" ]; then
     echo "Please install stow first" >&2
