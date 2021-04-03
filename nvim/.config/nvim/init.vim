@@ -65,10 +65,12 @@ call plug#begin(plugins_path)
     Plug 'junegunn/fzf.vim'
     Plug 'lambdalisue/suda.vim'
     Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'vim-airline/vim-airline', { 'tag': 'v0.11' }
 
     " General programming plugins
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
     let g:coc_global_extensions = [
+                \ 'coc-clangd',
                 \ 'coc-css',
                 \ 'coc-ember',
                 \ 'coc-eslint',
@@ -76,9 +78,10 @@ call plug#begin(plugins_path)
                 \ 'coc-html',
                 \ 'coc-json',
                 \ 'coc-prettier',
+                \ 'coc-pyright',
+                \ 'coc-rust-analyzer',
                 \ 'coc-tsserver',
                 \ 'coc-vimlsp',
-                \ 'coc-pyright',
                 \]
     
     " Web development
@@ -103,7 +106,6 @@ if has('termguicolors')
     colorscheme dracula
 endif
 
-
 """""""""""""""""""
 " Custom commands "
 """""""""""""""""""
@@ -115,7 +117,30 @@ command! -nargs=0 ReloadConfig :source $MYVIMRC
 " Note: plugin specific maps can be found in their section
 let mapleader = "\\"
 
+" saving
+nmap <C-s> :w<CR>
+imap <C-s> <ESC>:w<CR>
+
+" open
 nnoremap <leader>of :Files<CR> 
+nnoremap <leader>ob :Buffer<CR> 
+
+" copy paste from `+` register (also known as clipboard)
+xnoremap <leader>y "+y
+nnoremap <leader>p "+p
+
+" Panes
+nnoremap <silent> <leader>cp :rightbelow vnew<CR>
+nnoremap <silent> <leader>cP :rightbelow new<CR>
+nnoremap <silent> <C-h> :wincmd h<CR>
+nnoremap <silent> <C-j> :wincmd j<CR>
+nnoremap <silent> <C-k> :wincmd k<CR>
+nnoremap <silent> <C-l> :wincmd l<CR>
+
+" Tabs
+nnoremap <silent> <leader>ct :tabe<CR>
+nnoremap <silent> <TAB> :tabn<CR>
+nnoremap <silent> <leader>qt :tabclose<CR>
 
 """""""
 " COC "
@@ -125,7 +150,6 @@ set hidden
 set cmdheight=2
 set updatetime=300
 set shortmess+=c
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 set signcolumn=yes
 
 " Use tab for triggering autocompleting
@@ -167,7 +191,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> H :call <SID>show_documentation()<CR>
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
