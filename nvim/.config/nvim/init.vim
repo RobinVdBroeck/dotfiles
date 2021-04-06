@@ -132,15 +132,31 @@ nnoremap <leader>p "+p
 " Panes
 nnoremap <silent> <leader>cp :rightbelow vnew<CR>
 nnoremap <silent> <leader>cP :rightbelow new<CR>
-nnoremap <silent> <C-h> :wincmd h<CR>
-nnoremap <silent> <C-j> :wincmd j<CR>
-nnoremap <silent> <C-k> :wincmd k<CR>
-nnoremap <silent> <C-l> :wincmd l<CR>
 
 " Tabs
 nnoremap <silent> <leader>ct :tabe<CR>
 nnoremap <silent> <TAB> :tabn<CR>
 nnoremap <silent> <leader>qt :tabclose<CR>
+
+" Moves to window. if not exist, create one
+function WindowMove(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr()) 
+        if (match(a:key, '[jk]')) 
+            wincmd v
+        else
+            wincmd s
+        endif
+        " move to newly created window
+        exec "wincmd ".a:key 
+    endif
+endfunction
+
+nnoremap <silent> <C-h>  :call WindowMove('h')<CR>
+nnoremap <silent> <C-j>  :call WindowMove('j')<CR>
+nnoremap <silent> <C-k>  :call WindowMove('k')<CR>
+nnoremap <silent> <C-l>  :call WindowMove('l')<CR>
 
 """""""
 " COC "
@@ -191,7 +207,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-nnoremap <silent> H :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
