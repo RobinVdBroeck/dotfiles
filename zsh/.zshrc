@@ -96,7 +96,10 @@ fi
 
 # Add local path
 export PATH=$(systemd-path user-binaries):$PATH
-
+# Add golang bin
+if [[ -d $HOME/go/bin ]] then
+    export PATH="$HOME/go/bin":$PATH
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -117,6 +120,7 @@ export DISABLE_AUTO_TITLE=true
 # Make ctrl-s + ctrl-q not freeze the terminal, since I use those to save
 # accidently alot
 stty -ixon
+
 
 # Prefer fnm over nvm
 # See: https://github.com/Schniz/fnm
@@ -166,3 +170,4 @@ if [[ -n "$(command -v dart)" ]] then
     export PATH="$PATH:$HOME/.pub-cache/bin"
 fi
 
+typeset -U PATH path
