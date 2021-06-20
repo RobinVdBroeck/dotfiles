@@ -61,8 +61,8 @@ let plugins_path = stdpath('data') . '/plugged'
 call plug#begin(plugins_path) 
     " General vim plugins
     Plug 'editorconfig/editorconfig-vim', { 'tag': 'v1.1.1' }
-    Plug 'junegunn/fzf', {'do' : { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
+    Plug 'ctrlpvim/ctrlp.vim', { 'tag': '1.81' }
+    Plug 'preservim/nerdtree', { 'tag': '6.10.9' }
     Plug 'lambdalisue/suda.vim'
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'vim-airline/vim-airline', { 'tag': 'v0.11' }
@@ -70,9 +70,9 @@ call plug#begin(plugins_path)
     " General programming plugins
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
     let g:coc_global_extensions = [
+                \ 'coc-angular',
                 \ 'coc-clangd',
                 \ 'coc-css',
-                \ 'coc-ember',
                 \ 'coc-eslint',
                 \ 'coc-git',
                 \ 'coc-html',
@@ -80,20 +80,21 @@ call plug#begin(plugins_path)
                 \ 'coc-prettier',
                 \ 'coc-pyright',
                 \ 'coc-rust-analyzer',
+                \ 'coc-tslint',
                 \ 'coc-tsserver',
                 \ 'coc-vimlsp',
                 \]
     
     " Web development
     Plug 'mattn/emmet-vim'
-   
+    Plug 'leafOfTree/vim-vue-plugin'
+
     " Syntax highlighting
     Plug 'sheerun/vim-polyglot'
 call plug#end()
 unlet plugins_path
 
 "" Settings for plugins that do now have their own section
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden -g ' . shellescape('!.git') " This makes :Files behave like :GFiles but with untracked files (but not ignored)
 let g:suda_smart_edit = 1
 
 
@@ -115,7 +116,8 @@ command! -nargs=0 ReloadConfig :source $MYVIMRC
 " Keymapping "
 """"""""""""""
 " Note: plugin specific maps can be found in their section
-let mapleader = "\\"
+nnoremap <Space> <Nop>
+let g:mapleader = " "
 
 " saving
 nmap <C-s> :w<CR>
@@ -130,13 +132,13 @@ xnoremap <leader>y "+y
 nnoremap <leader>p "+p
 
 " Panes
-nnoremap <silent> <leader>cp :rightbelow vnew<CR>
-nnoremap <silent> <leader>cP :rightbelow new<CR>
+nnoremap <silent> <leader>np :rightbelow vnew<CR>
+nnoremap <silent> <leader>nP :rightbelow new<CR>
 
 " Tabs
-nnoremap <silent> <leader>ct :tabe<CR>
+nnoremap <silent> <leader>nt :tabe<CR>
 nnoremap <silent> <TAB> :tabn<CR>
-nnoremap <silent> <leader>qt :tabclose<CR>
+nnoremap <silent> <leader>ct :tabclose<CR>
 
 " Moves to window. if not exist, create one
 function WindowMove(key)
@@ -153,10 +155,19 @@ function WindowMove(key)
     endif
 endfunction
 
-nnoremap <silent> <C-h>  :call WindowMove('h')<CR>
-nnoremap <silent> <C-j>  :call WindowMove('j')<CR>
-nnoremap <silent> <C-k>  :call WindowMove('k')<CR>
-nnoremap <silent> <C-l>  :call WindowMove('l')<CR>
+nnoremap <silent> <C-w>h :call WindowMove('h')<CR>
+nnoremap <silent> <C-w>j :call WindowMove('j')<CR>
+nnoremap <silent> <C-w>k :call WindowMove('k')<CR>
+nnoremap <silent> <C-w>l :call WindowMove('l')<CR>
+" <C-w>c closes by default
+
+
+"""""""""""
+" NERDTree"
+"""""""""""
+nnoremap <silent> <leader>n  :NERDTreeFocus<CR>
+nnoremap <silent> <C-n><C-t> :NERDTreeToggle<CR>
+
 
 """""""
 " COC "
