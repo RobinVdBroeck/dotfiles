@@ -15,3 +15,5 @@
 	tool = vimdiff
 [rerere]
 	enabled = true
+[init]
+	defaultBranch = main
