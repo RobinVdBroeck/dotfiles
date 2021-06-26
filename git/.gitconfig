@@ -5,7 +5,8 @@
 	pager = less -F -X
 [alias]
 	tree = log --graph --decorate --pretty=oneline --abbrev-commit
-	update-master = fetch origin master:master
+	update-master = fetch origin master:master 
+	update-main = fetch origin main:main 
 [init]
 	defaultBranch = main
 [diff]
