@@ -20,3 +20,7 @@
 	autoSquash = true
 [rerere]
 	enabled = true
+[init]
+	defaultBranch = main
+[mergetool "vimdiff"]
+	path = nvim
