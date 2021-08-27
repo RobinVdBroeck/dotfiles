@@ -21,6 +21,7 @@ except KeyError:
 entries = {
     "awesome": f"{home}/.config/awesome/rc.lua",
     "config": f"{home}/.local/bin/config",
+    "git": f"{home}/.gitconfig",
     "i3": f"{home}/.config/i3/config",
     "nvim": f"{home}/.config/nvim/init.vim",
     "picom": f"{home}/.config/picom/picom.conf",
