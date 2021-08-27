@@ -27,6 +27,7 @@ entries = {
     "picom": f"{home}/.config/picom/picom.conf",
     "polybar": f"{home}/.config/polybar/config",
     "qtile": f"{home}/.config/qtile/config.py",
+    "tmux": f"{home}/.tmux.conf",
     "vim": f"{home}/.vimrc",
     "xinit": f"{home}/.xinitrc",
     "xresources": f"{home}/.XResources",
