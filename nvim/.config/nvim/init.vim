@@ -50,53 +50,22 @@ set showmatch
 """""""""""""""""
 " Setup plugins "
 """""""""""""""""
-let autoload_plug_path = stdpath('config') . '/site/autoload/plug.vim'
-if !filereadable(autoload_plug_path)
-    execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-unlet autoload_plug_path
-
-let plugins_path = stdpath('data') . '/plugged'
-call plug#begin(plugins_path) 
-    " General vim plugins
-    Plug 'editorconfig/editorconfig-vim', { 'tag': 'v1.1.1' }
-    Plug 'ctrlpvim/ctrlp.vim', { 'tag': '1.81' }
-    Plug 'preservim/nerdtree', { 'tag': '6.10.9' }
-    Plug 'lambdalisue/suda.vim'
-    Plug 'dracula/vim', { 'as': 'dracula' }
-    Plug 'vim-airline/vim-airline', { 'tag': 'v0.11' }
-
-    " General programming plugins
-    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-    let g:coc_global_extensions = [
-                \ 'coc-angular',
-                \ 'coc-clangd',
-                \ 'coc-css',
-                \ 'coc-eslint',
-                \ 'coc-git',
-                \ 'coc-html',
-                \ 'coc-json',
-                \ 'coc-prettier',
-                \ 'coc-pyright',
-                \ 'coc-rust-analyzer',
-                \ 'coc-tslint',
-                \ 'coc-tsserver',
-                \ 'coc-vimlsp',
-                \]
-    
-    " Web development
-    Plug 'mattn/emmet-vim'
-    Plug 'leafOfTree/vim-vue-plugin'
-
-    " Syntax highlighting
-    Plug 'sheerun/vim-polyglot'
-call plug#end()
-unlet plugins_path
-
-"" Settings for plugins that do now have their own section
-let g:suda_smart_edit = 1
-
+lua require 'plugins'
+let g:coc_global_extensions = [
+    \ 'coc-angular',
+    \ 'coc-clangd',
+    \ 'coc-css',
+    \ 'coc-eslint',
+    \ 'coc-git',
+    \ 'coc-html',
+    \ 'coc-json',
+    \ 'coc-prettier',
+    \ 'coc-pyright',
+    \ 'coc-rust-analyzer',
+    \ 'coc-tslint',
+    \ 'coc-tsserver',
+    \ 'coc-vimlsp',
+\]
 
 """""""""""
 " Theming "
