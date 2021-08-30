@@ -13,6 +13,7 @@ opt.splitright = true
 
 -- Visual settings
 opt.relativenumber = true
+opt.signcolumn = "yes"
 
 -- Whitespace settings
 opt.wrap = false
@@ -28,3 +29,6 @@ opt.shiftround = false
 opt.ignorecase = true
 opt.smartcase = true
 opt.showmatch = true
+
+-- timeout len in ms (when to show popup with possible combinations)
+opt.timeoutlen = 200

@@ -1,5 +1,4 @@
 -- TODO: use a plugin so we can display all the mappings
-
 local function map(mode, lhs, rhs, opts)
    local options = {noremap = true, silent = true}
    if opts then
@@ -12,8 +11,8 @@ local function map(mode, lhs, rhs, opts)
 end
 
 vim.g.mapleader = " "
-
-map("n", "<Space>", "<Nop>")
+-- Help
+map("n", "<Space>", ":WhichKey '<Space>'<CR>")
 
 -- Saving
 map("n", "<C-s>", ":w<CR>")
@@ -52,7 +51,7 @@ map("n", "<C-w>k", ":call WindowMove('k')<CR>")
 map("n", "<C-w>l", ":call WindowMove('l')<CR>")
 -- <C-w>c closes by default
 
--- Nerdtree
-map("n", "<leader>n", ":NERDTreeFocus<CR>")
-map("n", "<C-n><C-t>", ":NERDTreeToggle<CR>")
+-- Nvimtree
+map("n", "<leader>n", ":NvimTreeFocus<CR>")
+map("n", "<C-n><C-t>", ":NvimTreeToggle<CR>")
 
