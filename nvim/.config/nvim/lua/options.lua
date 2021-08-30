@@ -5,7 +5,7 @@ opt.modelines = 0
 
 -- Title
 opt.title = true
-opt.titlestring="%f%( [%M]%)"
+opt.titlestring = "%f%( [%M]%)"
 
 -- Splits
 opt.splitbelow = true

@@ -103,6 +103,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/robin/.local/share/nvim/site/pack/packer/start/nvim-tree.lua"
   },
+  ["nvim-treesitter"] = {
+    loaded = true,
+    path = "/home/robin/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
+  },
   ["nvim-web-devicons"] = {
     loaded = true,
     path = "/home/robin/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
@@ -118,10 +122,6 @@ _G.packer_plugins = {
   ["vim-airline"] = {
     loaded = true,
     path = "/home/robin/.local/share/nvim/site/pack/packer/start/vim-airline"
-  },
-  ["vim-polyglot"] = {
-    loaded = true,
-    path = "/home/robin/.local/share/nvim/site/pack/packer/start/vim-polyglot"
   },
   ["vim-vue-plugin"] = {
     loaded = true,

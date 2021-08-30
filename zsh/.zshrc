@@ -73,6 +73,8 @@ plugins=(
     dotenv
 )
 
+fpath+=~/.zfunc
+
 if [[ -f $ZSH/oh-my-zsh.sh ]]; then
     source $ZSH/oh-my-zsh.sh
 else
@@ -89,7 +91,6 @@ fi
 # Setup editor
 if [[ -n $(command -v nvim) ]] then
     export EDITOR="nvim"
-    alias vim="nvim"
 elif [[ -n $(command -v vim) ]] then
     export EDITOR="vim"
 fi
@@ -113,6 +114,7 @@ fi
 alias zshconfig="$EDITOR ~/.zshrc"
 alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
 alias reloadzsh="source ~/.zshrc"
+alias lla="ll -a"
 
 # Setting for tmuxp
 export DISABLE_AUTO_TITLE=true
@@ -120,7 +122,6 @@ export DISABLE_AUTO_TITLE=true
 # Make ctrl-s + ctrl-q not freeze the terminal, since I use those to save
 # accidently alot
 stty -ixon
-
 
 # Prefer fnm over nvm
 # See: https://github.com/Schniz/fnm
