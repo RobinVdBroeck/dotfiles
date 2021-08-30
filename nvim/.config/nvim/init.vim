@@ -1,6 +1,4 @@
 """"""""""""""""""""
-" GENERAL SETTINGS "
-""""""""""""""""""""
 set modelines=0 " Don't excute modelines for security
 set mouse=a
 set nobackup
@@ -16,9 +14,6 @@ set splitright
 
 " Visual settings
 set number relativenumber
-set nu rnu
-set ruler
-set visualbell " Fuck beeping
 
 " Whitespace settings
 set nowrap
@@ -27,21 +22,14 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set formatoptions=tcqrn1
-set autoindent
 set expandtab
 set noshiftround
-set smarttab
-
-" Status bar
-set laststatus=2
 
 " Last line
 set showmode
 set showcmd
 
 " Searching
-set hlsearch
-set incsearch
 set ignorecase
 set smartcase
 set showmatch
@@ -72,7 +60,6 @@ let g:coc_global_extensions = [
 """""""""""
 if has('termguicolors')
     set termguicolors
-    syntax enable
     colorscheme dracula
 endif
 
@@ -142,7 +129,6 @@ nnoremap <silent> <C-n><C-t> :NERDTreeToggle<CR>
 " COC "
 """""""
 "" see: https://github.com/neoclide/coc.nvim
-set hidden
 set cmdheight=2
 set updatetime=300
 set shortmess+=c
