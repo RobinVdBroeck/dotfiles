@@ -22,6 +22,15 @@ return require("packer").startup(
         use {"dracula/vim", as = "dracula"}
         use "vim-airline/vim-airline"
 
+        -- Git
+        use {
+            "lewis6991/gitsigns.nvim",
+            requires = {"nvim-lua/plenary.nvim"},
+            config = function()
+                require("gitsigns").setup()
+            end
+        }
+
         -- Keybindings
         use {
             "AckslD/nvim-whichkey-setup.lua",
@@ -35,11 +44,15 @@ return require("packer").startup(
         }
 
         -- Syntax highlighting
-        -- TODO: should use treesitter
         use {
             "nvim-treesitter/nvim-treesitter",
             run = function()
                 vim.cmd ":TSUpdate"
+            end,
+            config = function()
+                require("nvim-treesitter.configs").setup {
+                    ensure_installed = "maintained"
+                }
             end
         }
 
@@ -47,7 +60,8 @@ return require("packer").startup(
         use {
             "neovim/nvim-lspconfig",
             config = function()
-                require("plugins.lspconfig.rust")
+                -- TODO: add languages
+                -- Rust get's handled by rust tools
             end
         }
 
@@ -100,8 +114,49 @@ return require("packer").startup(
             end
         }
 
+        -- Formatting
+        use {
+            "lukas-reineke/format.nvim",
+            config = function()
+                vim.cmd([[
+                augroup Format
+                    autocmd!
+                    autocmd BufWritePost * FormatWrite
+                augroup END
+                ]])
+
+                require("format").setup {
+                    ["*"] = {
+                        {cmd = {"sed -i 's/[ \t]*$//'"}} -- remove trailing whitespace
+                    },
+                    lua = {
+                        cmd = {
+                            function(file)
+                                return string.format("luafmt -l %s -w replace %s", vim.bo.textwidth, file)
+                            end
+                        }
+                    }
+                }
+            end
+        }
+
         -- Web development
         use "mattn/emmet-vim"
         use "leafOfTree/vim-vue-plugin"
+
+        -- Rust development
+        use {
+            "simrat39/rust-tools.nvim",
+            requires = {
+                "neovim/nvim-lspconfig",
+                "nvim-lua/popup.nvim",
+                "nvim-lua/plenary.nvim",
+                "nvim-lua/telescope.nvim",
+                --"mfussenegger/nvim-dap"
+            },
+            config = function() 
+                require('rust-tools').setup {}
+            end
+        }
     end
 )
