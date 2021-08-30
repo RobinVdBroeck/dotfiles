@@ -20,14 +20,19 @@ return require("packer").startup(
 
         -- UI
         use {"dracula/vim", as = "dracula"}
-        use "vim-airline/vim-airline"
+        use {
+            "ojroques/nvim-hardline",
+            config = function()
+                require('hardline').setup {}
+            end
+        }
 
         -- Git
         use {
             "lewis6991/gitsigns.nvim",
             requires = {"nvim-lua/plenary.nvim"},
             config = function()
-                require("gitsigns").setup()
+                require("gitsigns").setup {}
             end
         }
 
@@ -154,7 +159,7 @@ return require("packer").startup(
                 "nvim-lua/telescope.nvim",
                 --"mfussenegger/nvim-dap"
             },
-            config = function() 
+            config = function()
                 require('rust-tools').setup {}
             end
         }
