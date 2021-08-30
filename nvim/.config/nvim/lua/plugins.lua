@@ -30,8 +30,13 @@ return require('packer').startup(function()
    use 'sheerun/vim-polyglot'
 
    -- LSP
-   -- TODO: should uses nvim builtin LSP
-   use {'neoclide/coc.nvim', branch='release'}
+   use { 
+      'neovim/nvim-lspconfig',
+      config = function()
+         require('lspconfig').rust_analyzer.setup{}
+      end
+   }
+
 
    -- Web development
    use 'mattn/emmet-vim'

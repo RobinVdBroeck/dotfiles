@@ -69,10 +69,6 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["coc.nvim"] = {
-    loaded = true,
-    path = "/home/robin/.local/share/nvim/site/pack/packer/start/coc.nvim"
-  },
   ["ctrlp.vim"] = {
     loaded = true,
     path = "/home/robin/.local/share/nvim/site/pack/packer/start/ctrlp.vim"
@@ -93,6 +89,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/robin/.local/share/nvim/site/pack/packer/start/nerdtree"
   },
+  ["nvim-lspconfig"] = {
+    config = { "\27LJ\1\2M\0\0\2\0\4\0\b4\0\0\0%\1\1\0>\0\2\0027\0\2\0007\0\3\0002\1\0\0>\0\2\1G\0\1\0\nsetup\18rust_analyzer\14lspconfig\frequire\0" },
+    loaded = true,
+    path = "/home/robin/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/robin/.local/share/nvim/site/pack/packer/start/packer.nvim"
@@ -112,6 +113,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: nvim-lspconfig
+time([[Config for nvim-lspconfig]], true)
+try_loadstring("\27LJ\1\2M\0\0\2\0\4\0\b4\0\0\0%\1\1\0>\0\2\0027\0\2\0007\0\3\0002\1\0\0>\0\2\1G\0\1\0\nsetup\18rust_analyzer\14lspconfig\frequire\0", "config", "nvim-lspconfig")
+time([[Config for nvim-lspconfig]], false)
 if should_profile then save_profiles() end
 
 end)
