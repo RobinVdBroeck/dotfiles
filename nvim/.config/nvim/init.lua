@@ -1,103 +1,48 @@
-""""""""""""""""""""
-set modelines=0 " Don't excute modelines for security
-set mouse=a
-set nobackup
-set nowritebackup
+require('options')
+require('plugins')
 
-" Title
-set title
-set titlestring=%f%(\ [%M]%)
+local g = vim.g
+local o = vim.o
 
-" Splits
-set splitbelow
-set splitright
+----------
+--- coc  -
+----------
+g.coc_global_extension = {
+     'coc-angular',
+     'coc-clangd',
+     'coc-css',
+     'coc-eslint',
+     'coc-git',
+     'coc-html',
+     'coc-json',
+     'coc-prettier',
+     'coc-pyright',
+     'coc-rust-analyzer',
+     'coc-tslint',
+     'coc-tsserver',
+     'coc-vimlsp',
+     'coc-lua',
+}
 
-" Visual settings
-set number relativenumber
+-- see: https://github.com/neoclide/coc.nvim
+o.cmdheight=2
+o.updatetime=300
+o.shortmess = o.shortmess .. "c"
+o.signcolumn="yes"
 
-" Whitespace settings
-set nowrap
-set textwidth=80
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set formatoptions=tcqrn1
-set expandtab
-set noshiftround
+if vim.fn.has('termguicolors') == 1 then
+    o.termguicolors = true
+    vim.cmd("colorscheme dracula")
+end
 
-" Last line
-set showmode
-set showcmd
-
-" Searching
-set ignorecase
-set smartcase
-set showmatch
-
-
-"""""""""""""""""
-" Setup plugins "
-"""""""""""""""""
-lua require 'plugins'
-let g:coc_global_extensions = [
-    \ 'coc-angular',
-    \ 'coc-clangd',
-    \ 'coc-css',
-    \ 'coc-eslint',
-    \ 'coc-git',
-    \ 'coc-html',
-    \ 'coc-json',
-    \ 'coc-prettier',
-    \ 'coc-pyright',
-    \ 'coc-rust-analyzer',
-    \ 'coc-tslint',
-    \ 'coc-tsserver',
-    \ 'coc-vimlsp',
-\]
-
-"""""""""""
-" Theming "
-"""""""""""
-if has('termguicolors')
-    set termguicolors
-    colorscheme dracula
-endif
-
+vim.cmd([[
 """""""""""""""""""
 " Custom commands "
 """""""""""""""""""
 command! -nargs=0 ReloadConfig :source $MYVIMRC
 
-""""""""""""""
-" Keymapping "
-""""""""""""""
-" Note: plugin specific maps can be found in their section
-nnoremap <Space> <Nop>
-let g:mapleader = " "
-
-" saving
-nmap <C-s> :w<CR>
-imap <C-s> <ESC>:w<CR>
-
-" open
-nnoremap <leader>of :Files<CR> 
-nnoremap <leader>ob :Buffer<CR> 
-
-" copy paste from `+` register (also known as clipboard)
-xnoremap <leader>y "+y
-nnoremap <leader>p "+p
-
-" Panes
-nnoremap <silent> <leader>np :rightbelow vnew<CR>
-nnoremap <silent> <leader>nP :rightbelow new<CR>
-
-" Tabs
-nnoremap <silent> <leader>nt :tabe<CR>
-nnoremap <silent> <TAB> :tabn<CR>
-nnoremap <silent> <leader>ct :tabclose<CR>
-
 " Moves to window. if not exist, create one
-function WindowMove(key)
+function! WindowMove(key)
     let t:curwin = winnr()
     exec "wincmd ".a:key
     if (t:curwin == winnr()) 
@@ -110,30 +55,45 @@ function WindowMove(key)
         exec "wincmd ".a:key 
     endif
 endfunction
+]])
 
-nnoremap <silent> <C-w>h :call WindowMove('h')<CR>
-nnoremap <silent> <C-w>j :call WindowMove('j')<CR>
-nnoremap <silent> <C-w>k :call WindowMove('k')<CR>
-nnoremap <silent> <C-w>l :call WindowMove('l')<CR>
-" <C-w>c closes by default
+----------------
+-- Keymapping --
+----------------
+-- TODO: use a plugin or custom api to manage these more easier
+-- note: plugin specific maps can be found in their section
+local set_keymap = vim.api.nvim_set_keymap
+g.mapleader = "<Space>"
+set_keymap("n", "<Space>", "<Nop>", { noremap = true })
+-- saving
+set_keymap("n", "<C-s>", ":w<CR>", { silent = true })
+set_keymap("i", "<C-s>", ":<ESC>w<CR>", { silent = true })
+-- copy paste from `+` register (also known as clipboard)
+set_keymap("x", "<leader>y", "\"+y", {})
+set_keymap("n", "<leader>y", "\"+y", {})
+set_keymap("o", "<leader>y", "\"+y", {})
+set_keymap("x", "<leader>p", "\"+p", {})
+set_keymap("n", "<leader>p", "\"+p", {})
+set_keymap("o", "<leader>p", "\"+p", {})
+-- Tabs
+set_keymap("n", "<leader>nt", ":tabe<CR>", { noremap = true, silent = true})
+set_keymap("n", "<TAB>", ":tabn<CR>", { noremap = true, silent = true})
+set_keymap("n", "<leader>ct", ":tabclose<CR>", { noremap = true, silent = true})
+-- window movement
+set_keymap("n", "<C-w>h", ":call WindowMove('h')<CR>", { noremap = true, silent = true})
+set_keymap("n", "<C-w>j", ":call WindowMove('j')<CR>", { noremap = true, silent = true})
+set_keymap("n", "<C-w>k", ":call WindowMove('k')<CR>", { noremap = true, silent = true})
+set_keymap("n", "<C-w>l", ":call WindowMove('l')<CR>", { noremap = true, silent = true})
+-- <C-w>c closes by default
 
+-- nerdtree
+set_keymap("n", "<leader>n", ":NERDTreeFocus<CR>", { noremap = true, silent = true})
+set_keymap("n", "<C-n><C-t>", ":NERDTreeToggle<CR>", { noremap = true, silent = true})
 
-"""""""""""
-" NERDTree"
-"""""""""""
-nnoremap <silent> <leader>n  :NERDTreeFocus<CR>
-nnoremap <silent> <C-n><C-t> :NERDTreeToggle<CR>
-
-
+vim.cmd([[
 """""""
 " COC "
 """""""
-"" see: https://github.com/neoclide/coc.nvim
-set cmdheight=2
-set updatetime=300
-set shortmess+=c
-set signcolumn=yes
-
 " Use tab for triggering autocompleting
 " See: https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources
 function! s:check_back_space() abort
@@ -141,10 +101,12 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1] =~ '\s'
 endfunction
 
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+
 inoremap <silent><expr> <C-Space> coc#refresh()
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
@@ -201,3 +163,4 @@ command! -nargs=0 OrganizeImports :call CocAction('runCommand', 'editor.action.o
 
 " other stuff
 autocmd CursorHold * silent call CocActionAsync('highlight')
+]])

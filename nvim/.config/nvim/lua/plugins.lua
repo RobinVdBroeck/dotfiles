@@ -12,27 +12,27 @@ vim.cmd([[autocmd BufWritePost plugins.lua source <afile> | PackerCompile]])
 
 return require('packer').startup(function()
    -- Let packer manage itself, so it can update.
-   use 'wbthomason/packer.nvim' 
+   use 'wbthomason/packer.nvim'
 
-   -- General 
+   -- General
    use 'editorconfig/editorconfig-vim'
-   
+
    -- UI
    use {'dracula/vim', as = 'dracula'}
    use 'vim-airline/vim-airline'
-    
-   -- Navigation 
+
+   -- Navigation
    use 'ctrlpvim/ctrlp.vim'
    use 'preservim/nerdtree'
 
    -- Syntax highlighting
    -- TODO: should use treesitter
-   use 'sheerun/vim-polyglot' 
+   use 'sheerun/vim-polyglot'
 
    -- LSP
    -- TODO: should uses nvim builtin LSP
    use {'neoclide/coc.nvim', branch='release'}
-   
+
    -- Web development
    use 'mattn/emmet-vim'
    use 'leafOfTree/vim-vue-plugin'
