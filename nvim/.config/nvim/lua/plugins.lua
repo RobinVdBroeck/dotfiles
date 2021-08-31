@@ -23,7 +23,7 @@ return require("packer").startup(
         use {
             "ojroques/nvim-hardline",
             config = function()
-                require('hardline').setup {}
+                require("hardline").setup {}
             end
         }
 
@@ -38,14 +38,23 @@ return require("packer").startup(
 
         -- Keybindings
         use {
-            "AckslD/nvim-whichkey-setup.lua",
-            requires = {"liuchengxu/vim-which-key"}
+            "folke/which-key.nvim",
+            config = function()
+                require("which-key").setup {}
+            end
         }
 
         -- Navigation
         use {
             "kyazdani42/nvim-tree.lua",
             requires = "kyazdani42/nvim-web-devicons"
+        }
+
+        use {
+            "nvim-telescope/telescope.nvim",
+            requires = "nvim-lua/plenary.nvim",
+            config = function()
+            end
         }
 
         -- Syntax highlighting
@@ -123,12 +132,14 @@ return require("packer").startup(
         use {
             "lukas-reineke/format.nvim",
             config = function()
-                vim.cmd([[
+                vim.cmd(
+                    [[
                 augroup Format
                     autocmd!
                     autocmd BufWritePost * FormatWrite
                 augroup END
-                ]])
+                ]]
+                )
 
                 require("format").setup {
                     ["*"] = {
@@ -156,11 +167,11 @@ return require("packer").startup(
                 "neovim/nvim-lspconfig",
                 "nvim-lua/popup.nvim",
                 "nvim-lua/plenary.nvim",
-                "nvim-lua/telescope.nvim",
+                "nvim-lua/telescope.nvim"
                 --"mfussenegger/nvim-dap"
             },
             config = function()
-                require('rust-tools').setup {}
+                require("rust-tools").setup {}
             end
         }
     end

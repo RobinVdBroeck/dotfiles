@@ -31,4 +31,4 @@ opt.smartcase = true
 opt.showmatch = true
 
 -- timeout len in ms (when to show popup with possible combinations)
-opt.timeoutlen = 200
+opt.timeoutlen = 500
