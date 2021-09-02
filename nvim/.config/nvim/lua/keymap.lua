@@ -1,3 +1,4 @@
+-- TODO: Convert to which-key
 -- TODO: move this to a util
 local function map(mode, lhs, rhs, opts)
     local options = {noremap = true, silent = true}
@@ -12,16 +13,6 @@ end
 
 vim.g.mapleader = " "
 
--- Navigation
--- TODO: this should be moved to telescope config
-map("n", "<C-p>", ":Telescope find_files<CR>")
-map("n", "<leader>ff", ":Telescope find_files<CR>") -- find files
-map("n", "<leader>fr", ":Telescope find_files<CR>") -- find recent files
-map("n", "<leader>ffb", ":Telescope file_browser<CR>") -- find files using browser
-map("n", "<leader>fg", ":Telescope live_grep<CR>") -- find grep
-map("n", "<leader>fb", ":Telescope buffers<CR>") -- find in buffers
-map("n", "<leader>fh", ":Telescope help_tags<CR>") -- find help -- TODO: use lsp?
-map("n", "<leader>fs", ":lua require'telescope.builtin'.treesitter{}<CR>")
 
 -- Saving
 map("n", "<C-s>", ":w<CR>")

@@ -12,6 +12,7 @@ opt.splitbelow = true
 opt.splitright = true
 
 -- Visual settings
+opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
 

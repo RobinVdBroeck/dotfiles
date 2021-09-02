@@ -7,45 +7,58 @@ if fn.empty(fn.glob(install_path)) > 0 then
     vim.cmd "packadd packer.nvim"
 end
 
-vim.cmd([[autocmd BufWritePost plugins.lua source <afile> | PackerCompile]])
+vim.cmd([[
+aug AutoPackerCompile
+    au!
+    au BufWritePost plugins.lua source <afile> | PackerCompile
+aug end
+]])
 
-lsp_setup_buffer_keymap = function(wk)
-    return function(_client, bufnr)
-        print("setting up mapping")
-        local buf = vim.lsp.buf
-
-        wk.register(
-            {
-                g = {
-                    d = {buf.definition, "definition"},
-                    D = {buf.declaration, "declaration"},
-                    i = {buf.implementation, "implementation"},
-                    r = {buf.references, "references"}
-                },
-                K = {buf.hover, "Hover"},
-                ["<leader>"] = {
-                    c = {
-                        name = "code",
-                        a = {buf.code_action, "action"}
-                    },
-                    rn = {buf.rename, "rename"},
-                    rf = {buf.formatting, "reformat"},
-                    w = {
-                        name = "workspace",
-                        s = {":Telescope lsp_workspace_symbols<CR>", "symbols"}
-                    }
-                }
-            },
-            {
-                mode = "n",
-                buffer = bufnr
-            }
-        )
+lsp_setup_buffer_keymap = function(_client, bufnr)
+    local is_wk_present, wk = pcall(require, "which-key")
+    if(is_wk_present == false) then
+        print("which-key not found")
+        return
     end
+    local buf = vim.lsp.buf
+
+    wk.register(
+        {
+            g = {
+                d = {buf.definition, "definition"},
+                D = {buf.declaration, "declaration"},
+                i = {buf.implementation, "implementation"},
+                r = {buf.references, "references"}
+            },
+            K = {buf.hover, "Hover"},
+            ["<leader>"] = {
+                c = {
+                    name = "code",
+                    a = {buf.code_action, "action"}
+                },
+                rn = {buf.rename, "rename"},
+                rf = {buf.formatting, "reformat"},
+                w = {
+                    name = "workspace",
+                    s = {":Telescope lsp_workspace_symbols<CR>", "symbols"}
+                }
+            }
+        },
+        {
+            mode = "n",
+            buffer = bufnr
+        }
+    )
 end
 
 lsp_get_capabilities = function(cmp_nvim_lsp)
     local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local cmp_nvim_lsp_present, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+    if(cmp_nvim_lsp_present == false) then
+        print("Cannot find cmp_nvim_lsp")
+        return capabilities
+    end
+
     return cmp_nvim_lsp.update_capabilities(capabilities)
 end
 
@@ -54,14 +67,15 @@ return require("packer").startup(
         -- Let packer manage itself, so it can update.
         use "wbthomason/packer.nvim"
 
-        -- General use "editorconfig/editorconfig-vim"
+        -- General
+        use "editorconfig/editorconfig-vim"
 
         -- UI
         use {"dracula/vim", as = "dracula"}
         use {
-            "ojroques/nvim-hardline",
+            'famiu/feline.nvim',
             config = function()
-                require("hardline").setup {}
+                require('statusline')
             end
         }
 
@@ -90,8 +104,31 @@ return require("packer").startup(
 
         use {
             "nvim-telescope/telescope.nvim",
-            requires = "nvim-lua/plenary.nvim",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "folke/which-key.nvim",
+            },
             config = function()
+                local builtins = require('telescope.builtin')
+                local wk = require('which-key')
+                
+                wk.register({
+                    ["<C-p>"] = ":Telescope find_files<CR>",
+                    ["<leader>f"] = {
+                       name = "Find", 
+                       f = {":Telescope find_files<CR>", "file"},
+                       fb = {":Telescope file_browser<CR>", "file browser"},
+                       b = {":Telescope buffers<CR>", "buffers"},
+                       r = {":Telescope oldfiles<CR>", "recent files"},
+                       g = {":Telescope live_grep<CR>", "grep"},
+                       h = {":Telescope help_tags<CR>", "help"}, -- todo: use lsp?
+                       s = {function() 
+                           builtins.treesitter {}
+                       end, "symbols"},
+                    }
+                }, {
+                    mode = 'n',
+                })
             end
         }
 
@@ -111,9 +148,25 @@ return require("packer").startup(
         -- LSP
         use {
             "neovim/nvim-lspconfig",
+            requires = {
+                "hrsh7th/cmp-nvim-lsp",
+                "folke/which-key.nvim",
+            },
             config = function()
-                -- TODO: add more servers
-                -- rust is handled in rust-tools
+                local lspconfig = require("lspconfig")
+                local capabilities = lsp_get_capabilities(cmp_nvim_lsp)
+
+                -- Rust is handled in rust-tools
+                local servers = {"angularls", "tsserver"}
+                for _, lsp in ipairs(servers) do
+                    lspconfig[lsp].setup {
+                        on_attach = function(client, buffernr)
+                            lsp_setup_buffer_keymap(client, buffernr)
+                        end,
+                        capabilities = capabilities
+
+                    }
+                end
             end
         }
 
@@ -227,18 +280,17 @@ return require("packer").startup(
                 "nvim-telescope/telescope.nvim"
             },
             config = function()
-                local cmp_nvim_lsp = require("cmp_nvim_lsp")
-                local capabilities = lsp_get_capabilities(cmp_nvim_lsp)
+                local capabilities = lsp_get_capabilities()
                 require("rust-tools").setup {
                     server = {
                         on_attach = function(client, buffernr)
-                            local wk = require("which-key")
-                            lsp_setup_buffer_keymap(wk)(client, buffernr)
+                            lsp_setup_buffer_keymap(client, buffernr)
                         end,
                         capabilities = capabilities
                     }
                 }
             end
         }
+        use "mhinz/vim-crates"
     end
 )
