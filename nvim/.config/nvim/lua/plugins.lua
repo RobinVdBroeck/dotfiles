@@ -111,18 +111,19 @@ return require("packer").startup(
             config = function()
                 local builtins = require('telescope.builtin')
                 local wk = require('which-key')
-                
+
                 wk.register({
-                    ["<C-p>"] = ":Telescope find_files<CR>",
+                    ["<C-p>"] = {":Telescope find_files<CR>", "find files"},
+                    ["<C-b>"] = {":Telescope buffers<CR>", "find buffers"},
                     ["<leader>f"] = {
-                       name = "Find", 
+                       name = "Find",
                        f = {":Telescope find_files<CR>", "file"},
                        fb = {":Telescope file_browser<CR>", "file browser"},
                        b = {":Telescope buffers<CR>", "buffers"},
                        r = {":Telescope oldfiles<CR>", "recent files"},
                        g = {":Telescope live_grep<CR>", "grep"},
                        h = {":Telescope help_tags<CR>", "help"}, -- todo: use lsp?
-                       s = {function() 
+                       s = {function()
                            builtins.treesitter {}
                        end, "symbols"},
                     }
@@ -142,6 +143,17 @@ return require("packer").startup(
                 require("nvim-treesitter.configs").setup {
                     ensure_installed = "maintained"
                 }
+            end
+        }
+        use {
+            "tikhomirov/vim-glsl",
+            config = function()
+                vim.cmd([[
+                    aug FtGlsl
+                        au!
+                        au BufNewFile,BufRead *.vs,*.fs,*.vert,*.tesc,*.tese,*.geom,*.frag,*.comp,*.glsl set ft=glsl
+                    aug end
+                ]])
             end
         }
 
@@ -183,6 +195,7 @@ return require("packer").startup(
             requires = {
                 "hrsh7th/cmp-buffer",
                 "hrsh7th/cmp-nvim-lsp",
+                "hrsh7th/cmp-path",
                 "onsails/lspkind-nvim"
             },
             config = function()
@@ -219,18 +232,23 @@ return require("packer").startup(
                             end
                         end
                     },
-                    format = function(entry, vim_item)
-                        vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
-                        vim_item.menu =
-                            ({
-                            nvim_lsp = "[LSP]",
-                            buffer = "[Buffer]"
-                        })[entry.source.name]
-                        return vim_item
-                    end,
+                    formatting = {
+                        format = function(entry, vim_item)
+                            vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
+                            vim_item.menu =
+                                ({
+                                nvim_lsp = "[LSP]",
+                                buffer = "[Buffer]",
+                                path = "[Path]",
+                            })[entry.source.name]
+                            return vim_item
+                        end,
+                    },
+
                     sources = {
                         {name = "nvim_lsp"},
-                        {name = "buffer"}
+                        {name = "buffer"},
+                        {name = "path"}
                     }
                 }
             end
@@ -292,5 +310,6 @@ return require("packer").startup(
             end
         }
         use "mhinz/vim-crates"
+
     end
 )
