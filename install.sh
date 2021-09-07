@@ -15,7 +15,7 @@ fi
 
 if [ -x "$(command -v nvim)" ]; then
     echo "Linking nvim"
-    stow nvim
+    stow nvim -t "$HOME/.config/nvim/"
 fi
 
 if [ -x "$(command -v git)" ]; then

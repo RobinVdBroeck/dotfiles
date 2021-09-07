@@ -1,3 +1,1 @@
-#!/bin/sh
-
-nvim --startuptime startup.txt
+../../../nvim/time.sh
