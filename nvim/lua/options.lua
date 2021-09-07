@@ -38,3 +38,6 @@ opt.hlsearch = true
 
 -- timeout len in ms (when to show popup with possible combinations)
 opt.timeoutlen = 500
+
+-- Use /bin/sh instead of the user provided shell
+opt.shell = "/bin/sh"

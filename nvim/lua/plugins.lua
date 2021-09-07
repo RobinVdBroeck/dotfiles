@@ -156,6 +156,7 @@ return require("packer").startup(
                 ]])
             end
         }
+        use "https://github.com/khaveesh/vim-fish-syntax"
 
         -- LSP
         use {
