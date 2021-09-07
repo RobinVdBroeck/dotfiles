@@ -8,9 +8,9 @@ fi
 echo "Linking scripts"
 stow scripts
 
-if [ -x "$(command -v zsh)" ]; then
-    echo "Linking zsh"
-    stow zsh
+if [ -x "$(command -v fish)" ]; then
+    echo "Linking fish"
+    stow fish -t "$HOME/.config/fish/"
 fi
 
 if [ -x "$(command -v nvim)" ]; then
@@ -23,12 +23,12 @@ if [ -x "$(command -v git)" ]; then
     stow git
 fi
 
-if [ -x "$(command -v tmux)" ]; then 
+if [ -x "$(command -v tmux)" ]; then
     echo "Linking tmux"
     stow tmux
 fi
 
-if [ -x "$(command -v alacritty)" ]; then 
+if [ -x "$(command -v alacritty)" ]; then
     echo "Linking alacritty"
     stow alacritty
 fi
