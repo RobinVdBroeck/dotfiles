@@ -2,6 +2,8 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+set -ga PATH (systemd-path user-binaries)
+
 if test -x (command -s nvim)
     set -Ux EDITOR nvim
 else if test -x (command -s vim)
