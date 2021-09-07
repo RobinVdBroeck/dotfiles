@@ -1,18 +1,18 @@
-#!/usr/bin/env bash 
+#!/bin/sh
 
 set -e
 
-if [[ ! -x $(command -v rate-mirrors) ]]; then
+if [ ! -x "$(command -v rate-mirrors)" ]; then
     echo "cannot update mirrors without rate-mirrors, install it from the aur"
-    exit 1 
+    exit 1
 fi
 
 TMPFILE=$(mktemp)
 sudo true
 # todo: readd --entry-country=BE once that's added again
-rate-mirrors arch --max-delay=21600 | tee $TMPFILE
+rate-mirrors arch --max-delay=21600 | tee "$TMPFILE"
 sudo mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-sudo mv "$TMPFILE" /etc/pacman.d/mirrorlist 
+sudo mv "$TMPFILE" /etc/pacman.d/mirrorlist
 sudo paccache -rk3
 yay -Sc --aur --noconfirm
 yay -Syyu --noconfirm

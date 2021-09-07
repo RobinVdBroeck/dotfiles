@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # From: https://gist.github.com/XVilka/8346728
 awk 'BEGIN{
