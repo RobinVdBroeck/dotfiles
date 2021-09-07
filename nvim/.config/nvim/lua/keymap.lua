@@ -13,6 +13,8 @@ end
 
 vim.g.mapleader = " "
 
+-- Clear search highlighting after pressing enter
+map("n", "<CR>", ":noh<CR><CR>:<backspace>")
 
 -- Saving
 map("n", "<C-s>", ":w<CR>")
@@ -21,11 +23,6 @@ map("i", "<C-s>", ":<ESC>w<CR>")
 -- Copy paste from `+` register (also known as clipboard)
 map("xno", "<leader>y", '"+y')
 map("xno", "<leader>p", '"+p')
-
--- Tabs
-map("n", "<leader>nt", ":tabe<CR>")
-map("n", "<TAB>", ":tabn<CR>")
-map("n", "<leader>ct", ":tabclose<CR>")
 
 -- Window movement
 -- TODO: we should be able to convert this to a lua function
