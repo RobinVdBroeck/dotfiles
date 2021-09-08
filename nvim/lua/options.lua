@@ -7,6 +7,9 @@ opt.modelines = 0
 opt.title = true
 opt.titlestring = "%f%( [%M]%)"
 
+-- Mouse
+opt.mouse = "a"
+
 -- Splits
 opt.splitbelow = true
 opt.splitright = true
