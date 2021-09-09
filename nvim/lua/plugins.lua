@@ -78,16 +78,6 @@ return require("packer").startup(
                 require('statusline')
             end
         }
-        use {
-            "jose-elias-alvarez/buftabline.nvim",
-            requires = {"kyazdani42/nvim-web-devicons"},
-            config = function()
-                require("buftabline").setup {
-                    tab_format = " #{n}: #{b}#{f} #{i}",
-                    auto_hide = true,
-                }
-            end
-        }
 
         -- Git
         use {
