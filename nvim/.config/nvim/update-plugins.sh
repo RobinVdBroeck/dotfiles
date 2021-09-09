@@ -1,1 +1,0 @@
-../../../nvim/update-plugins.sh
