@@ -69,6 +69,7 @@ return require("packer").startup(
 
         -- General
         use "editorconfig/editorconfig-vim"
+        use "tpope/vim-commentary" 
 
         -- UI
         use {"dracula/vim", as = "dracula"}
