@@ -9,6 +9,8 @@
 	update-main = fetch origin main:main 
 [init]
 	defaultBranch = main
+[pull]
+    twohead = ort
 [diff]
 	tool = vimdiff
 [merge]
@@ -20,7 +22,5 @@
 	autoSquash = true
 [rerere]
 	enabled = true
-[init]
-	defaultBranch = main
 [mergetool "vimdiff"]
 	path = nvim
