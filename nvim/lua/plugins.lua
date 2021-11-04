@@ -273,29 +273,23 @@ return require("packer").startup(
 
         -- Formatting
         use {
-            "lukas-reineke/format.nvim",
+            "sbdchd/neoformat",
             config = function()
                 vim.cmd(
                     [[
-                augroup Format
-                    autocmd!
-                    autocmd BufWritePost * FormatWrite
-                augroup END
-                ]]
+                        augroup Format
+                            autocmd!
+                            autocmd BufWritePre * Neoformat
+                        augroup END
+                    ]]
                 )
 
-                require("format").setup {
-                    ["*"] = {
-                        {cmd = {"sed -i 's/[ \t]*$//'"}} -- remove trailing whitespace
-                    },
-                    lua = {
-                        cmd = {
-                            function(file)
-                                return string.format("luafmt -l %s -w replace %s", vim.bo.textwidth, file)
-                            end
-                        }
-                    }
-                }
+                local wk = require("which-key")
+                wk.register({
+                    ["<leader>cf"] = {":Neoformat<CR>", "Format"}
+                }, {
+                    mode = 'n',
+                })
             end
         }
 
