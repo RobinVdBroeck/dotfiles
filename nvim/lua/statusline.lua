@@ -227,20 +227,7 @@ local comps = {
     }
 }
 
-local properties = {
-    force_inactive = {
-        filetypes = {
-            'NvimTree',
-            'dbui',
-            'packer',
-            'startify',
-            'fugitive',
-            'fugitiveblame'
-        },
-        buftypes = {'terminal'},
-        bufnames = {}
-    }
-}
+local pr
 
 local components = {
     left = {
@@ -278,11 +265,19 @@ local components = {
 }
 
 
-feline.setup {
-    default_bg = colors.bg,
-    default_fg = colors.fg,
-    components = components,
-    properties = properties,
-    vi_mode_colors = vi_mode_colors
-}
+-- feline.setup {
+--     components = components,
+--     vi_mode_colors = vi_mode_colors,
+--     force_inactive = {
+--         filetypes = {
+--             'NvimTree',
+--             'packer',
+--             'fugitive',
+--             'fugitiveblame'
+--         },
+--         buftypes = {'terminal'},
+--         bufnames = {}
+--     }
+-- }
 
+feline.setup {}

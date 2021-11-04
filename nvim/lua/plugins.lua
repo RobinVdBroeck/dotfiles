@@ -74,6 +74,7 @@ return require("packer").startup(
         use {"dracula/vim", as = "dracula"}
         use {
             'famiu/feline.nvim',
+            tag='v0.1.1',
             config = function()
                 require('statusline')
             end
