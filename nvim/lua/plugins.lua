@@ -197,7 +197,9 @@ return require("packer").startup(
                 "hrsh7th/cmp-buffer",
                 "hrsh7th/cmp-nvim-lsp",
                 "hrsh7th/cmp-path",
-                "onsails/lspkind-nvim"
+                "l3mon4d3/luasnip",
+                "onsails/lspkind-nvim",
+                "saadparwaiz1/cmp_luasnip"
             },
             config = function()
                 local lspkind = require("lspkind")
@@ -224,10 +226,15 @@ return require("packer").startup(
                             select = true
                         },
                         ["<Tab>"] = function(fallback)
-                            if fn.pumvisible() == 1 then
-                                fn.feedkeys(replace_termcodes("<C-n>", true, true, true), "n")
-                            elseif check_back_space() then
-                                fn.feedkeys(replace_termcodes("<Tab>", true, true, true), "n")
+                            if cmp.visible() then
+                                cmp.select_next_item()
+                            else
+                                fallback()
+                            end
+                        end,
+                        ["<S-Tab>"] = function(fallback)
+                            if cmp.visible() then
+                                cmp.select_prev_item()
                             else
                                 fallback()
                             end
@@ -240,17 +247,23 @@ return require("packer").startup(
                                 ({
                                 nvim_lsp = "[LSP]",
                                 buffer = "[Buffer]",
+                                luasnip = "[Snippet]",
                                 path = "[Path]",
                             })[entry.source.name]
                             return vim_item
                         end,
                     },
-
                     sources = {
                         {name = "nvim_lsp"},
                         {name = "buffer"},
-                        {name = "path"}
-                    }
+                        {name = "path"},
+                        {name = "luasnip"},
+                    },
+                    snippet = {
+                        expand = function(args)
+                            require("luasnip").lsp_expand(args.body)
+                        end
+                    },
                 }
             end
         }
