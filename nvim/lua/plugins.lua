@@ -148,17 +148,6 @@ return require("packer").startup(
                 }
             end
         }
-        use {
-            "tikhomirov/vim-glsl",
-            config = function()
-                vim.cmd([[
-                    aug FtGlsl
-                        au!
-                        au BufNewFile,BufRead *.vs,*.fs,*.vert,*.tesc,*.tese,*.geom,*.frag,*.comp,*.glsl set ft=glsl
-                    aug end
-                ]])
-            end
-        }
         use "https://github.com/khaveesh/vim-fish-syntax"
 
         -- LSP
