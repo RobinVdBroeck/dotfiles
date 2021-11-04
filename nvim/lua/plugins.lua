@@ -139,6 +139,7 @@ return require("packer").startup(
             run = function()
                 vim.cmd ":TSUpdate"
             end,
+            branch="0.5-compat",
             config = function()
                 require("nvim-treesitter.configs").setup {
                     ensure_installed = "maintained"
