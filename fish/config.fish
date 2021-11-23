@@ -18,6 +18,3 @@ if test -d $HOME/go/bin
     set -ga PATH $HOME/go/bin
 end
 
-if test -d $HOME/.cargo
-    set -ga PATH $HOME/.cargo/bin
-end
