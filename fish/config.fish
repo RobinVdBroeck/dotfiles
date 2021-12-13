@@ -2,7 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-set -ga PATH (systemd-path user-binaries)
+set -gp PATH (systemd-path user-binaries)
 
 if test -x (command -s nvim)
     set -Ux EDITOR nvim
@@ -15,6 +15,5 @@ else
 end
 
 if test -d $HOME/go/bin
-    set -ga PATH $HOME/go/bin
+    set -gp PATH $HOME/go/bin
 end
-
