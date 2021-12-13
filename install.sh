@@ -6,15 +6,18 @@ if ! [ -x "$(command -v stow)" ]; then
 fi
 
 echo "Linking scripts"
+mkdir -p "$HOME/.local/bin"
 stow scripts
 
 if [ -x "$(command -v fish)" ]; then
     echo "Linking fish"
+    mkdir -p "$HOME/.config/fish"
     stow fish -t "$HOME/.config/fish/"
 fi
 
 if [ -x "$(command -v nvim)" ]; then
     echo "Linking nvim"
+    mkdir -p "$HOME/.config/nvim"
     stow nvim -t "$HOME/.config/nvim/"
 fi
 
@@ -26,10 +29,5 @@ fi
 if [ -x "$(command -v tmux)" ]; then
     echo "Linking tmux"
     stow tmux
-fi
-
-if [ -x "$(command -v alacritty)" ]; then
-    echo "Linking alacritty"
-    stow alacritty
 fi
 
