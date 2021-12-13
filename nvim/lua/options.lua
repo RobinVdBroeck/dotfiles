@@ -44,3 +44,6 @@ opt.scrolloff = 5
 
 -- Use /bin/sh instead of the user provided shell
 opt.shell = "/bin/sh"
+
+-- Completion options
+opt.completeopt = "menu,menuone,noselect"

@@ -16,7 +16,7 @@ aug end
 
 lsp_setup_buffer_keymap = function(_client, bufnr)
     local is_wk_present, wk = pcall(require, "which-key")
-    if(is_wk_present == false) then
+    if (is_wk_present == false) then
         print("which-key not found")
         return
     end
@@ -54,7 +54,7 @@ end
 lsp_get_capabilities = function(cmp_nvim_lsp)
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local cmp_nvim_lsp_present, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-    if(cmp_nvim_lsp_present == false) then
+    if (cmp_nvim_lsp_present == false) then
         print("Cannot find cmp_nvim_lsp")
         return capabilities
     end
@@ -69,15 +69,20 @@ return require("packer").startup(
 
         -- General
         use "editorconfig/editorconfig-vim"
-        use "tpope/vim-commentary" 
-
+        use "tpope/vim-commentary"
+        use {
+            "luukvbaal/stabilize.nvim",
+            config = function()
+                require("stabilize").setup()
+            end
+        }
         -- UI
         use {"dracula/vim", as = "dracula"}
         use {
-            'famiu/feline.nvim',
-            tag='v0.1.1',
+            "famiu/feline.nvim",
+            tag = "v0.3.3",
             config = function()
-                require('statusline')
+                require("statusline")
             end
         }
 
@@ -101,37 +106,64 @@ return require("packer").startup(
         -- Navigation
         use {
             "kyazdani42/nvim-tree.lua",
-            requires = "kyazdani42/nvim-web-devicons"
+            requires = "kyazdani42/nvim-web-devicons",
+            config = function()
+                require("nvim-tree").setup {}
+            end
+        }
+
+        use {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            run = "make"
         }
 
         use {
             "nvim-telescope/telescope.nvim",
             requires = {
+                "nvim-telescope/telescope-fzf-native.nvim",
                 "nvim-lua/plenary.nvim",
-                "folke/which-key.nvim",
+                "folke/which-key.nvim"
             },
             config = function()
-                local builtins = require('telescope.builtin')
-                local wk = require('which-key')
+                local telescope = require("telescope")
+                local builtins = require("telescope.builtin")
+                local wk = require("which-key")
 
-                wk.register({
-                    ["<C-p>"] = {":Telescope find_files<CR>", "find files"},
-                    ["<C-b>"] = {":Telescope buffers<CR>", "find buffers"},
-                    ["<leader>f"] = {
-                       name = "Find",
-                       f = {":Telescope find_files<CR>", "file"},
-                       fb = {":Telescope file_browser<CR>", "file browser"},
-                       b = {":Telescope buffers<CR>", "buffers"},
-                       r = {":Telescope oldfiles<CR>", "recent files"},
-                       g = {":Telescope live_grep<CR>", "grep"},
-                       h = {":Telescope help_tags<CR>", "help"}, -- todo: use lsp?
-                       s = {function()
-                           builtins.treesitter {}
-                       end, "symbols"},
+                wk.register(
+                    {
+                        ["<C-p>"] = {":Telescope find_files<CR>", "find files"},
+                        ["<C-b>"] = {":Telescope buffers<CR>", "find buffers"},
+                        ["<leader>f"] = {
+                            name = "Find",
+                            f = {":Telescope find_files<CR>", "file"},
+                            fb = {":Telescope file_browser<CR>", "file browser"},
+                            b = {":Telescope buffers<CR>", "buffers"},
+                            r = {":Telescope oldfiles<CR>", "recent files"},
+                            g = {":Telescope live_grep<CR>", "grep"},
+                            h = {":Telescope help_tags<CR>", "help"}, -- todo: use lsp?
+                            s = {
+                                function()
+                                    builtins.treesitter {}
+                                end,
+                                "symbols"
+                            }
+                        }
+                    },
+                    {
+                        mode = "n"
                     }
-                }, {
-                    mode = 'n',
-                })
+                )
+
+                telescope.setup {
+                    defaults = {
+                        mappings = {
+                            i = {
+                                ["<C-h>"] = "which_key"
+                            }
+                        }
+                    }
+                }
+                telescope.load_extension("fzf")
             end
         }
 
@@ -141,7 +173,7 @@ return require("packer").startup(
             run = function()
                 vim.cmd ":TSUpdate"
             end,
-            branch="0.5-compat",
+            branch = "0.5-compat",
             config = function()
                 require("nvim-treesitter.configs").setup {
                     ensure_installed = "maintained"
@@ -155,21 +187,20 @@ return require("packer").startup(
             "neovim/nvim-lspconfig",
             requires = {
                 "hrsh7th/cmp-nvim-lsp",
-                "folke/which-key.nvim",
+                "folke/which-key.nvim"
             },
             config = function()
                 local lspconfig = require("lspconfig")
                 local capabilities = lsp_get_capabilities(cmp_nvim_lsp)
 
                 -- Rust is handled in rust-tools
-                local servers = {"angularls", "tsserver"}
+                local servers = {"tsserver", "eslint", "pyright"}
                 for _, lsp in ipairs(servers) do
                     lspconfig[lsp].setup {
                         on_attach = function(client, buffernr)
                             lsp_setup_buffer_keymap(client, buffernr)
                         end,
                         capabilities = capabilities
-
                     }
                 end
             end
@@ -240,22 +271,22 @@ return require("packer").startup(
                                 nvim_lsp = "[LSP]",
                                 buffer = "[Buffer]",
                                 luasnip = "[Snippet]",
-                                path = "[Path]",
+                                path = "[Path]"
                             })[entry.source.name]
                             return vim_item
-                        end,
+                        end
                     },
                     sources = {
                         {name = "nvim_lsp"},
                         {name = "buffer"},
                         {name = "path"},
-                        {name = "luasnip"},
+                        {name = "luasnip"}
                     },
                     snippet = {
                         expand = function(args)
                             require("luasnip").lsp_expand(args.body)
                         end
-                    },
+                    }
                 }
             end
         }
@@ -274,11 +305,14 @@ return require("packer").startup(
                 )
 
                 local wk = require("which-key")
-                wk.register({
-                    ["<leader>cf"] = {":Neoformat<CR>", "Format"}
-                }, {
-                    mode = 'n',
-                })
+                wk.register(
+                    {
+                        ["<leader>cf"] = {":Neoformat<CR>", "Format"}
+                    },
+                    {
+                        mode = "n"
+                    }
+                )
             end
         }
 
