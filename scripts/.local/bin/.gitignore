@@ -3,3 +3,4 @@
 !test-true-color
 !update-arch-mirrors
 !config
+!dd_obs_test.sh
