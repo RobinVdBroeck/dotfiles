@@ -5,6 +5,7 @@ local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({"git", "clone", "https://github.com/wbthomason/packer.nvim", install_path})
     vim.cmd "packadd packer.nvim"
+    vim.cmd "packersync"
 end
 
 vim.cmd([[
@@ -76,11 +77,12 @@ return require("packer").startup(
                 require("stabilize").setup()
             end
         }
+
         -- UI
         use {"dracula/vim", as = "dracula"}
         use {
             "famiu/feline.nvim",
-            tag = "v0.3.3",
+            tag = "v1.1.2",
             config = function()
                 require("statusline")
             end
@@ -173,10 +175,12 @@ return require("packer").startup(
             run = function()
                 vim.cmd ":TSUpdate"
             end,
-            branch = "0.5-compat",
             config = function()
                 require("nvim-treesitter.configs").setup {
-                    ensure_installed = "maintained"
+                    ensure_installed = "maintained",
+                    highlight = {
+                        enabled = true
+                    },
                 }
             end
         }
@@ -203,14 +207,6 @@ return require("packer").startup(
                         capabilities = capabilities
                     }
                 end
-            end
-        }
-
-        -- Autocompletion
-        use {
-            "onsails/lspkind-nvim",
-            config = function()
-                require("lspkind").init {}
             end
         }
 
@@ -264,17 +260,9 @@ return require("packer").startup(
                         end
                     },
                     formatting = {
-                        format = function(entry, vim_item)
-                            vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
-                            vim_item.menu =
-                                ({
-                                nvim_lsp = "[LSP]",
-                                buffer = "[Buffer]",
-                                luasnip = "[Snippet]",
-                                path = "[Path]"
-                            })[entry.source.name]
-                            return vim_item
-                        end
+                        format = lspkind.cmp_format({
+                            mode = 'symbol',
+                        })
                     },
                     sources = {
                         {name = "nvim_lsp"},
@@ -344,5 +332,8 @@ return require("packer").startup(
             end
         }
         use "mhinz/vim-crates"
+
+        -- Zig development
+        use "ziglang/zig.vim"
     end
 )
