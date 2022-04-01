@@ -15,6 +15,12 @@ if [ -x "$(command -v fish)" ]; then
     stow fish -t "$HOME/.config/fish/"
 fi
 
+if [ -x "$(command -v qtile)" ]; then
+    echo "Linking qtile"
+    mkdir -p "$HOME/.config/qtile"
+    stow qtile -t "$HOME/.config/qtile/"
+fi
+
 if [ -x "$(command -v nvim)" ]; then
     echo "Linking nvim"
     mkdir -p "$HOME/.config/nvim"
