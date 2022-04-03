@@ -15,10 +15,16 @@ if [ -x "$(command -v fish)" ]; then
     stow fish -t "$HOME/.config/fish/"
 fi
 
-if [ -x "$(command -v qtile)" ]; then
-    echo "Linking qtile"
-    mkdir -p "$HOME/.config/qtile"
-    stow qtile -t "$HOME/.config/qtile/"
+if [ -x "$(command -v polybar)" ]; then
+    echo "Linking polybar"
+    mkdir -p "$HOME/.config/polybar"
+    stow polybar -t "$HOME/.config/polybar"
+fi
+
+if [ -x "$(command -v xmonad)" ]; then
+    echo "Linking xmonad"
+    mkdir -p "$HOME/.config/xmonad"
+    stow xmonad -t "$HOME/.config/xmonad"
 fi
 
 if [ -x "$(command -v nvim)" ]; then
