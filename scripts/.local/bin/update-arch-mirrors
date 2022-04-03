@@ -10,13 +10,16 @@ if [ ! -x "$(command -v paccache)" ]; then
     echo "cannot update mirrors without paccache, install pacman-contrib from the official repository"
     exit 1
 fi
+if [ ! -x "$(command -v paru)" ]; then
+    echo "cannot update mirrors without paru, install it from the aur"
+    exit 1
+fi
 
 TMPFILE=$(mktemp)
 sudo true
-# todo: readd --entry-country=BE once that's added again
 rate-mirrors arch --max-delay=21600 | tee "$TMPFILE"
 sudo mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sudo mv "$TMPFILE" /etc/pacman.d/mirrorlist
 sudo paccache -rk3
-yay -Sc --aur --noconfirm
-yay -Syyu --noconfirm
+paru -Sc --aur --noconfirm
+paru -Syyu --noconfirm
