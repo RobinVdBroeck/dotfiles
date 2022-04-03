@@ -6,6 +6,10 @@ if [ ! -x "$(command -v rate-mirrors)" ]; then
     echo "cannot update mirrors without rate-mirrors, install it from the aur"
     exit 1
 fi
+if [ ! -x "$(command -v paccache)" ]; then
+    echo "cannot update mirrors without paccache, install pacman-contrib from the official repository"
+    exit 1
+fi
 
 TMPFILE=$(mktemp)
 sudo true
