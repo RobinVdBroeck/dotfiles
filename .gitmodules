@@ -4,3 +4,6 @@
 [submodule "xmonad-contrib"]
 	path = xmonad/xmonad-contrib
 	url = https://github.com/xmonad/xmonad-contrib.git
+[submodule "xmonad/haskell-dbus"]
+	path = xmonad/haskell-dbus
+	url = git@github.com:rblaze/haskell-dbus.git
