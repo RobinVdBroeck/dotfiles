@@ -1,0 +1,29 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           xmonad-robin
+version:        0.0.1
+synopsis:       xmonad config of Robin
+homepage:       https://github.com/robinvdbroeck/dotfiles#readme
+bug-reports:    https://github.com/robinvdbroeck/dotfiles/issues
+maintainer:     Robin Van den Broeck <robin.broeck@gmail.com>
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/robinvdbroeck/dotfiles
+
+executable xmonad-robin
+  main-is: config.hs
+  other-modules:
+      Paths_xmonad_robin
+  build-depends:
+      base
+    , dbus
+    , utf8-string
+    , xmonad
+    , xmonad-contrib
+  default-language: Haskell2010

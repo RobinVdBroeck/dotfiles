@@ -30,9 +30,7 @@ resolver:
 #   - auto-update
 #   - wai
 packages: 
-  - xmonad
-  - xmonad-contrib
-  - haskell-dbus
+  - .
 
 
 # Dependency packages to be pulled from upstream that are not in the resolver.

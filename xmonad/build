@@ -1,0 +1,9 @@
+#!/bin/sh -eu
+# From: https://github.com/xmonad/xmonad-testing/blob/master/build-scripts/build-with-stack.sh
+
+SRC_DIR=$HOME/dotfiles/xmonad
+EXE_NAME=xmonad-robin
+unset STACK_YAML
+cd $SRC_DIR
+stack build
+ln -f -T $(stack exec -- which $EXE_NAME) $1

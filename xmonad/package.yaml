@@ -1,0 +1,16 @@
+name: xmonad-robin
+version: 0.0.1
+synopsis: xmonad config of Robin
+maintainer: Robin Van den Broeck <robin.broeck@gmail.com>
+github: robinvdbroeck/dotfiles
+
+dependencies:
+  - base 
+  - xmonad
+  - xmonad-contrib
+  - dbus
+  - utf8-string
+
+executables:
+  xmonad-robin:
+    main: config.hs

@@ -9,6 +9,7 @@ echo "Linking scripts"
 mkdir -p "$HOME/.local/bin"
 stow scripts
 
+
 if [ -x "$(command -v fish)" ]; then
     echo "Linking fish"
     mkdir -p "$HOME/.config/fish"
@@ -21,7 +22,9 @@ if [ -x "$(command -v polybar)" ]; then
     stow polybar -t "$HOME/.config/polybar"
 fi
 
-if [ -x "$(command -v xmonad)" ]; then
+# We are using stack here as an indicator that we want to have xmonad, since
+# we build xmonad ourselves.
+if [ -x "$(command -v stack)" ]; then
     echo "Linking xmonad"
     mkdir -p "$HOME/.config/xmonad"
     stow xmonad -t "$HOME/.config/xmonad"
