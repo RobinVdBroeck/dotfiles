@@ -6,10 +6,3 @@ cd dotfiles
 ./install.sh
 ```
 
-## Supports:
-1. zsh (auto install oh-my-zsh)
-2. nvim
-3. git
-4. tmux (+ tmuxp)
-5. Alacritty
-6. scripts (usefull scripts that I use)
