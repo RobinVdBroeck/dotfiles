@@ -1,0 +1,10 @@
+#!/bin/sh
+location="$HOME/Pictures/Wallpapers"
+
+# find random wallpaper
+wallpaper=$(find $location -type f | shuf -n1)
+
+echo "Setting $wallpaper"
+
+# set the wallpaper
+feh --bg-scale $wallpaper &
