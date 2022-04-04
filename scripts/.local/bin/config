@@ -21,17 +21,22 @@ except KeyError:
 entries = {
     "awesome": f"{home}/.config/awesome/rc.lua",
     "config": f"{home}/.local/bin/config",
+    "fish": f"{home}/.config/fish",
     "git": f"{home}/.gitconfig",
     "i3": f"{home}/.config/i3/config",
     "nvim": f"{home}/.config/nvim/",
     "picom": f"{home}/.config/picom/picom.conf",
-    "polybar": f"{home}/.config/polybar/config",
+    "polybar": f"{home}/.config/polybar/config.ini",
     "qtile": f"{home}/.config/qtile/config.py",
+    "sway": f"{home}/.config/sway/config",
+    "xmonad": f"{home}/.config/xmonad",
     "tmux": f"{home}/.tmux.conf",
     "xinit": f"{home}/.xinitrc",
     "xresources": f"{home}/.XResources",
     "zsh": f"{home}/.zshrc",
 }
+
+# TODO: filter entries to only show existing entries
 
 def open_dmenu() -> str:
     """ 
@@ -46,7 +51,7 @@ def open_dmenu() -> str:
               file=sys.stdout)
         sys.exit(1)
     dmenu = subprocess.Popen(
-        ["dmenu", "-i", "-l", "20","-p", "Edit config"],
+        ["dmenu", "-i", "-l", str(20), "-p", "Edit config"],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=sys.stderr,
