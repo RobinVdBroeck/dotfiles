@@ -15,19 +15,30 @@ import XMonad.Util.SpawnOnce
 import XMonad.Util.SpawnOnce
 import XMonad.Layout.ThreeColumns
 
-main :: IO ()
-main = xmonad 
-      . ewmhFullscreen 
-      . ewmh 
-      . docks
-      $ myConfig
+-- Polybar imports
+import qualified Codec.Binary.UTF8.String as UTF8
+import qualified DBus                     as D
+import qualified DBus.Client              as D
 
-myConfig = def
-    { terminal = "kitty" 
-    , modMask = mod4Mask
-    , layoutHook = myLayout
-    , manageHook = myManageHook
+main :: IO ()
+main = do
+    dbus <- mkDbusClient
+    xmonadSetup dbus
+
+xmonadSetup :: D.Client -> IO ()
+xmonadSetup dbus = xmonad
+                   . ewmhFullscreen 
+                   . ewmh 
+                   . docks
+                   $ myConfig dbus
+
+myConfig dbus = def
+    { terminal    = terminal 
+    , modMask     = mod4Mask
+    , layoutHook  = myLayout
+    , manageHook  = myManageHook
     , startupHook = myStartupHook
+    , logHook     = myPolybarLogHook dbus
     }
   `additionalKeysP`
     [ ("M-S-=", unGrab *> spawn "scrot -s")
@@ -35,7 +46,8 @@ myConfig = def
     , ("M-p"  , spawn applicationLauncher )
     ]
     where
-        browser              = "google-chrome-stable"
+        terminal             = "kitty"
+        browser              = "firefox"
         applicationLauncher  = "rofi -show run"
 
 myManageHook :: ManageHook
@@ -51,6 +63,9 @@ myStartupHook = do
     spawn "polybar screen1 2>&1 | tee -a /tmp/polybar-screen1.log & disown"
     spawn "polybar screen2 2>&1 | tee -a /tmp/polybar-screen2.log & disown"
 
+    -- Located in .local/bin/scripts
+    spawnOnce "wallpaper"
+
 myLayout = avoidStruts $ 
     tiled ||| Mirror tiled ||| Full ||| ThreeColMid nmaster delta ratio
     where
@@ -59,4 +74,40 @@ myLayout = avoidStruts $
         ratio   = 1/2
         delta   = 3/100
 
+mkDbusClient :: IO D.Client
+mkDbusClient = do
+    dbus <- D.connectSession
+    D.requestName dbus (D.busName_ "xorg.monad.log") opts
+    return dbus
+  where
+    opts = [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+
+dbusOutput :: D.Client -> String -> IO ()
+dbusOutput dbus str =
+    D.emit dbus $ signal { D.signalBody = body}
+    where opath   = D.objectPath_ "org/xmonad/Log"
+          iname   = D.interfaceName_ "org.xmonad.Log"
+          mname   = D.memberName_ "Update"
+          signal  = (D.signal opath iname mname)
+          body    = [D.toVariant $ UTF8.decodeString str ]
+
+polybarHook :: D.Client -> PP
+polybarHook dbus =
+    let wrapper c s | s /= "NSWP" = wrap ("%{F" <> c <> "} ") " %{F-}" s
+                    | otherwise   = mempty
+        blue   = "#2E9AFE"
+        gray   = "#7F7F7F"
+        orange = "#ea4300"
+        purple = "#9058c7"
+        red    = "#722222"
+      in  def { ppOutput          = dbusOutput dbus
+              , ppCurrent         = wrapper blue
+              , ppVisible         = wrapper gray
+              , ppUrgent          = wrapper orange
+              , ppHidden          = wrapper gray
+              , ppHiddenNoWindows = wrapper red
+              , ppTitle           = shorten 100 . wrapper purple
+              }
+
+myPolybarLogHook dbus =  dynamicLogWithPP $ polybarHook dbus
 

@@ -1,9 +1,9 @@
 all: submodules build install
 
 submodules:
-	git submodules update --init --recursvie
+	git submodule update --init --recursive
 
-build: stack.yml xmonad/ xmonad-contrib/
+build: stack.yaml xmonad/ xmonad-contrib/
 	stack build
 
 install:
