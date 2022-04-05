@@ -6,8 +6,8 @@ github: robinvdbroeck/dotfiles
 
 dependencies:
   - base 
-  - xmonad
-  - xmonad-contrib
+  - xmonad >= 0.17.0 && < 0.18.0
+  - xmonad-contrib >= 0.17.0 && < 0.18.0
   - dbus
   - utf8-string
 
