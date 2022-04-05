@@ -1,9 +1,13 @@
 #!/bin/sh -eu
 # From: https://github.com/xmonad/xmonad-testing/blob/master/build-scripts/build-with-stack.sh
 
+if [ -f "$HOME/.ghcup" ]; then
+    export PATH="$HOME/.cabal/bin:$PATH/.ghcup/bin:$PATH"
+fi
+
 SRC_DIR=$HOME/dotfiles/xmonad
 EXE_NAME=xmonad-robin
 unset STACK_YAML
 cd $SRC_DIR
 stack build
-ln -f -T $(stack exec -- which $EXE_NAME) $1
+ln -f -T "$(stack exec -- which $EXE_NAME)" "$1"
