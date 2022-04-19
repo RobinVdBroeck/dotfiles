@@ -8,12 +8,14 @@ if fn.empty(fn.glob(install_path)) > 0 then
     vim.cmd "packersync"
 end
 
-vim.cmd([[
-aug AutoPackerCompile
-    au!
-    au BufWritePost plugins.lua source <afile> | PackerCompile
-aug end
-]])
+local auto_packer_compile_group = vim.api.nvim_create_augroup("AutoPackerCompile", {
+    clear = true,
+})
+vim.api.nvim_create_autocmd("BufWritePost", {
+    command = "PackerCompile",
+    pattern = "plugins.lua",
+    group = auto_packer_compile_group
+})
 
 lsp_setup_buffer_keymap = function(_client, bufnr)
     local is_wk_present, wk = pcall(require, "which-key")
@@ -177,7 +179,7 @@ return require("packer").startup(
             end,
             config = function()
                 require("nvim-treesitter.configs").setup {
-                    ensure_installed = "maintained",
+                    ensure_installed = "all",
                     highlight = {
                         enabled = true
                     },
@@ -198,7 +200,7 @@ return require("packer").startup(
                 local capabilities = lsp_get_capabilities(cmp_nvim_lsp)
 
                 -- Rust is handled in rust-tools
-                local servers = {"tsserver", "eslint", "pyright"}
+                local servers = {"tsserver", "eslint", "pyright", "hls"}
                 for _, lsp in ipairs(servers) do
                     lspconfig[lsp].setup {
                         on_attach = function(client, buffernr)
@@ -283,14 +285,11 @@ return require("packer").startup(
         use {
             "sbdchd/neoformat",
             config = function()
-                vim.cmd(
-                    [[
-                        augroup Format
-                            autocmd!
-                            autocmd BufWritePre * Neoformat
-                        augroup END
-                    ]]
-                )
+                local format_group = vim.api.nvim_create_augroup("Format", { clear = true })
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                    pattern = "*",
+                    command = "Neoformat"
+                })
 
                 local wk = require("which-key")
                 wk.register(
@@ -335,5 +334,6 @@ return require("packer").startup(
 
         -- Zig development
         use "ziglang/zig.vim"
+
     end
 )

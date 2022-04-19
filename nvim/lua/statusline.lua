@@ -7,6 +7,9 @@ end
 local lsp = require("feline.providers.lsp")
 local vi_mode_utils = require("feline.providers.vi_mode")
 
+-- Global status line
+vim.o.laststatus = 3
+
 local colors = {
     bg = "#282c34",
     fg = "#abb2bf",
