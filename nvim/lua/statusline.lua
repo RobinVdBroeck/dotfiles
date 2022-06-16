@@ -99,92 +99,57 @@ end
 
 local comps = {
     vi_mode = {
-        left = {
-            provider = "▊",
-            hl = vimode_hl,
-            right_sep = " "
-        },
-        right = {
-            provider = "▊",
-            hl = vimode_hl,
-            left_sep = " "
-        }
+        left = {provider = "▊", hl = vimode_hl, right_sep = " "},
+        right = {provider = "▊", hl = vimode_hl, left_sep = " "}
     },
     file = {
-        info = {
-            provider = "file_info",
-            hl = {
-                fg = colors.blue,
-                style = "bold"
-            }
-        },
+        info = {provider = "file_info", hl = {fg = colors.blue, style = "bold"}},
         encoding = {
             provider = "file_encoding",
             left_sep = " ",
-            hl = {
-                fg = colors.violet,
-                style = "bold"
-            }
+            hl = {fg = colors.violet, style = "bold"}
         },
-        type = {
-            provider = "file_type"
-        },
+        type = {provider = "file_type"},
         os = {
             provider = file_osinfo,
             left_sep = " ",
-            hl = {
-                fg = colors.violet,
-                style = "bold"
-            }
+            hl = {fg = colors.violet, style = "bold"}
         }
     },
     line_percentage = {
         provider = "line_percentage",
         left_sep = " ",
-        hl = {
-            style = "bold"
-        }
+        hl = {style = "bold"}
     },
     scroll_bar = {
         provider = "scroll_bar",
         left_sep = " ",
-        hl = {
-            fg = colors.blue,
-            style = "bold"
-        }
+        hl = {fg = colors.blue, style = "bold"}
     },
     diagnos = {
         err = {
             provider = diag_of(lsp_diagnostics_info, "errs"),
             left_sep = " ",
             enabled = diag_enable(lsp_diagnostics_info, "errs"),
-            hl = {
-                fg = colors.red
-            }
+            hl = {fg = colors.red}
         },
         warn = {
             provider = diag_of(lsp_diagnostics_info, "warns"),
             left_sep = " ",
             enabled = diag_enable(lsp_diagnostics_info, "warns"),
-            hl = {
-                fg = colors.yellow
-            }
+            hl = {fg = colors.yellow}
         },
         info = {
             provider = diag_of(lsp_diagnostics_info, "infos"),
             left_sep = " ",
             enabled = diag_enable(lsp_diagnostics_info, "infos"),
-            hl = {
-                fg = colors.blue
-            }
+            hl = {fg = colors.blue}
         },
         hint = {
             provider = diag_of(lsp_diagnostics_info, "hints"),
             left_sep = " ",
             enabled = diag_enable(lsp_diagnostics_info, "hints"),
-            hl = {
-                fg = colors.cyan
-            }
+            hl = {fg = colors.cyan}
         }
     },
     lsp = {
@@ -192,9 +157,7 @@ local comps = {
             provider = "lsp_client_names",
             left_sep = " ",
             icon = icons.lsp,
-            hl = {
-                fg = colors.yellow
-            }
+            hl = {fg = colors.yellow}
         }
     },
     git = {
@@ -202,29 +165,11 @@ local comps = {
             provider = "git_branch",
             icon = icons.git,
             left_sep = " ",
-            hl = {
-                fg = colors.violet,
-                style = "bold"
-            }
+            hl = {fg = colors.violet, style = "bold"}
         },
-        add = {
-            provider = "git_diff_added",
-            hl = {
-                fg = colors.green
-            }
-        },
-        change = {
-            provider = "git_diff_changed",
-            hl = {
-                fg = colors.orange
-            }
-        },
-        remove = {
-            provider = "git_diff_removed",
-            hl = {
-                fg = colors.red
-            }
-        }
+        add = {provider = "git_diff_added", hl = {fg = colors.green}},
+        change = {provider = "git_diff_changed", hl = {fg = colors.orange}},
+        remove = {provider = "git_diff_removed", hl = {fg = colors.red}}
     }
 }
 
@@ -233,32 +178,17 @@ local pr
 local components = {
     left = {
         active = {
-            comps.vi_mode.left,
-            comps.file.info,
-            comps.lsp.name,
-            comps.diagnos.err,
-            comps.diagnos.warn,
-            comps.diagnos.hint,
+            comps.vi_mode.left, comps.file.info, comps.lsp.name,
+            comps.diagnos.err, comps.diagnos.warn, comps.diagnos.hint,
             comps.diagnos.info
         },
-        inactive = {
-            comps.vi_mode.left,
-            comps.file.info
-        }
+        inactive = {comps.vi_mode.left, comps.file.info}
     },
-    mid = {
-        active = {},
-        inactive = {}
-    },
+    mid = {active = {}, inactive = {}},
     right = {
         active = {
-            comps.git.add,
-            comps.git.change,
-            comps.git.remove,
-            comps.file.os,
-            comps.git.branch,
-            comps.line_percentage,
-            comps.scroll_bar,
+            comps.git.add, comps.git.change, comps.git.remove, comps.file.os,
+            comps.git.branch, comps.line_percentage, comps.scroll_bar,
             comps.vi_mode.right
         },
         inactive = {}

@@ -10,11 +10,9 @@ if vim.fn.has("termguicolors") == 1 then
 end
 
 -- todo: we should be able to convert this to lua
-vim.cmd(
-    [[
+vim.cmd([[
 """""""""""""""""""
 " Custom commands "
 """""""""""""""""""
 command! -nargs=0 ReloadConfig :source $MYVIMRC
-]]
-)
+]])

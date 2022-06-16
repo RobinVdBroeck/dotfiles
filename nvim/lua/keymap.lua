@@ -2,13 +2,9 @@
 -- TODO: move this to a util
 local function map(mode, lhs, rhs, opts)
     local options = {noremap = true, silent = true}
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
+    if opts then options = vim.tbl_extend("force", options, opts) end
 
-    for m in mode:gmatch "" do
-        vim.api.nvim_set_keymap(m, lhs, rhs, options)
-    end
+    for m in mode:gmatch "" do vim.api.nvim_set_keymap(m, lhs, rhs, options) end
 end
 
 vim.g.mapleader = " "
@@ -26,8 +22,7 @@ map("xno", "<leader>p", '"+p')
 
 -- Window movement
 -- TODO: we should be able to convert this to a lua function
-vim.cmd(
-    [[
+vim.cmd([[
 " Moves to window. if not exist, create one
 function! WindowMove(key)
     let t:curwin = winnr()
@@ -42,8 +37,7 @@ function! WindowMove(key)
         exec "wincmd ".a:key
     endif
 endfunction
-]]
-)
+]])
 map("n", "<C-w>h", ":call WindowMove('h')<CR>")
 map("n", "<C-w>j", ":call WindowMove('j')<CR>")
 map("n", "<C-w>k", ":call WindowMove('k')<CR>")
