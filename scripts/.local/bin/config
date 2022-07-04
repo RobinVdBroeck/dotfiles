@@ -7,11 +7,6 @@ import os
 import sys
 
 try:
-    editor = os.environ['EDITOR']
-except KeyError:
-    editor = 'xdg-open'
-
-try:
     home = os.environ['HOME']
 except KeyError:
     print("home env variable is not setup", file=sys.stdout)
@@ -75,22 +70,30 @@ def open_dmenu() -> str:
     return val
 
 if __name__ == "__main__":
-    args = sys.argv
-    if len(args) == 1:
-        choice = open_dmenu()
-        if choice == "":
-         sys.exit(0)
-    elif len(args) == 2:
-        choice = args[1]
-    else:
-        print("either run dmconfig with 0 or 1 argument", file=sys.stderr)
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('name', nargs='?')
+    parser.add_argument('-d', '--debug', action="store_true")
+    args =  parser.parse_args() 
+
+    if args.name is None:
+        args.name = open_dmenu()
+        if args.name == "":
+            sys.exit(0)
+
+    try: 
+        entry = entries[args.name]
+        if args.debug: 
+            print(f"opening {entry}")
+    except KeyError:
+        print(f"config for {args.name} does not exist", file=sys.stderr)
         sys.exit(1)
 
     try:
-        entry = entries[choice]
+        editor = os.environ['EDITOR']
     except KeyError:
-        print(f"config for {choice} does not exist", file=sys.stderr)
-        sys.exit(1)
+        editor = 'xdg-open'
 
     os.system(editor +  " " + entry)
 
