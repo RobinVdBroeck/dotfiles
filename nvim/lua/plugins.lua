@@ -13,13 +13,14 @@ end
 
 local auto_packer_compile_group = vim.api.nvim_create_augroup(
                                       "AutoPackerCompile", {clear = true})
+
 vim.api.nvim_create_autocmd("BufWritePost", {
     command = "PackerCompile",
     pattern = "plugins.lua",
     group = auto_packer_compile_group
 })
 
-lsp_setup_buffer_keymap = function(_client, bufnr)
+lsp_on_attach = function(client, bufnr)
     local is_wk_present, wk = pcall(require, "which-key")
     if (is_wk_present == false) then
         print("which-key not found")
@@ -27,20 +28,31 @@ lsp_setup_buffer_keymap = function(_client, bufnr)
     end
     local buf = vim.lsp.buf
 
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.onmifunc')
+
     wk.register({
         g = {
-            d = {buf.definition, "definition"},
+            d = {buf.definition, "definintion"},
             D = {buf.declaration, "declaration"},
             i = {buf.implementation, "implementation"},
             r = {buf.references, "references"}
         },
         K = {buf.hover, "Hover"},
+        ["<C-k>"] = {buf.signature_help, "signature help"},
         ["<leader>"] = {
-            c = {name = "code", a = {buf.code_action, "action"}},
+            D = {buf.type_definition, "type definition"},
+            ca = {buf.code_action, "code action"},
             rn = {buf.rename, "rename"},
             rf = {buf.formatting, "reformat"},
             w = {
                 name = "workspace",
+                a = {buf.add_workspace_folder, "add workspace folder"},
+                r = {buf.remove_workspace_folder, "remove workspace folder"},
+                l = {
+                    function()
+                        print(vim.inspect(buf.list_workspace_folders()))
+                    end, "list workspace folders"
+                },
                 s = {":Telescope lsp_workspace_symbols<CR>", "symbols"}
             }
         }
@@ -117,7 +129,6 @@ return require("packer").startup(function()
                 ["<leader>f"] = {
                     name = "Find",
                     f = {":Telescope find_files<CR>", "file"},
-                    fb = {":Telescope file_browser<CR>", "file browser"},
                     b = {":Telescope buffers<CR>", "buffers"},
                     r = {":Telescope oldfiles<CR>", "recent files"},
                     g = {":Telescope live_grep<CR>", "grep"},
@@ -150,19 +161,23 @@ return require("packer").startup(function()
     use {
         "neovim/nvim-lspconfig",
         requires = {"hrsh7th/cmp-nvim-lsp", "folke/which-key.nvim"},
+        tag = "v0.1.3",
         config = function()
             local lspconfig = require("lspconfig")
             local capabilities = lsp_get_capabilities(cmp_nvim_lsp)
 
             -- Rust is handled in rust-tools
-            local servers = {"tsserver", "eslint", "pyright", "hls", "ccls"}
+            local servers = {
+                "tsserver", "eslint", "pyright", "hls", "clangd", "serve_d"
+            }
+            local lsp_flags = {debounce_text_changes = 50}
             for _, lsp in ipairs(servers) do
                 lspconfig[lsp].setup {
-                    init_options = {compilationDatabaseDirectory = "build"},
                     on_attach = function(client, buffernr)
-                        lsp_setup_buffer_keymap(client, buffernr)
+                        lsp_on_attach(client, buffernr)
                     end,
-                    capabilities = capabilities
+                    capabilities = capabilities,
+                    flags = lsp_flags
                 }
             end
         end
@@ -263,7 +278,7 @@ return require("packer").startup(function()
             require("rust-tools").setup {
                 server = {
                     on_attach = function(client, buffernr)
-                        lsp_setup_buffer_keymap(client, buffernr)
+                        lsp_on_attach(client, buffernr)
                     end,
                     capabilities = capabilities
                 }

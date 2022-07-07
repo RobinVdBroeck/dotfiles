@@ -1,10 +1,15 @@
+local is_wk_present, wk = pcall(require, "which-key")
+if (is_wk_present == false) then
+    print("which-key not found")
+    return
+end
+
 -- TODO: Convert to which-key
 -- TODO: move this to a util
-local function map(mode, lhs, rhs, opts)
+local function map(mode, lhs, rhs)
     local options = {noremap = true, silent = true}
-    if opts then options = vim.tbl_extend("force", options, opts) end
 
-    for m in mode:gmatch "" do vim.api.nvim_set_keymap(m, lhs, rhs, options) end
+    for m in mode:gmatch "" do vim.keymap.set(m, lhs, rhs, options) end
 end
 
 vim.g.mapleader = " "
@@ -19,6 +24,12 @@ map("i", "<C-s>", ":<ESC>w<CR>")
 -- Copy paste from `+` register (also known as clipboard)
 map("xno", "<leader>y", '"+y')
 map("xno", "<leader>p", '"+p')
+
+--  Diagnostics
+map('n', '<leader>e', vim.diagnostic.open_float)
+map('n', '[d', vim.diagnostic.goto_prev)
+map('n', ']d', vim.diagnostic.goto_next)
+map('n', '<space>q', vim.diagnostic.setloclist)
 
 -- Window movement
 -- TODO: we should be able to convert this to a lua function
