@@ -20,43 +20,44 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     group = auto_packer_compile_group
 })
 
+-- vim.keymap.set with default options
+function keymap_set(mode, lhs, rhs, options)
+    default_options = {silent = true}
+    final_options = default_options
+    for k, v in pairs(options) do final_options[k] = v end
+    vim.keymap.set(mode, lhs, rhs, final_options)
+end
+
 lsp_on_attach = function(client, bufnr)
-    local is_wk_present, wk = pcall(require, "which-key")
-    if (is_wk_present == false) then
-        print("which-key not found")
-        return
-    end
     local buf = vim.lsp.buf
 
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.onmifunc')
 
-    wk.register({
-        g = {
-            d = {buf.definition, "definintion"},
-            D = {buf.declaration, "declaration"},
-            i = {buf.implementation, "implementation"},
-            r = {buf.references, "references"}
-        },
-        K = {buf.hover, "Hover"},
-        ["<C-k>"] = {buf.signature_help, "signature help"},
-        ["<leader>"] = {
-            D = {buf.type_definition, "type definition"},
-            ca = {buf.code_action, "code action"},
-            rn = {buf.rename, "rename"},
-            rf = {buf.formatting, "reformat"},
-            w = {
-                name = "workspace",
-                a = {buf.add_workspace_folder, "add workspace folder"},
-                r = {buf.remove_workspace_folder, "remove workspace folder"},
-                l = {
-                    function()
-                        print(vim.inspect(buf.list_workspace_folders()))
-                    end, "list workspace folders"
-                },
-                s = {":Telescope lsp_workspace_symbols<CR>", "symbols"}
-            }
-        }
-    }, {mode = "n", buffer = bufnr})
+    -- keymap_set but with buffer option
+    local function keymap_set2(mode, lhs, rhs, options)
+        options["buffer"] = bufnr
+        keymap_set(mode, lhs, rhs, options)
+    end
+
+    keymap_set2("n", "gd", buf.definition, {desc = "definition"})
+    keymap_set2("n", "gD", buf.declaration, {desc = "declaration"})
+    keymap_set2("n", "gi", buf.implementation, {desc = "implementation"})
+    keymap_set2("n", "gr", buf.references, {desc = "references"})
+    keymap_set2("n", "K", buf.hover, {desc = "hover"})
+    keymap_set2("n", "<C-k>", buf.signature_help, {desc = "signature help"})
+    keymap_set2("n", "<leader>D", buf.type_definition,
+                {desc = "type definition"})
+    keymap_set2("n", "<leader>ca", buf.code_action, {desc = "code action"})
+    keymap_set2("n", "<leader>cn", buf.rename, {desc = "change name"})
+    keymap_set2("n", "<leader>wa", buf.add_workspace_folder,
+                {desc = "add workspace folder"})
+    keymap_set2("n", "<leader>wr", buf.remove_workspace_folder,
+                {desc = "remove workspace folder"})
+    keymap_set2("n", "<leader>wr", function()
+        print(vim.inspect(buf.list_workspace_folders()))
+    end, {desc = "list workspace folders"})
+    keymap_set2("n", "<leader>fS", ":Telescope lsp_workspace_symbols<CR>",
+                {desc = "find workspace symbols"})
 end
 
 lsp_get_capabilities = function(cmp_nvim_lsp)
@@ -77,6 +78,7 @@ return require("packer").startup(function()
     -- General
     use "editorconfig/editorconfig-vim"
     use "tpope/vim-commentary"
+    use "tpope/vim-abolish"
     use {
         "luukvbaal/stabilize.nvim",
         config = function() require("stabilize").setup() end
@@ -114,32 +116,26 @@ return require("packer").startup(function()
 
     use {
         "nvim-telescope/telescope.nvim",
+        tag = "v0.1.0",
         requires = {
-            "nvim-telescope/telescope-fzf-native.nvim", "nvim-lua/plenary.nvim",
-            "folke/which-key.nvim"
+            "nvim-telescope/telescope-fzf-native.nvim", "nvim-lua/plenary.nvim"
         },
         config = function()
             local telescope = require("telescope")
-            local builtins = require("telescope.builtin")
-            local wk = require("which-key")
 
-            wk.register({
-                ["<C-p>"] = {":Telescope find_files<CR>", "find files"},
-                ["<C-b>"] = {":Telescope buffers<CR>", "find buffers"},
-                ["<leader>f"] = {
-                    name = "Find",
-                    f = {":Telescope find_files<CR>", "file"},
-                    b = {":Telescope buffers<CR>", "buffers"},
-                    r = {":Telescope oldfiles<CR>", "recent files"},
-                    g = {":Telescope live_grep<CR>", "grep"},
-                    h = {":Telescope help_tags<CR>", "help"}, -- todo: use lsp?
-                    s = {function() builtins.treesitter {} end, "symbols"}
-                }
-            }, {mode = "n"})
-
-            telescope.setup {
-                defaults = {mappings = {i = {["<C-h>"] = "which_key"}}}
-            }
+            print("setting up telescope")
+            keymap_set("n", "<C-p>", ":Telescope find_files<CR>",
+                       {desc = "find files"})
+            keymap_set("n", "<C-b>", ":Telescope buffers<CR>",
+                       {desc = "find buffers"})
+            keymap_set("n", "<leader>ff", ":Telescope find_files<CR>",
+                       {desc = "find files"})
+            keymap_set("n", "<leader>fb", ":Telescope find_files<CR>",
+                       {desc = "find buffers"})
+            keymap_set("n", "<leader>fr", ":Telescope oldfiles<CR>",
+                       {desc = "find recent files"})
+            keymap_set("n", "<leader>fg", ":Telescope live_grep<CR>",
+                       {desc = "find using grep"})
             telescope.load_extension("fzf")
         end
     }
@@ -160,7 +156,7 @@ return require("packer").startup(function()
     -- -- LSP
     use {
         "neovim/nvim-lspconfig",
-        requires = {"hrsh7th/cmp-nvim-lsp", "folke/which-key.nvim"},
+        requires = {"hrsh7th/cmp-nvim-lsp"},
         tag = "v0.1.3",
         config = function()
             local lspconfig = require("lspconfig")
@@ -255,9 +251,8 @@ return require("packer").startup(function()
                 group = format_group
             })
 
-            local wk = require("which-key")
-            wk.register({["<leader>cf"] = {":Neoformat<CR>", "Format"}},
-                        {mode = "n"})
+            keymap_set("n", "<leader>cf", ":Neoformat<CR>",
+                       {desc = "Format file"})
         end
     }
 
@@ -268,11 +263,6 @@ return require("packer").startup(function()
     -- Rust development
     use {
         "simrat39/rust-tools.nvim",
-        requires = {
-            "hrsh7th/cmp-nvim-lsp", "folke/which-key.nvim",
-            "neovim/nvim-lspconfig", "nvim-lua/popup.nvim",
-            "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim"
-        },
         config = function()
             local capabilities = lsp_get_capabilities()
             require("rust-tools").setup {
