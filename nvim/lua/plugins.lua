@@ -116,20 +116,22 @@ return require("packer").startup(function()
 
     use {
         "nvim-telescope/telescope.nvim",
-        tag = "v0.1.0",
+        branch = "0.1.x",
         requires = {
             "nvim-telescope/telescope-fzf-native.nvim", "nvim-lua/plenary.nvim"
         },
         config = function()
             local telescope = require("telescope")
 
-            print("setting up telescope")
             keymap_set("n", "<C-p>", ":Telescope find_files<CR>",
                        {desc = "find files"})
             keymap_set("n", "<C-b>", ":Telescope buffers<CR>",
                        {desc = "find buffers"})
             keymap_set("n", "<leader>ff", ":Telescope find_files<CR>",
                        {desc = "find files"})
+            keymap_set("n", "<leader>fa",
+                       ":Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+                       {desc = "find all"})
             keymap_set("n", "<leader>fb", ":Telescope find_files<CR>",
                        {desc = "find buffers"})
             keymap_set("n", "<leader>fr", ":Telescope oldfiles<CR>",
@@ -164,7 +166,8 @@ return require("packer").startup(function()
 
             -- Rust is handled in rust-tools
             local servers = {
-                "tsserver", "eslint", "pyright", "hls", "clangd", "serve_d"
+                "tsserver", "eslint", "pyright", "hls", "clangd", "serve_d",
+                "rust-analyzer", "gopls"
             }
             local lsp_flags = {debounce_text_changes = 50}
             for _, lsp in ipairs(servers) do
@@ -260,21 +263,21 @@ return require("packer").startup(function()
     use "mattn/emmet-vim"
     use "leafOfTree/vim-vue-plugin"
 
-    -- Rust development
-    use {
-        "simrat39/rust-tools.nvim",
-        config = function()
-            local capabilities = lsp_get_capabilities()
-            require("rust-tools").setup {
-                server = {
-                    on_attach = function(client, buffernr)
-                        lsp_on_attach(client, buffernr)
-                    end,
-                    capabilities = capabilities
-                }
-            }
-        end
-    }
+    -- -- Rust development
+    -- use {
+    --     "simrat39/rust-tools.nvim",
+    --     config = function()
+    --         local capabilities = lsp_get_capabilities()
+    --         require("rust-tools").setup {
+    --             server = {
+    --                 on_attach = function(client, buffernr)
+    --                     lsp_on_attach(client, buffernr)
+    --                 end,
+    --                 capabilities = capabilities
+    --             }
+    --         }
+    --     end
+    -- }
     use "mhinz/vim-crates"
 
     -- Zig development
