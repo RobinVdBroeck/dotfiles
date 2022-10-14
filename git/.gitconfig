@@ -20,6 +20,7 @@
 	driver = npx npm-merge-driver merge %A %O %B %P
 [rebase]
 	autoSquash = true
+	updateRefs = true
 [rerere]
 	enabled = true
 [mergetool "vimdiff"]
@@ -29,3 +30,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[push]
+	autoSetupRemote = true
