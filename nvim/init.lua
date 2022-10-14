@@ -9,6 +9,15 @@ if vim.fn.has("termguicolors") == 1 then
     vim.cmd("colorscheme dracula")
 end
 
+vim.api.nvim_create_augroup("eslint-fix", { clear = true })
+vim.api.nvim_create_autocmd(
+    { "BufWritePre" },
+    { 
+        group = "eslint-fix",
+        pattern = { "*.tsx", "*.ts", "*.jsx", "*.js", },
+        command = "EslintFixAll"
+    }
+)
 
 -- todo: we should be able to convert this to lua
 vim.cmd([[
