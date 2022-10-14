@@ -49,11 +49,11 @@ lsp_on_attach = function(client, bufnr)
                 {desc = "type definition"})
     keymap_set2("n", "<leader>ca", buf.code_action, {desc = "code action"})
     keymap_set2("n", "<leader>cn", buf.rename, {desc = "change name"})
-    keymap_set2("n", "<leader>wa", buf.add_workspace_folder,
-                {desc = "add workspace folder"})
-    keymap_set2("n", "<leader>wr", buf.remove_workspace_folder,
-                {desc = "remove workspace folder"})
-    keymap_set2("n", "<leader>wr", function()
+    -- keymap_set2("n", "<leader>wa", buf.add_workspace_folder,
+    --             {desc = "add workspace folder"})
+    -- keymap_set2("n", "<leader>wr", buf.remove_workspace_folder,
+    --             {desc = "remove workspace folder"})
+    keymap_set2("n", "<leader>wl", function()
         print(vim.inspect(buf.list_workspace_folders()))
     end, {desc = "list workspace folders"})
     keymap_set2("n", "<leader>fS", ":Telescope lsp_workspace_symbols<CR>",
@@ -125,6 +125,8 @@ return require("packer").startup(function()
 
             keymap_set("n", "<C-p>", ":Telescope find_files<CR>",
                        {desc = "find files"})
+            keymap_set("n", "<leader>ff", ":Telescope find_files<CR>",
+                       {desc = "find files"})
             keymap_set("n", "<C-b>", ":Telescope buffers<CR>",
                        {desc = "find buffers"})
             keymap_set("n", "<leader>ff", ":Telescope find_files<CR>",
@@ -132,7 +134,7 @@ return require("packer").startup(function()
             keymap_set("n", "<leader>fa",
                        ":Telescope find_files follow=true no_ignore=true hidden=true<CR>",
                        {desc = "find all"})
-            keymap_set("n", "<leader>fb", ":Telescope find_files<CR>",
+            keymap_set("n", "<leader>fb", ":Telescope buffers<CR>",
                        {desc = "find buffers"})
             keymap_set("n", "<leader>fr", ":Telescope oldfiles<CR>",
                        {desc = "find recent files"})
@@ -263,21 +265,7 @@ return require("packer").startup(function()
     use "mattn/emmet-vim"
     use "leafOfTree/vim-vue-plugin"
 
-    -- -- Rust development
-    -- use {
-    --     "simrat39/rust-tools.nvim",
-    --     config = function()
-    --         local capabilities = lsp_get_capabilities()
-    --         require("rust-tools").setup {
-    --             server = {
-    --                 on_attach = function(client, buffernr)
-    --                     lsp_on_attach(client, buffernr)
-    --                 end,
-    --                 capabilities = capabilities
-    --             }
-    --         }
-    --     end
-    -- }
+    -- Rust development
     use "mhinz/vim-crates"
 
     -- Zig development
