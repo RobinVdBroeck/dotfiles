@@ -1,34 +1,34 @@
 [user]
-	name = Robin Van den Broeck
-	email = robin.broeck@gmail.com
+    name = Robin Van den Broeck
+    email = robin.broeck@gmail.com
 [core]
-	pager = less -F -X
+    pager = less -F -X
 [alias]
-	tree = log --graph --decorate --pretty=oneline --abbrev-commit
-	update-master = fetch origin master:master 
-	update-main = fetch origin main:main 
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit
+    update-master = fetch origin master:master 
+    update-main = fetch origin main:main 
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [pull]
     twohead = ort
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [merge]
-	tool = vimdiff
+    tool = vimdiff
 [merge "npm-merge-driver"]
-	name = automatically merge npm lockfiles
-	driver = npx npm-merge-driver merge %A %O %B %P
+    name = automatically merge npm lockfiles
+    driver = npx npm-merge-driver merge %A %O %B %P
 [rebase]
-	autoSquash = true
-	updateRefs = true
+    autoSquash = true
+    updateRefs = true
 [rerere]
-	enabled = true
+    enabled = true
 [mergetool "vimdiff"]
-	path = nvim
+    path = nvim
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
