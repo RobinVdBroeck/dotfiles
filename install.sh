@@ -46,3 +46,15 @@ if [ -x "$(command -v tmux)" ]; then
     stow tmux
 fi
 
+if [ -x "$(command -v zsh)" ]; then
+    echo "Linking zsh"
+    stow zsh -t $HOME
+fi
+
+if [ -x "$(command -v oh-my-posh)" ]; then
+    echo "Linking oh-my-posh"
+    OH_MY_POSH_DIR="$HOME/.config/oh-my-posh"
+    mkdir -p "$OH_MY_POSH_DIR"
+    stow oh-my-posh -t "$OH_MY_POSH_DIR"
+fi
+
