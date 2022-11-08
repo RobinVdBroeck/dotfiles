@@ -60,17 +60,6 @@ lsp_on_attach = function(client, bufnr)
                 {desc = "find workspace symbols"})
 end
 
-lsp_get_capabilities = function(cmp_nvim_lsp)
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local cmp_nvim_lsp_present, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-    if (cmp_nvim_lsp_present == false) then
-        print("Cannot find cmp_nvim_lsp")
-        return capabilities
-    end
-
-    return cmp_nvim_lsp.update_capabilities(capabilities)
-end
-
 return require("packer").startup(function()
     -- Let packer manage itself, so it can update.
     use "wbthomason/packer.nvim"
@@ -164,12 +153,12 @@ return require("packer").startup(function()
         tag = "v0.1.3",
         config = function()
             local lspconfig = require("lspconfig")
-            local capabilities = lsp_get_capabilities(cmp_nvim_lsp)
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             -- Rust is handled in rust-tools
             local servers = {
                 "tsserver", "eslint", "pyright", "hls", "clangd", "serve_d",
-                "rust-analyzer", "gopls"
+                "rust_analyzer", "gopls"
             }
             local lsp_flags = {debounce_text_changes = 50}
             for _, lsp in ipairs(servers) do
