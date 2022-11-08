@@ -10,6 +10,7 @@ if [[ -x "$(command -v oh-my-posh)" ]]; then
 fi
 
 # Enable colors
+export CLICOLOR=1
 if [[ -x "$(command -v dircolors)" ]]; then
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
   alias ls='ls --color=auto'
