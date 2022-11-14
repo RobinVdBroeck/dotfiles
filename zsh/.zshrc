@@ -1,6 +1,6 @@
 # Setup autocmplete
-autoload -Uz compinit
-compinit
+fpath+=$HOME/.zfunc
+autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' gain-privileges 1
 
