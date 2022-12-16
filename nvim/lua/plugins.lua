@@ -28,38 +28,6 @@ function keymap_set(mode, lhs, rhs, options)
     vim.keymap.set(mode, lhs, rhs, final_options)
 end
 
-lsp_on_attach = function(client, bufnr)
-    local buf = vim.lsp.buf
-
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.onmifunc')
-
-    -- keymap_set but with buffer option
-    local function keymap_set2(mode, lhs, rhs, options)
-        options["buffer"] = bufnr
-        keymap_set(mode, lhs, rhs, options)
-    end
-
-    keymap_set2("n", "gd", buf.definition, {desc = "definition"})
-    keymap_set2("n", "gD", buf.declaration, {desc = "declaration"})
-    keymap_set2("n", "gi", buf.implementation, {desc = "implementation"})
-    keymap_set2("n", "gr", buf.references, {desc = "references"})
-    keymap_set2("n", "K", buf.hover, {desc = "hover"})
-    keymap_set2("n", "<C-k>", buf.signature_help, {desc = "signature help"})
-    keymap_set2("n", "<leader>D", buf.type_definition,
-                {desc = "type definition"})
-    keymap_set2("n", "<leader>ca", buf.code_action, {desc = "code action"})
-    keymap_set2("n", "<leader>cn", buf.rename, {desc = "change name"})
-    -- keymap_set2("n", "<leader>wa", buf.add_workspace_folder,
-    --             {desc = "add workspace folder"})
-    -- keymap_set2("n", "<leader>wr", buf.remove_workspace_folder,
-    --             {desc = "remove workspace folder"})
-    keymap_set2("n", "<leader>wl", function()
-        print(vim.inspect(buf.list_workspace_folders()))
-    end, {desc = "list workspace folders"})
-    keymap_set2("n", "<leader>fS", ":Telescope lsp_workspace_symbols<CR>",
-                {desc = "find workspace symbols"})
-end
-
 return require("packer").startup(function()
     -- Let packer manage itself, so it can update.
     use "wbthomason/packer.nvim"
@@ -146,98 +114,41 @@ return require("packer").startup(function()
     }
     use "https://github.com/khaveesh/vim-fish-syntax"
 
-    -- -- LSP
+
+    -- LSP
     use {
-        "neovim/nvim-lspconfig",
-        requires = {"hrsh7th/cmp-nvim-lsp"},
-        tag = "v0.1.3",
-        config = function()
-            local lspconfig = require("lspconfig")
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        "VonHeikemen/lsp-zero.nvim",
+         requires = {
+            -- LSP Support
+            {"neovim/nvim-lspconfig"},
+            {"williamboman/mason.nvim"},
+            {"williamboman/mason-lspconfig.nvim"},
 
-            -- Rust is handled in rust-tools
-            local servers = {
-                "tsserver", "eslint", "pyright", "hls", "clangd", "serve_d",
-                "rust_analyzer", "gopls"
-            }
-            local lsp_flags = {debounce_text_changes = 50}
-            for _, lsp in ipairs(servers) do
-                lspconfig[lsp].setup {
-                    on_attach = function(client, buffernr)
-                        lsp_on_attach(client, buffernr)
-                    end,
-                    capabilities = capabilities,
-                    flags = lsp_flags
-                }
-            end
-        end
-    }
+            -- Autocompletion
+            {"hrsh7th/nvim-cmp"},
+            {"hrsh7th/cmp-buffer"},
+            {"hrsh7th/cmp-path"},
+            {"saadparwaiz1/cmp_luasnip"},
+            {"hrsh7th/cmp-nvim-lsp"},
+            {"hrsh7th/cmp-nvim-lua"},
 
-    use {
-        "williamboman/mason.nvim",
-        config = function()
-            require("mason").setup()
-        end
-    }
+            -- Snippets
+            {"L3MON4D3/LuaSnip"},
+            {"rafamadriz/friendly-snippets"},
+         },
+         config = function()
+             local lsp = require("lsp-zero")
 
-    use {
-        "hrsh7th/nvim-cmp",
-        requires = {
-            "hrsh7th/cmp-buffer", "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-path",
-            "l3mon4d3/luasnip", "onsails/lspkind-nvim",
-            "saadparwaiz1/cmp_luasnip"
-        },
-        config = function()
-            local lspkind = require("lspkind")
+             lsp.preset("recommended")
+             -- Ensure we have sumneko lua installed so it's easy to edit the
+             -- config
+             lsp.ensure_installed({
+                 "sumneko_lua",
+             })
 
-            local fn = vim.fn
-            local replace_termcodes = vim.api.nvim_replace_termcodes
-
-            local check_back_space = function()
-                local col = fn.col(".") - 1
-                return col == 0 or fn.getline(".").sub(col, col):match("%s")
-            end
-
-            local cmp = require("cmp")
-            cmp.setup {
-                mapping = {
-                    ["<C-p>"] = cmp.mapping.select_prev_item(),
-                    ["<C-n>"] = cmp.mapping.select_next_item(),
-                    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<C-e>"] = cmp.mapping.close(),
-                    ["<CR>"] = cmp.mapping.confirm {
-                        behavior = cmp.ConfirmBehavior.Replace,
-                        select = true
-                    },
-                    ["<Tab>"] = function(fallback)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        else
-                            fallback()
-                        end
-                    end,
-                    ["<S-Tab>"] = function(fallback)
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        else
-                            fallback()
-                        end
-                    end
-                },
-                formatting = {format = lspkind.cmp_format({mode = 'symbol'})},
-                sources = {
-                    {name = "nvim_lsp"}, {name = "buffer"}, {name = "path"},
-                    {name = "luasnip"}
-                },
-                snippet = {
-                    expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
-                    end
-                }
-            }
-        end
+             lsp.nvim_workspace()
+             lsp.setup()
+         end
     }
 
     -- Formatting
