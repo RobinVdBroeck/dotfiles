@@ -22,8 +22,8 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 -- vim.keymap.set with default options
 function keymap_set(mode, lhs, rhs, options)
-    default_options = {silent = true}
-    final_options = default_options
+    local default_options = {silent = true}
+    local final_options = default_options
     for k, v in pairs(options) do final_options[k] = v end
     vim.keymap.set(mode, lhs, rhs, final_options)
 end
@@ -138,8 +138,8 @@ return require("packer").startup(function()
          },
          config = function()
              local lsp = require("lsp-zero")
-
              lsp.preset("recommended")
+
              -- Ensure we have sumneko lua installed so it's easy to edit the
              -- config
              lsp.ensure_installed({
@@ -148,6 +148,15 @@ return require("packer").startup(function()
 
              lsp.nvim_workspace()
              lsp.setup()
+
+             -- Setup key mapping for code actions
+             keymap_set('n', '<leader>ca', vim.lsp.buf.code_action, {
+                 desc = 'Code action',
+             })
+             keymap_set('x', '<leader>ca', vim.lsp.buf.code_action, {
+                 desc = 'Code action',
+             })
+
          end
     }
 
