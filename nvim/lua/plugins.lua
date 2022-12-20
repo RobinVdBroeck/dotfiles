@@ -40,6 +40,12 @@ return require("packer").startup(function()
         "luukvbaal/stabilize.nvim",
         config = function() require("stabilize").setup() end
     }
+    use {
+        "lukas-reineke/indent-blankline.nvim",
+        config = function()
+            require("indent_blankline").setup {}
+        end
+    }
 
     -- UI
     use {"dracula/vim", as = "dracula"}
