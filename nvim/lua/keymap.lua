@@ -1,11 +1,3 @@
-local is_wk_present, wk = pcall(require, "which-key")
-if (is_wk_present == false) then
-    print("which-key not found")
-    return
-end
-
--- TODO: Convert to which-key
--- TODO: move this to a util
 local function map(mode, lhs, rhs)
     local options = {noremap = true, silent = true}
 
