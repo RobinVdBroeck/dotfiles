@@ -42,3 +42,32 @@ fi
 # NVM
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+## Custom functions
+
+# stolen from https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh
+# Added support to only have 1 arugment
+# -z = empty string
+function grename() {
+  if [[ -z "$2" ]]; then
+    echo "Usage: $0 <old_branch> new_branch"
+    return 1
+  fi
+
+  if [[ -z "$2" ]]; then
+      source="$(git rev-parse --abbrev-ref HEAD)"
+      target="$1"
+  else
+      source="$1"
+      target="$2"
+  fi
+
+
+  # Rename branch locally
+  git branch -m "$source" "$target"
+  
+  # Rename branch in origin remote
+  if git push origin :"$source"; then
+    git push --set-upstream origin "$target"
+  fi
+}
