@@ -4,6 +4,10 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' gain-privileges 1
 
+# Setup reverse search
+bindkey -v
+bindkey '^R' history-incremental-search-backward
+
 # Setup prompt
 if [[ -x "$(command -v oh-my-posh)" ]]; then
     eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/theme.json)"
