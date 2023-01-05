@@ -47,13 +47,17 @@ fi
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
+# Setup for tmuxp
+export DISABLE_AUTO_TITLE='true'
+
+
 ## Custom functions
 
 # stolen from https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh
 # Added support to only have 1 arugment
 # -z = empty string
 function grename() {
-  if [[ -z "$2" ]]; then
+  if [[ -z "$1" ]]; then
     echo "Usage: $0 <old_branch> new_branch"
     return 1
   fi
