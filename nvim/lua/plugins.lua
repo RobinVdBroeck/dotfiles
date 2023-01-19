@@ -104,6 +104,8 @@ return require("packer").startup(function()
                        {desc = "find recent files"})
             keymap_set("n", "<leader>fg", ":Telescope live_grep<CR>",
                        {desc = "find using grep"})
+            keymap_set("n", "<leader>F", ":Telescope<CR>",
+                       {desc = "Open telescope window"})
             telescope.load_extension("fzf")
         end
     }
@@ -115,7 +117,9 @@ return require("packer").startup(function()
         config = function()
             require("nvim-treesitter.configs").setup {
                 ensure_installed = "all",
-                highlight = {enabled = true}
+                highlight = {
+                    enable = true,
+                }
             }
         end
     }
@@ -193,4 +197,8 @@ return require("packer").startup(function()
 
     -- Zig development
     use "ziglang/zig.vim"
+
+    if packer_bootstrap then
+        require("packer").sync()
+    end
 end)
