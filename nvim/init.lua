@@ -5,6 +5,7 @@ require("keymap")
 local o = vim.o
 
 if vim.fn.has("termguicolors") == 1 then
+    print(test)
     o.termguicolors = true
     vim.cmd("colorscheme dracula")
 end

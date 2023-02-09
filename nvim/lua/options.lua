@@ -18,6 +18,7 @@ opt.splitright = true
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
+opt.termguicolors = true
 
 -- Whitespace settings
 opt.wrap = false

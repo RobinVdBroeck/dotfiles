@@ -1,24 +1,16 @@
--- Bootstrap if packer does not yet exist
--- From: https://github.com/wbthomason/packer.nvim#bootstrapping
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({
-        "git", "clone", "https://github.com/wbthomason/packer.nvim",
-        install_path
-    })
-    vim.cmd "packadd packer.nvim"
-    vim.cmd "packersync"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
-
-local auto_packer_compile_group = vim.api.nvim_create_augroup(
-                                      "AutoPackerCompile", {clear = true})
-
-vim.api.nvim_create_autocmd("BufWritePost", {
-    command = "PackerCompile",
-    pattern = "plugins.lua",
-    group = auto_packer_compile_group
-})
+vim.opt.rtp:prepend(lazypath)
+vim.g.mapleader = ' '
 
 -- vim.keymap.set with default options
 function keymap_set(mode, lhs, rhs, options)
@@ -28,60 +20,63 @@ function keymap_set(mode, lhs, rhs, options)
     vim.keymap.set(mode, lhs, rhs, final_options)
 end
 
-return require("packer").startup(function()
-    -- Let packer manage itself, so it can update.
-    use "wbthomason/packer.nvim"
-
+return require("lazy").setup({
     -- General
-    use "editorconfig/editorconfig-vim"
-    use "tpope/vim-commentary"
-    use "tpope/vim-abolish"
-    use {
+    "editorconfig/editorconfig-vim",
+    "tpope/vim-commentary",
+    "tpope/vim-abolish",
+    {
         "luukvbaal/stabilize.nvim",
         config = function() require("stabilize").setup() end
-    }
-    use {
+    },
+    {
         "lukas-reineke/indent-blankline.nvim",
         config = function()
-            require("indent_blankline").setup {}
+	    require("indent_blankline").setup {}
         end
-    }
+    },
 
     -- UI
-    use {"dracula/vim", as = "dracula"}
-    use {
-        "famiu/feline.nvim",
-        tag = "v1.1.2",
-        config = function() require("statusline") end
-    }
+    {
+        "dracula/vim",
+        name = "dracula",
+        priority = 1000
+    },
+    {
+        "feline-nvim/feline.nvim",
+        config = function()
+            vim.o.termguicolors = true
+            require("statusline")
+        end
+    },
 
     -- Git
-    use "tpope/vim-fugitive"
-    use {
+    "tpope/vim-fugitive",
+    {
         "lewis6991/gitsigns.nvim",
-        requires = {"nvim-lua/plenary.nvim"},
+        dependencies = {"nvim-lua/plenary.nvim"},
         config = function() require("gitsigns").setup {} end
-    }
+    },
 
     -- Keybindings
-    use {
+    {
         "folke/which-key.nvim",
         config = function() require("which-key").setup {} end
-    }
+    },
 
     -- Navigation
-    use {
+    {
         "kyazdani42/nvim-tree.lua",
-        requires = "kyazdani42/nvim-web-devicons",
+        dependencies = "kyazdani42/nvim-web-devicons",
         config = function() require("nvim-tree").setup {} end
-    }
+    },
 
-    use {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
+    {"nvim-telescope/telescope-fzf-native.nvim", build = "make"},
 
-    use {
+    {
         "nvim-telescope/telescope.nvim",
         branch = "0.1.x",
-        requires = {
+        dependencies = {
             "nvim-telescope/telescope-fzf-native.nvim", "nvim-lua/plenary.nvim"
         },
         config = function()
@@ -108,12 +103,12 @@ return require("packer").startup(function()
                        {desc = "Open telescope window"})
             telescope.load_extension("fzf")
         end
-    }
+    },
 
     -- Syntax highlighting
-    use {
+    {
         "nvim-treesitter/nvim-treesitter",
-        run = function() vim.cmd ":TSUpdate" end,
+        build = function() vim.cmd ":TSUpdate" end,
         config = function()
             require("nvim-treesitter.configs").setup {
                 ensure_installed = "all",
@@ -122,14 +117,14 @@ return require("packer").startup(function()
                 }
             }
         end
-    }
-    use "https://github.com/khaveesh/vim-fish-syntax"
+    },
+    "https://github.com/khaveesh/vim-fish-syntax",
 
 
     -- LSP
-    use {
+    {
         "VonHeikemen/lsp-zero.nvim",
-         requires = {
+         dependencies = {
             -- LSP Support
             {"neovim/nvim-lspconfig"},
             {"williamboman/mason.nvim"},
@@ -169,10 +164,10 @@ return require("packer").startup(function()
              })
 
          end
-    }
+    },
 
     -- Formatting
-    use {
+    {
         "sbdchd/neoformat",
         config = function()
             local format_group = vim.api.nvim_create_augroup("Format",
@@ -186,19 +181,15 @@ return require("packer").startup(function()
             keymap_set("n", "<leader>cf", ":Neoformat<CR>",
                        {desc = "Format file"})
         end
-    }
+    },
 
     -- Web development
-    use "mattn/emmet-vim"
-    use "leafOfTree/vim-vue-plugin"
+    "mattn/emmet-vim",
+    "leafOfTree/vim-vue-plugin",
 
     -- Rust development
-    use "mhinz/vim-crates"
+    "mhinz/vim-crates",
 
     -- Zig development
-    use "ziglang/zig.vim"
-
-    if packer_bootstrap then
-        require("packer").sync()
-    end
-end)
+    "ziglang/zig.vim",
+})
