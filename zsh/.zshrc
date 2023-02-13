@@ -8,6 +8,15 @@ zstyle ':completion::complete:*' gain-privileges 1
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 
+# Setup history
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_FIND_NO_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_SPACE
+export HISTFILESIZE=500000
+export HISTSIZE=100000
+
 # Setup prompt
 if [[ -x "$(command -v oh-my-posh)" ]]; then
     eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/theme.json)"
