@@ -50,3 +50,4 @@ map("n", "<C-w>l", ":call WindowMove('l')<CR>")
 -- Nvimtree
 map("n", "<leader>n", ":NvimTreeFocus<CR>")
 map("n", "<C-n><C-t>", ":NvimTreeToggle<CR>")
+map("n", "<C-n><C-f>", ":NvimTreeFindFile<CR>")
