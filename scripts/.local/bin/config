@@ -23,10 +23,11 @@ entries = {
     "picom": f"{home}/.config/picom/picom.conf",
     "polybar": f"{home}/.config/polybar/config.ini",
     "qtile": f"{home}/.config/qtile/config.py",
+    "ssh": f"{home}/.ssh/config",
     "sway": f"{home}/.config/sway/config",
-    "xmonad": f"{home}/.config/xmonad",
     "tmux": f"{home}/.tmux.conf",
     "xinit": f"{home}/.xinitrc",
+    "xmonad": f"{home}/.config/xmonad",
     "xresources": f"{home}/.XResources",
     "zsh": f"{home}/.zshrc",
 }
