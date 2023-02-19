@@ -3,91 +3,61 @@
   "blocks": [
     {
       "alignment": "left",
+      "type": "prompt",
       "segments": [
         {
-          "type": "text",
-          "style": "diamond",
-          "leading_diamond": "\ue0b6",
-          "foreground": "#ffffff",
-          "background": "#cc3802",
-          "template": "{{ if .Env.PNPPSHOST }} \uf8c5 {{ .Env.PNPPSHOST }} {{ end }}"
-        },
-        {
-          "type": "text",
+          "type": "path",
           "style": "powerline",
+          "powerline_symbol": "\uE0B0",
           "foreground": "#ffffff",
-          "background": "#047e84",
-          "powerline_symbol": "\ue0b0",
-          "template": "{{ if .Env.PNPPSSITE }} \uf672 {{ .Env.PNPPSSITE }}{{ end }}"
+          "background": "transparent",
+          "template": " {{ .Path }}: ",
+          "properties": {
+            "style": "agnoster_full"
+          }
         },
         {
-          "type": "text",
+          "type": "git",
+          "foreground": "#ee79d1",
+          "background": "transparent",
+          "properties": {
+            "branch_icon": "\ue725 ",
+            "fetch_stash_count": true,
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "fetch_worktree_count": true
+          },
           "style": "diamond",
-          "trailing_diamond": "\ue0b4",
-          "foreground": "#ffffff",
-          "background": "#047e84",
-          "template": "{{ if .Env.PNPPSSITE }}\u00A0{{ end }}"
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf692 {{ .StashCount }}{{ end }} "
+        },
+        {
+          "type": "node",
+          "background": "transparent",
+          "foreground": "#66cc33",
+          "powerline_symbol": "\uE0B0",
+          "style": "powerline",
+          "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} "
         }
-      ],
-      "type": "rprompt"
+      ]
     },
     {
       "alignment": "left",
+      "type": "prompt",
+      "newline": true,
       "segments": [
         {
-          "background": "#9A348E",
-          "foreground": "#ffffff",
-          "leading_diamond": "\ue0b6",
-          "style": "diamond",
-          "template": "{{ .UserName }} ",
-          "type": "session"
+          "foreground": "#cd5e42",
+          "style": "plain",
+          "template": "\ue3bf ",
+          "type": "root"
         },
         {
-          "background": "#DA627D",
-          "foreground": "#ffffff",
-          "powerline_symbol": "\ue0b0",
-          "properties": {
-            "style": "folder"
-          },
-          "style": "powerline",
-          "template": " {{ .Path }} ",
-          "type": "path"
-        },
-        {
-          "background": "#FCA17D",
-          "foreground": "#ffffff",
-          "powerline_symbol": "\ue0b0",
-          "properties": {
-            "branch_icon": "",
-            "fetch_stash_count": true,
-            "fetch_status": false,
-            "fetch_upstream_icon": true
-          },
-          "style": "powerline",
-          "template": " \u279c ({{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }} \uf692 {{ .StashCount }}{{ end }}) ",
-          "type": "git"
-        },
-        {
-          "background": "#86BBD8",
-          "foreground": "#ffffff",
-          "powerline_symbol": "\ue0b0",
-          "style": "powerline",
-          "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
-          "type": "node"
-        },
-        {
-          "background": "#33658A",
-          "foreground": "#ffffff",
-          "properties": {
-            "time_format": "15:04"
-          },
-          "style": "diamond",
-          "template": " \u2665 {{ .CurrentDate | date .Format }} ",
-          "trailing_diamond": "\ue0b0",
-          "type": "time"
+          "foreground": "#CD4277",
+          "style": "plain",
+          "template": "# ",
+          "type": "text"
         }
-      ],
-      "type": "prompt"
+      ]
     }
   ],
   "final_space": true,
