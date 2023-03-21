@@ -17,12 +17,6 @@ map("i", "<C-s>", ":<ESC>w<CR>")
 map("xno", "<leader>y", '"+y')
 map("xno", "<leader>p", '"+p')
 
---  Diagnostics
-map('n', '<leader>e', vim.diagnostic.open_float)
-map('n', '[d', vim.diagnostic.goto_prev)
-map('n', ']d', vim.diagnostic.goto_next)
-map('n', '<space>q', vim.diagnostic.setloclist)
-
 -- Window movement
 -- TODO: we should be able to convert this to a lua function
 vim.cmd([[
