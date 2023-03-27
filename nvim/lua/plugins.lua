@@ -134,6 +134,13 @@ return require("lazy").setup({
     },
 
 
+    -- Copilot
+    {
+        "zbirenbaum/copilot.lua",
+        event = "InsertEnter",
+        opts = {},
+    },
+
     -- Completion
     {
         "hrsh7th/nvim-cmp",
@@ -142,11 +149,13 @@ return require("lazy").setup({
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
         },
+        event = "InsertEnter",
         config = function()
             local cmp = require("cmp")
             cmp.setup {
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
+                    { name = "copilot" },
                 }, {
                     { name = "buffer" },
                 }),
@@ -173,6 +182,11 @@ return require("lazy").setup({
                 }),
             }
         end
+    },
+    {
+        "zbirenbaum/copilot-cmp",
+        event = "InsertEnter",
+        opts = {}
     },
 
     -- LSP
@@ -209,7 +223,7 @@ return require("lazy").setup({
             }
 
             -- Setup global keymapping
-            vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "open diagnostic"})
+            vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "open diagnostic" })
             vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "prevous diagnostic" })
             vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "next diagnostic " })
             vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "diagnoastic quickfixlist" })
@@ -219,7 +233,7 @@ return require("lazy").setup({
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
                 callback = function(ev)
-                    local opts = function (desc)
+                    local opts = function(desc)
                         return {
                             buffer = ev.buf,
                             desc = desc
@@ -231,7 +245,8 @@ return require("lazy").setup({
                     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts("goto implementation"))
                     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts("signature help"))
                     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts("workspace add folder"))
-                    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts("workspace remove folder"))
+                    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder,
+                        opts("workspace remove folder"))
                     vim.keymap.set('n', '<leader>wl', function()
                         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
                     end, opts("workspace list folder"))
