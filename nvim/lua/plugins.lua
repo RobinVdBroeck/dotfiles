@@ -79,8 +79,24 @@ return require("lazy").setup({
             "nvim-telescope/telescope-fzf-native.nvim", "nvim-lua/plenary.nvim"
         },
         config = function()
-            local telescope = require("telescope")
-
+            require("telescope").setup {
+                defaults = {
+                    path_display = { "smart" },
+                    layout_config = {
+                        prompt_position = "top",
+                        preview_cutoff = 120,
+                        horizontal = {
+                            width = { padding = 0.1 },
+                            height = { padding = 0.1 },
+                        },
+                        vertical = {
+                            width = { padding = 0.1 },
+                            height = { padding = 0.1 },
+                        },
+                    },
+                },
+                extentions = { "fzf" }
+            }
             keymap_set("n", "<C-p>", ":Telescope find_files<CR>",
                 { desc = "find files" })
             keymap_set("n", "<leader>ff", ":Telescope find_files<CR>",
@@ -100,7 +116,6 @@ return require("lazy").setup({
                 { desc = "find using grep" })
             keymap_set("n", "<leader>F", ":Telescope<CR>",
                 { desc = "Open telescope window" })
-            telescope.load_extension("fzf")
         end
     },
 
