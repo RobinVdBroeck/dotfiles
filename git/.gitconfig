@@ -7,7 +7,11 @@
     tree = log --graph --decorate --pretty=oneline --abbrev-commit
     update-master = fetch origin master:master 
     update-main = fetch origin main:main 
-    fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup --no-verify"
+    fixup = "!git log master.. --pretty=format:'%h %s' --no-merges | fzf | cut -c -9 | xargs -o git commit --fixup"
+    switch-branch = "!git b | fzf | xargs git checkout"
+    sb = switch-branch
+    b = branch
+    bs = b --format='%(refname:short)'
 [init]
     defaultBranch = main
 [pull]
