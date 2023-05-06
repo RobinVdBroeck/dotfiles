@@ -81,6 +81,17 @@ return require("lazy").setup({
         config = function()
             require("telescope").setup {
                 defaults = {
+                    -- Fix for memory leak in ripgrep,
+                    -- see: https://github.com/nvim-telescope/telescope.nvim/issues/2482
+                    vimgrep_arguments = {
+                        "rg",
+                        "--color=never",
+                        "--no-heading",
+                        "--with-filename",
+                        "--line-number",
+                        "--column",
+                        "--smart-case",
+                    },
                     path_display = { "truncate" },
                     layout_config = {
                         prompt_position = "top",
