@@ -66,8 +66,19 @@ return require("lazy").setup({
     -- Navigation
     {
         "kyazdani42/nvim-tree.lua",
+        priority = 999,
         dependencies = "kyazdani42/nvim-web-devicons",
-        config = function() require("nvim-tree").setup {} end
+        config = function()
+            local function open_nvim_tree()
+                require("nvim-tree.api").tree.open()
+            end
+
+            require("nvim-tree").setup {}
+            vim.api.nvim_create_autocmd({ "VimEnter" }, {
+                group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+                callback = open_nvim_tree
+            })
+        end
     },
 
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
