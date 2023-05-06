@@ -13,10 +13,12 @@ setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
 setopt HIST_FIND_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_SPACE
-export HISTFILESIZE=500000
+setopt HIST_IGNORE_SPACE 
+# How many lines in history files
+export SAVEHIST=500000
+# how many lines in memory
 export HISTSIZE=100000
-
+#
 # Setup prompt
 if [[ -x "$(command -v oh-my-posh)" ]]; then
     eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/theme.json)"
