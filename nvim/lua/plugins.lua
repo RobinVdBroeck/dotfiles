@@ -94,11 +94,12 @@ return require("lazy").setup({
                     },
                     path_display = { "truncate" },
                     layout_config = {
-                        prompt_position = "top",
-                        preview_cutoff = 120,
+                        prompt_position = "bottom",
+                        preview_cutoff = 0,
                         horizontal = {
                             width = { padding = 0.1 },
                             height = { padding = 0.1 },
+                        preview_width = 0.25,
                         },
                         vertical = {
                             width = { padding = 0.1 },
