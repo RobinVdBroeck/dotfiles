@@ -81,7 +81,7 @@ return require("lazy").setup({
         config = function()
             require("telescope").setup {
                 defaults = {
-                    path_display = { "smart" },
+                    path_display = { "truncate" },
                     layout_config = {
                         prompt_position = "top",
                         preview_cutoff = 120,
