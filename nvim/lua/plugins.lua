@@ -81,13 +81,64 @@ return require("lazy").setup({
         end
     },
 
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make"
+    },
 
     {
         "nvim-telescope/telescope.nvim",
         branch = "0.1.x",
         dependencies = {
             "nvim-telescope/telescope-fzf-native.nvim", "nvim-lua/plenary.nvim"
+        },
+        cmd = "Telescope",
+        keys = {
+            {
+                "<C-p>",
+                ":Telescope find_files<CR>",
+                 desc = "find files"
+            },
+            {
+                "<leader>ff",
+                ":Telescope find_files<CR>",
+                 desc = "find files"
+            },
+            {
+                "<C-b>",
+                ":Telescope buffers<CR>",
+                desc = "find buffers"
+            },
+            {
+                "<leader>ff",
+                ":Telescope find_files<CR>",
+                 desc = "find files"
+            },
+            {
+                "<leader>fa",
+                ":Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+                 desc = "find all",
+            },
+            {
+                "<leader>fb",
+                ":Telescope buffers<CR>",
+                desc = "find buffers"
+            },
+            {
+                "<leader>fr",
+                ":Telescope oldfiles<CR>",
+                desc = "find recent files"
+            },
+            {
+                "<leader>fg",
+                ":Telescope live_grep<CR>",
+                 desc = "find using grep"
+            },
+            {
+                "<leader>F",
+                ":Telescope<CR>",
+                desc = "Open telescope window"
+            },
         },
         config = function()
             require("telescope").setup {
@@ -120,25 +171,6 @@ return require("lazy").setup({
                 },
                 extentions = { "fzf" }
             }
-            keymap_set("n", "<C-p>", ":Telescope find_files<CR>",
-                { desc = "find files" })
-            keymap_set("n", "<leader>ff", ":Telescope find_files<CR>",
-                { desc = "find files" })
-            keymap_set("n", "<C-b>", ":Telescope buffers<CR>",
-                { desc = "find buffers" })
-            keymap_set("n", "<leader>ff", ":Telescope find_files<CR>",
-                { desc = "find files" })
-            keymap_set("n", "<leader>fa",
-                ":Telescope find_files follow=true no_ignore=true hidden=true<CR>",
-                { desc = "find all" })
-            keymap_set("n", "<leader>fb", ":Telescope buffers<CR>",
-                { desc = "find buffers" })
-            keymap_set("n", "<leader>fr", ":Telescope oldfiles<CR>",
-                { desc = "find recent files" })
-            keymap_set("n", "<leader>fg", ":Telescope live_grep<CR>",
-                { desc = "find using grep" })
-            keymap_set("n", "<leader>F", ":Telescope<CR>",
-                { desc = "Open telescope window" })
         end
     },
 
