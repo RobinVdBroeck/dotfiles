@@ -81,16 +81,16 @@ return require("lazy").setup({
         end
     },
 
-    {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make"
-    },
 
     {
         "nvim-telescope/telescope.nvim",
         branch = "0.1.x",
         dependencies = {
-            "nvim-telescope/telescope-fzf-native.nvim", "nvim-lua/plenary.nvim"
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make"
+            },
+            "nvim-lua/plenary.nvim"
         },
         cmd = "Telescope",
         keys = {
