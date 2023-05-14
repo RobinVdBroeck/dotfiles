@@ -26,6 +26,7 @@ entries = {
     "ssh": f"{home}/.ssh/config",
     "sway": f"{home}/.config/sway/config",
     "tmux": f"{home}/.tmux.conf",
+    "waybar": f"{home}/.config/waybar",
     "xinit": f"{home}/.xinitrc",
     "xmonad": f"{home}/.config/xmonad",
     "xresources": f"{home}/.XResources",

@@ -17,8 +17,7 @@ if [ -x "$(command -v fish)" ]; then
 fi
 
 if [ -x "$(command -v polybar)" ]; then
-    echo "Linking polybar"
-    mkdir -p "$HOME/.config/polybar"
+    echo "Linking polybar" mkdir -p "$HOME/.config/polybar"
     stow polybar -t "$HOME/.config/polybar"
 fi
 
@@ -49,6 +48,12 @@ fi
 if [ -x "$(command -v zsh)" ]; then
     echo "Linking zsh"
     stow zsh -t $HOME
+fi
+
+if [ -x "$(command -v waybar)" ]; then
+    echo "Linking waybar"
+    mkdir -p "$HOME/.config/waybar"
+    stow waybar -t "$HOME/.config/waybar"
 fi
 
 if [ -x "$(command -v oh-my-posh)" ]; then
