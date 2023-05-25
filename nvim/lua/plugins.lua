@@ -60,7 +60,12 @@ return require("lazy").setup({
     -- Keybindings
     {
         "folke/which-key.nvim",
-        config = function() require("which-key").setup {} end
+        event = "VeryLazy",
+        config = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 500
+        end,
+        opts = {}
     },
 
     -- Navigation

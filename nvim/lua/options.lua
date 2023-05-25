@@ -37,9 +37,6 @@ opt.showmatch = true
 opt.incsearch = true
 opt.hlsearch = true
 
--- timeout len in ms (when to show popup with possible combinations)
-opt.timeoutlen = 500
-
 -- Scrolling
 opt.scrolloff = 5
 
