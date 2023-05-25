@@ -330,7 +330,10 @@ return require("lazy").setup({
     "leafOfTree/vim-vue-plugin",
 
     -- Rust development
-    "mhinz/vim-crates",
+    {
+        "mhinz/vim-crates",
+        ft = "toml",
+    },
 
     -- Zig development
     "ziglang/zig.vim",
