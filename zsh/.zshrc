@@ -8,17 +8,17 @@ zstyle ':completion::complete:*' gain-privileges 1
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 
-# Setup history
+# Setup history, see https://jdhao.github.io/2021/03/24/zsh_history_setup/
+export HISTFILE="$HOME/.history"
+export HISTSIZE=100000 # how many lines in memory
+export SAVEHIST=$HISTSIZE #  How many lines in history files
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
 setopt HIST_FIND_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_SPACE 
-# How many lines in history files
-export SAVEHIST=500000
-# how many lines in memory
-export HISTSIZE=100000
-#
+
+
 # Setup prompt
 if [[ -x "$(command -v oh-my-posh)" ]]; then
     eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/theme.json)"
@@ -55,21 +55,21 @@ if [[ -x "$(command -v zoxide)" ]]; then
 fi
 
 # Setup fzf 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -f ~/.fzf.zsh ]; then
+    source ~/.fzf.zsh
+elif [ -d /usr/share/fzf ]; then
+    source /usr/share/fzf/key-bindings.zsh
+    source /usr/share/fzf/completion.zsh
+fi
 
 # NVM
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-# Setup pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-if [[ -d PYENV_ROOT ]]; then
-    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-fi;
-
-eval "$(pyenv init -)"
 # Setup for tmuxp
 export DISABLE_AUTO_TITLE='true'
+
+alias icat="kitty +kitten icat"
 
 ## Custom functions
 
