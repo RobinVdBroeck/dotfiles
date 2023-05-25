@@ -19,6 +19,7 @@ entries = {
     "fish": f"{home}/.config/fish",
     "git": f"{home}/.gitconfig",
     "i3": f"{home}/.config/i3/config",
+    "kitty": f"{home}/.config/kitty/kitty.conf",
     "nvim": f"{home}/.config/nvim/",
     "picom": f"{home}/.config/picom/picom.conf",
     "polybar": f"{home}/.config/polybar/config.ini",
