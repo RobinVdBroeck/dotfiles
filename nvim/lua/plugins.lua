@@ -54,8 +54,21 @@ return require("lazy").setup({
     "tpope/vim-fugitive",
     {
         "lewis6991/gitsigns.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = function() require("gitsigns").setup {} end
+        event = { "BufReadPost", "BufNewFile" },
+        opts = {
+            signs = {
+                add = { text = '+' },
+                change = { text = '~' },
+                delete = { text = '_' },
+                topdelete = { text = '‾' },
+                changedelete = { text = '~'},
+            },
+            on_attach = function (buffnr)
+                vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, {buffer = buffnr, desc="[G]o to [P]revious hunk"})
+                vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, {buffer = buffnr, desc="[G]o to [N]revious hunk"})
+                vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, {buffer = buffnr, desc="[P]review [H]unk"})
+            end
+        }
     },
 
     -- Keybindings
