@@ -6,3 +6,9 @@ cd dotfiles
 ./install.sh
 ```
 
+### Setup git blame 
+Run following command to ignore formatting commits:
+```sh
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
+
