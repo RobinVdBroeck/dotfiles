@@ -21,9 +21,10 @@ end
 
 return require("lazy").setup({
     -- General
-    "editorconfig/editorconfig-vim",
     "tpope/vim-commentary",
     "tpope/vim-abolish",
+    "tpope/vim-sleuth",
+
     {
         "luukvbaal/stabilize.nvim",
         config = function() require("stabilize").setup() end
