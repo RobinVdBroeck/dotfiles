@@ -67,7 +67,7 @@ return require("lazy").setup({
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
-        config = function()
+        init = function()
             vim.o.timeout = true
             vim.o.timeoutlen = 500
         end,
