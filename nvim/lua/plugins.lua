@@ -11,14 +11,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ' '
 
--- vim.keymap.set with default options
-function keymap_set(mode, lhs, rhs, options)
-    local default_options = { silent = true }
-    local final_options = default_options
-    for k, v in pairs(options) do final_options[k] = v end
-    vim.keymap.set(mode, lhs, rhs, final_options)
-end
-
 return require("lazy").setup({
     -- General
     "tpope/vim-commentary",
