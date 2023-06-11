@@ -290,10 +290,10 @@ return require('lazy').setup {
       }
 
       -- Setup global keymapping
-      vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'open diagnostic' })
-      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'prevous diagnostic' })
-      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'next diagnostic ' })
-      vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'diagnoastic quickfixlist' })
+      vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open diagnostic' })
+      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+      vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Diagnostic quickfixlist' })
 
       -- Setup keymappings based on buffer
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -305,23 +305,23 @@ return require('lazy').setup {
               desc = desc,
             }
           end
-          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts 'goto Decleration')
-          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts 'goto definition')
+          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts '[g]oto [D]eclaration')
+          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts '[g]oto [d]efinition')
           vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts 'hover')
-          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts 'goto implementation')
+          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts '[g]oto [i]mplementation')
           vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts 'signature help')
-          vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts 'workspace add folder')
-          vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts 'workspace remove folder')
+          vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts '[w]orkspace [a]dd folder')
+          vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts '[w]orkspace [r]emove folder')
           vim.keymap.set('n', '<leader>wl', function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end, opts 'workspace list folder')
-          vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts 'type defintion')
-          vim.keymap.set('n', '<leader>cn', vim.lsp.buf.rename, opts 'change name') -- change name
-          vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts 'code action')
-          vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts 'goto references')
+          end, opts '[w]orkspace [l]ist folder')
+          vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts 'type [D]efintion')
+          vim.keymap.set('n', '<leader>cn', vim.lsp.buf.rename, opts '[c]hange [n]ame')
+          vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts '[c]ode [a]ction')
+          vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts '[g]oto [r]eferences')
           vim.keymap.set('n', '<leader>cf', function()
             vim.lsp.buf.format { async = true }
-          end, opts 'change format')
+          end, opts '[c]hange [f]ormat')
         end,
       })
     end,
