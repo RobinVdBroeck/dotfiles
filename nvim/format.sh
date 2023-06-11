@@ -1,8 +1,13 @@
 #!/bin/sh
-lua-format -i init.lua 
+
+if ! type stylua >>/dev/null; then
+    echo "stylua not found"
+    exit 1
+fi
+
+stylua init.lua
 for FILE in $(find lua/ -type f -name '*.lua')
 do
-    echo $FILE
-    lua-format -i "$FILE" 
+    stylua $FILE
 done 
 
