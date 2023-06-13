@@ -88,10 +88,27 @@ return require('lazy').setup {
 
       require('nvim-tree').setup {}
       vim.api.nvim_create_autocmd({ 'VimEnter' }, {
-        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        group = vim.api.nvim_create_augroup('OpenNvimTreeOnStartup', {}),
         callback = open_nvim_tree,
       })
     end,
+    keys = {
+      {
+        '<leader>n',
+        ':NvimTreeFocus<CR>',
+        desc = 'Focus [N]vimtree',
+      },
+      {
+        '<C-n><C-t>',
+        ':NvimTreeToggle<CR>',
+        desc = '[N]vimtree [T]oggle',
+      },
+      {
+        '<C-n><C-f>',
+        ':NvimTreeFindFile<CR>',
+        desc = '[N]vimtree [F]ind file',
+      },
+    },
   },
 
   {

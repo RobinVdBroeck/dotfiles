@@ -42,8 +42,3 @@ map('n', '<C-w>j', ":call WindowMove('j')<CR>")
 map('n', '<C-w>k', ":call WindowMove('k')<CR>")
 map('n', '<C-w>l', ":call WindowMove('l')<CR>")
 -- <C-w>c closes by default
-
--- Nvimtree
-map('n', '<leader>n', ':NvimTreeFocus<CR>')
-map('n', '<C-n><C-t>', ':NvimTreeToggle<CR>')
-map('n', '<C-n><C-f>', ':NvimTreeFindFile<CR>')
