@@ -69,3 +69,7 @@ if [ -x "$(command -v kitty)" ]; then
     stow kitty -t "$HOME/.config/kitty"
 fi
 
+if [ -x "$(command -v rclone)" ]; then
+    echo "Linking rclone services"
+    stow rclone -t "$HOME/.config"
+fi
