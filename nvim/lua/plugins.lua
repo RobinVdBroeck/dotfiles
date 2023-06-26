@@ -81,17 +81,7 @@ return require('lazy').setup {
     'kyazdani42/nvim-tree.lua',
     priority = 999,
     dependencies = 'kyazdani42/nvim-web-devicons',
-    config = function()
-      local function open_nvim_tree()
-        require('nvim-tree.api').tree.open()
-      end
-
-      require('nvim-tree').setup {}
-      vim.api.nvim_create_autocmd({ 'VimEnter' }, {
-        group = vim.api.nvim_create_augroup('OpenNvimTreeOnStartup', {}),
-        callback = open_nvim_tree,
-      })
-    end,
+    opts = {},
     keys = {
       {
         '<leader>n',

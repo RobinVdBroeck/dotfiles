@@ -1,4 +1,6 @@
-vim.g.mapleader = ' '
+-- Disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 require 'plugins'
 require 'options'
@@ -34,3 +36,28 @@ vim.cmd [[
 """""""""""""""""""
 command! -nargs=0 ReloadConfig :source $MYVIMRC
 ]]
+
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  group = vim.api.nvim_create_augroup('OpenNvimTreeOnStartup', {}),
+  callback = function(data)
+    local IGNORED_FT = {
+      'gitcommit',
+      'gitrebase',
+    }
+
+    local directory = vim.fn.isdirectory(data.file) == 1
+    local ft = vim.bo[data.buf].ft
+
+    if vim.tbl_contains(IGNORED_FT, ft) then
+      return
+    end
+
+    if directory then
+      vim.cmd.cd(data.file)
+    end
+
+    require('nvim-tree.api').tree.toggle {
+      focus = directory,
+    }
+  end,
+})
