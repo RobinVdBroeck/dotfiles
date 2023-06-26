@@ -354,6 +354,11 @@ return require('lazy').setup {
       })
     end,
   },
+  {
+    'j-hui/fidget.nvim',
+    tag = 'legacy',
+    opts = {},
+  },
 
   -- Web development
   'mattn/emmet-vim',
