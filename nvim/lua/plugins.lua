@@ -158,6 +158,27 @@ return require('lazy').setup {
         ':Telescope<CR>',
         desc = 'Open telescope window',
       },
+      {
+        '<leader>ds',
+        function()
+          require('telescope.builtin').lsp_document_symbols()
+        end,
+        desc = '[D]ocument [S]ymbols',
+      },
+      {
+        '<leader>ws',
+        function()
+          require('telescope.builtin').lsp_dynamic_workspace_symbols()
+        end,
+        desc = '[W]orkspace [S]ymbols',
+      },
+      {
+        '<leader>fs',
+        function()
+          require('telescope.builtin').lsp_dynamic_workspace_symbols()
+        end,
+        desc = '[F]ind workspace [S]ymbols',
+      },
     },
     config = function()
       require('telescope').setup {
