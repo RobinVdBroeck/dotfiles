@@ -13,6 +13,9 @@ if vim.fn.has 'termguicolors' == 1 then
   vim.cmd 'colorscheme dracula'
 end
 
+vim.o.spell = true
+vim.o.spelllang = 'en_us'
+
 -- todo: we should be able to convert this to lua
 vim.cmd [[
 if has('persistent_undo')
