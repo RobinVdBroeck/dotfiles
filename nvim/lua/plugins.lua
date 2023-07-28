@@ -302,6 +302,9 @@ return require('lazy').setup {
       }
       mlsp.setup_handlers {
         function(server_name)
+          if server_name == 'tsserver' then
+            return
+          end
           lspconfig[server_name].setup {}
         end,
         ['lua_ls'] = function()
@@ -323,6 +326,13 @@ return require('lazy').setup {
       vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
       vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Diagnostic quickfixlist' })
     end,
+  },
+  {
+    -- Use typescript tooling instead of mason-lspconfig for typescript, since it
+    -- has some nice performance optimisations
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
   },
   {
     'j-hui/fidget.nvim',
