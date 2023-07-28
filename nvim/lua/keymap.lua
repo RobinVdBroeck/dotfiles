@@ -15,6 +15,10 @@ map('n', '<CR>', ':noh<CR><CR>:<backspace>')
 map('n', '<C-s>', ':w<CR>')
 map('i', '<C-s>', ':<ESC>w<CR>')
 
+-- Copy paste
+map('nv', '<leader>y', '"+y')
+map('nv', '<leader>p', '"+p')
+
 -- Window movement
 -- TODO: we should be able to convert this to a lua function
 vim.cmd [[
