@@ -25,9 +25,9 @@ return require('lazy').setup {
   },
   {
     'lukas-reineke/indent-blankline.nvim',
-    config = function()
-      require('indent_blankline').setup {}
-    end,
+    version = '^3.0.0',
+    event = 'BufReadPost',
+    opts = {},
   },
 
   -- UI
