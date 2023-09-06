@@ -20,12 +20,6 @@ return require('lazy').setup {
   'tpope/vim-sleuth',
 
   {
-    'luukvbaal/stabilize.nvim',
-    config = function()
-      require('stabilize').setup()
-    end,
-  },
-  {
     'lukas-reineke/indent-blankline.nvim',
     version = '^3.0.0',
     main = 'ibl',

@@ -10,6 +10,7 @@ local o = vim.o
 
 vim.o.spell = true
 vim.o.spelllang = 'en_us'
+vim.o.splitkeep = 'screen'
 
 -- todo: we should be able to convert this to lua
 vim.cmd [[
