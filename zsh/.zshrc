@@ -14,10 +14,12 @@ export HISTSIZE=100000 # how many lines in memory
 export SAVEHIST=$HISTSIZE #  How many lines in history files
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
-setopt HIST_FIND_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_SPACE 
-
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
 
 # Setup prompt
 if [[ -x "$(command -v oh-my-posh)" ]]; then
