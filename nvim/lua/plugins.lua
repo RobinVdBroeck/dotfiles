@@ -40,11 +40,13 @@ return require('lazy').setup {
     end,
   },
   {
-    'feline-nvim/feline.nvim',
-    config = function()
-      vim.o.termguicolors = true
-      require 'statusline'
-    end,
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {
+      options = {
+        globalstatus = true,
+      },
+    },
   },
 
   -- Git
