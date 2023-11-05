@@ -69,6 +69,13 @@ if [ -x "$(command -v kitty)" ]; then
     stow kitty -t "$HOME/.config/kitty"
 fi
 
+# Touch fake file in the systemd user folder so we never link the whole
+# directory by accident
+if [ -d "$HOME/.config/systemd/user" ]; then
+    mkdir -p "$HOME/.config/systemd/user"
+    touch "$HOME/.config/systemd/user/.no_stow_dir"
+fi
+
 if [ -x "$(command -v rclone)" ]; then
     echo "Linking rclone services"
     stow rclone -t "$HOME/.config"
