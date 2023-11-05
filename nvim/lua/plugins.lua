@@ -28,6 +28,7 @@ return require('lazy').setup {
   {
     'lukas-reineke/indent-blankline.nvim',
     version = '^3.0.0',
+    main = 'ibl',
     event = 'BufReadPost',
     opts = {},
   },
@@ -226,7 +227,7 @@ return require('lazy').setup {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    event = { 'BufReadPost', 'BufNewFile' },
+    -- event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = 'all',
@@ -239,6 +240,7 @@ return require('lazy').setup {
             if ok and stats and stats.size > max_filesize then
               return true
             end
+            return false
           end,
         },
       }
