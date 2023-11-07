@@ -64,9 +64,10 @@ elif [ -d /usr/share/fzf ]; then
     source /usr/share/fzf/completion.zsh
 fi
 
-# NVM
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# setup fnm
+if [[ -x "$(command -v fnm)" ]]; then
+    eval "$(fnm env --use-on-cd)"
+fi
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
