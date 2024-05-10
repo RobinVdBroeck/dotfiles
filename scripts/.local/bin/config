@@ -7,7 +7,7 @@ import os
 import sys
 
 try:
-    home = os.environ['HOME']
+    home = os.environ["HOME"]
 except KeyError:
     print("home env variable is not setup", file=sys.stdout)
     sys.exit(1)
@@ -36,17 +36,20 @@ entries = {
 
 # TODO: filter entries to only show existing entries
 
+
 def open_dmenu() -> str:
-    """ 
+    """
     Opens dmenu and request the user for ther input
-    Returns the output from the user 
-    """ 
+    Returns the output from the user
+    """
     import shutil
     import subprocess
-    
+
     if shutil.which("dmenu") is None:
-        print("cannot run config without arguments when dmenu is not installed",
-              file=sys.stdout)
+        print(
+            "cannot run config without arguments when dmenu is not installed",
+            file=sys.stdout,
+        )
         sys.exit(1)
     dmenu = subprocess.Popen(
         ["dmenu", "-i", "-l", str(20), "-p", "Edit config"],
@@ -67,19 +70,20 @@ def open_dmenu() -> str:
         stdin.write(byterepr)
     stdin.close()
 
-    # wait for dmenu to be closed 
+    # wait for dmenu to be closed
     dmenu.wait()
     val = str(stdout.read(), "utf-8").strip()
     return val
+
 
 if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('name', nargs='?')
-    parser.add_argument('-d', '--debug', action="store_true")
-    parser.add_argument('-l', '--list', action="store_true")
-    args =  parser.parse_args() 
+    parser.add_argument("name", nargs="?")
+    parser.add_argument("-d", "--debug", action="store_true")
+    parser.add_argument("-l", "--list", action="store_true")
+    args = parser.parse_args()
 
     if args.list:
         for name in entries:
@@ -91,21 +95,20 @@ if __name__ == "__main__":
         if args.name == "":
             sys.exit(0)
 
-    try: 
+    try:
         entry = entries[args.name]
-        if args.debug: 
+        if args.debug:
             print(f"opening {entry}")
     except KeyError:
         print(f"config for {args.name} does not exist", file=sys.stderr)
         sys.exit(1)
 
     try:
-        editor = os.environ['EDITOR']
+        editor = os.environ["EDITOR"]
     except KeyError:
         if sys.platform == "linux":
             editor = "xdg-open"
         if sys.platform == "darwin":
             editor = "open"
 
-    os.system(editor +  " " + entry)
-
+    os.system(editor + " " + entry)

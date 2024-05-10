@@ -5,7 +5,7 @@ then
   echo "%{F#66ffffff}"
 else
   if [ $(echo info | bluetoothctl | grep 'Device' | wc -c) -eq 0 ]
-  then 
+  then
     echo ""
   fi
   echo "%{F#2193ff}"

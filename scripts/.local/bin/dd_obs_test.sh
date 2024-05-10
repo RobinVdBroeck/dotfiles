@@ -43,4 +43,3 @@ do
   # Output the result
   printf "$PRINTF_FORMAT" "$BLOCK_SIZE" "$TRANSFER_RATE"
 done
-

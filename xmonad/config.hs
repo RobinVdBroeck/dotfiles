@@ -8,7 +8,7 @@ import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.FadeInactive
 
-import XMonad.Util.EZConfig 
+import XMonad.Util.EZConfig
 import XMonad.Util.Loggers
 import XMonad.Util.Ungrab
 import XMonad.Util.SpawnOnce
@@ -27,13 +27,13 @@ main = do
 
 xmonadSetup :: D.Client -> IO ()
 xmonadSetup dbus = xmonad
-                   . ewmhFullscreen 
-                   . ewmh 
+                   . ewmhFullscreen
+                   . ewmh
                    . docks
                    $ myConfig dbus
 
 myConfig dbus = def
-    { terminal    = terminal 
+    { terminal    = terminal
     , modMask     = mod4Mask
     , layoutHook  = myLayout
     , manageHook  = myManageHook
@@ -58,7 +58,7 @@ myManageHook = composeAll
 myStartupHook :: X ()
 myStartupHook = do
     spawn "polybar-msg cmd quit"
-    
+
     -- Spawn polybar bars
     spawn "polybar screen1 2>&1 | tee -a /tmp/polybar-screen1.log & disown"
     spawn "polybar screen2 2>&1 | tee -a /tmp/polybar-screen2.log & disown"
@@ -66,7 +66,7 @@ myStartupHook = do
     -- Located in .local/bin/scripts
     spawnOnce "wallpaper"
 
-myLayout = avoidStruts $ 
+myLayout = avoidStruts $
     tiled ||| Mirror tiled ||| Full ||| ThreeColMid nmaster delta ratio
     where
         tiled   = Tall nmaster delta ratio
@@ -110,5 +110,4 @@ polybarHook dbus =
           , ppTitle           = wrapper purple . shorten 90
           }
 
-myPolybarLogHook dbus = dynamicLogWithPP $ polybarHook dbus 
-
+myPolybarLogHook dbus = dynamicLogWithPP $ polybarHook dbus

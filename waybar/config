@@ -21,7 +21,7 @@
         "memory",
         "keyboard-state",
         "sway/language",
-        "clock", 
+        "clock",
         "tray"
     ],
     // Modules configuration
@@ -123,4 +123,3 @@
         "on-click": "pavucontrol"
     },
 }
-

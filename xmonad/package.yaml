@@ -5,7 +5,7 @@ maintainer: Robin Van den Broeck <robin.broeck@gmail.com>
 github: robinvdbroeck/dotfiles
 
 dependencies:
-  - base 
+  - base
   - xmonad >= 0.17.0 && < 0.18.0
   - xmonad-contrib >= 0.17.0 && < 0.18.0
   - dbus

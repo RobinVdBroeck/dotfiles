@@ -56,7 +56,7 @@ if [[ -x "$(command -v zoxide)" ]]; then
     eval "$(zoxide init zsh)"
 fi
 
-# Setup fzf 
+# Setup fzf
 if [ -f ~/.fzf.zsh ]; then
     source ~/.fzf.zsh
 elif [ -d /usr/share/fzf ]; then
@@ -99,7 +99,7 @@ function grename() {
 
   # Rename branch locally
   git branch -m "$source" "$target"
-  
+
   # Rename branch in origin remote
   if git push origin :"$source"; then
     git push --set-upstream origin "$target"
