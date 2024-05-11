@@ -251,10 +251,10 @@ return require('lazy').setup {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    -- event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       require('nvim-treesitter.configs').setup {
-        ensure_installed = 'all',
+        ensure_installed = { 'bash', 'lua', 'markdown', 'vim', 'vimdoc' },
+        auto_install = true,
         highlight = {
           enable = true,
           -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
