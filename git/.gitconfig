@@ -1,6 +1,11 @@
 [user]
     name = Robin Van den Broeck
     email = robin.broeck@gmail.com
+    signingkey = "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOa/krYnWioz0KfkD61skY13c1tnZIKyPT0EIpRNZiTO robin.broeck@gmail.com"
+[commit]
+    gpgsign = true
+[gpg]
+    format = ssh
 [core]
     pager = less -F -X
 [alias]
