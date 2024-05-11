@@ -348,10 +348,36 @@ return require('lazy').setup {
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     opts = {},
   },
+
+  -- Formatting
   {
-    'j-hui/fidget.nvim',
-    tag = 'legacy',
-    opts = {},
+    'stevearc/conform.nvim',
+    version = '^5.0.0',
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
+    keys = {
+      {
+        '<leader>cf',
+        function()
+          require('conform').format {
+            lsp_fallback = true,
+            -- blocks for maximum 5 seconds
+            timeout_ms = 5000,
+          }
+        end,
+        mode = 'n',
+        desc = '[c]hange [f]ormat',
+      },
+    },
+    opts = {
+      formatters_by_ft = {
+        lua = { 'stylelua' },
+        javascript = { { 'eslintd', 'prettier' } },
+        typescript = { { 'eslintd', 'prettier' } },
+        typescriptreact = { { 'eslintd', 'prettier' } },
+        javascriptreact = { { 'eslintd', 'prettier' } },
+      },
+    },
   },
 
   -- Web development
