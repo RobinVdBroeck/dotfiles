@@ -285,45 +285,44 @@ return require('lazy').setup {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
+      'petertriho/cmp-git',
+      'zbirenbaum/copilot-cmp',
     },
     event = 'InsertEnter',
-    config = function()
+    opts = function()
       local cmp = require 'cmp'
-      cmp.setup {
+      return {
+        completion = { completeopt = 'menu,menuone,noinsert' },
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'copilot' },
+          { name = 'path' },
         }, {
           { name = 'buffer' },
         }),
         mapping = cmp.mapping.preset.insert {
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm { select = false },
-          ['<Tab>'] = function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              fallback()
-            end
-          end,
-          ['<S-Tab>'] = function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end,
+          -- Select the [n]ext item
+          ['<C-n>'] = cmp.mapping.select_next_item(),
+          -- Select the [p]revious item
+          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          -- Accept ([y]es) the selected
+          -- Will auto import if the LSP supports it.
+          ['<C-y>'] = cmp.mapping.confirm { select = true },
         },
       }
     end,
-  },
-  {
-    'zbirenbaum/copilot-cmp',
-    event = 'InsertEnter',
-    opts = {},
+    config = function(_, opts)
+      local cmp = require 'cmp'
+      cmp.setup(opts)
+      cmp.setup.filetype('gitcommit', {
+        sources = cmp.config.sources({
+          { name = 'git' },
+        }, {
+          { name = 'buffer' },
+          { name = 'path' },
+        }),
+      })
+    end,
   },
 
   -- LSP
