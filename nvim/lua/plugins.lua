@@ -128,7 +128,7 @@ return require('lazy').setup {
 
   {
     'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
+    version = '0.1.6',
     dependencies = {
       {
         'nvim-telescope/telescope-fzf-native.nvim',
@@ -204,21 +204,29 @@ return require('lazy').setup {
         end,
         desc = '[F]ind workspace [S]ymbols',
       },
+      {
+        '<leader>h',
+        function()
+          local pickers = require 'telescope.pickers'
+          local finders = require 'telescope.finders'
+          local conf = require('telescope.config').values
+          local list = vim.fn.systemlist 'git diff --name-only --merge-base master'
+
+          pickers
+            .new({}, {
+              prompt_title = 'Changed files from master',
+              finder = finders.new_table { results = list },
+              previewer = conf.file_previewer {},
+              sorter = conf.generic_sorter {},
+            })
+            :find()
+        end,
+        desc = 'Quick File picker using git',
+      },
     },
     config = function()
       require('telescope').setup {
         defaults = {
-          -- Fix for memory leak in ripgrep,
-          -- see: https://github.com/nvim-telescope/telescope.nvim/issues/2482
-          vimgrep_arguments = {
-            'rg',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case',
-          },
           path_display = { 'truncate' },
           layout_config = {
             prompt_position = 'bottom',
