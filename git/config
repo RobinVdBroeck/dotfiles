@@ -15,7 +15,7 @@
     update-master = fetch origin master:master
     update-main = fetch origin main:main
     fixup = "!git log master.. --pretty=format:'%h %s' --no-merges | fzf | cut -c -9 | xargs -o git commit --fixup"
-    switch-branch = "!git b | fzf | xargs git checkout"
+    switch-branch = "!git b --sort=committerdate | fzf --no-sort --tac | xargs git checkout"
     sb = switch-branch
     b = branch
     bs = b --format='%(refname:short)'
