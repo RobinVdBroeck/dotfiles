@@ -37,6 +37,10 @@ opt.showmatch = true
 opt.incsearch = true
 opt.hlsearch = true
 
+-- Decrease update time
+opt.updatetime = 250
+opt.timeoutlen = 300
+
 -- Scrolling
 opt.scrolloff = 5
 
