@@ -29,14 +29,13 @@ return require('lazy').setup {
 
   -- UI
   {
-    'navarasu/onedark.nvim',
+    'maxmx03/solarized.nvim',
+    lazy = false,
     priority = 1000,
     config = function()
-      local onedark = require 'onedark'
-      onedark.setup {
-        style = 'dark',
-      }
-      onedark.load()
+      vim.o.background = 'dark' -- or 'light'
+
+      vim.cmd.colorscheme 'solarized'
     end,
   },
   {
