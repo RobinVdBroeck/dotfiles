@@ -85,10 +85,18 @@ return require('lazy').setup {
 
   -- Navigation
   {
-    'kyazdani42/nvim-tree.lua',
-    priority = 999,
-    dependencies = 'kyazdani42/nvim-web-devicons',
-    opts = {},
+    'nvim-tree/nvim-tree.lua',
+    lazy = false,
+    version = '^1.3.1',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    opts = {
+      filters = { custom = { '^.git$' } },
+      filesystem_watchers = { ignore_dirs = { 'node_modules', '.git' } },
+      view = {
+        -- by setting this to an empty table, we allow the tree to auto-resize when opening new dirs
+        width = {},
+      },
+    },
     keys = {
       {
         '<leader>n',
@@ -106,6 +114,17 @@ return require('lazy').setup {
         desc = '[N]vimtree [F]ind file',
       },
     },
+  },
+  {
+    'antosha417/nvim-lsp-file-operations',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-tree.lua',
+    },
+    config = function()
+      require('lsp-file-operations').setup()
+    end,
   },
 
   {
