@@ -8,8 +8,9 @@ end
 
 vim.g.mapleader = ' '
 
--- Clear search highlighting after pressing enter
+-- Clear search highlighting after pressing enter or esc
 map('n', '<CR>', ':noh<CR><CR>:<backspace>')
+map('n', '<ESC>', ':noh<CR><CR>:<backspace>')
 
 -- Saving
 map('n', '<C-s>', ':w<CR>')
