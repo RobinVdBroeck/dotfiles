@@ -12,6 +12,7 @@
     sb = switch-branch
     b = branch
     bs = b --format='%(refname:short)'
+    pushf = push --force-with-lease
 [init]
     defaultBranch = main
 [pull]
