@@ -6,6 +6,8 @@
     gpgsign = true
 [gpg]
     format = ssh
+[gpg "ssh"]
+    allowedSignersFile = $HOME/.config/git/allowed_signers
 [core]
     pager = less -F -X
 [alias]
