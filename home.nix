@@ -21,8 +21,9 @@
   programs = {
     zsh = {
       enable = true;
-      oh-my-zsh = {
-        enable = false; # Assuming you use oh-my-posh instead of oh-my-zsh.
+
+      shellAliases = {
+        vim = "nvim";
       };
 
     shellAliases = {
@@ -143,9 +144,13 @@
 
 
     oh-my-posh = {
-      enable = true;
+      enable = false;
       # TODO: configure own theme
       useTheme = "shell";
+    };
+
+    zoxide = {
+      enable = true;
     };
   };
 }
