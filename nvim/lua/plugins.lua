@@ -280,13 +280,6 @@ return require('lazy').setup {
     end,
   },
 
-  -- Copilot
-  {
-    'zbirenbaum/copilot.lua',
-    event = 'InsertEnter',
-    opts = {},
-  },
-
   -- Completion
   {
     'hrsh7th/nvim-cmp',
@@ -295,7 +288,6 @@ return require('lazy').setup {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'petertriho/cmp-git',
-      'zbirenbaum/copilot-cmp',
     },
     event = 'InsertEnter',
     opts = function()
@@ -304,7 +296,6 @@ return require('lazy').setup {
         completion = { completeopt = 'menu,menuone,noinsert' },
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
-          { name = 'copilot' },
           { name = 'path' },
         }, {
           { name = 'buffer' },
@@ -415,17 +406,4 @@ return require('lazy').setup {
       },
     },
   },
-
-  -- Web development
-  'mattn/emmet-vim',
-  'leafOfTree/vim-vue-plugin',
-
-  -- Rust development
-  {
-    'mhinz/vim-crates',
-    ft = 'toml',
-  },
-
-  -- Zig development
-  'ziglang/zig.vim',
 }
