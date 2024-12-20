@@ -64,9 +64,18 @@ return require('lazy').setup {
         changedelete = { text = '~' },
       },
       on_attach = function(buffnr)
-        vim.keymap.set('n', '[h', require('gitsigns').prev_hunk, { buffer = buffnr, desc = '[G]o to [P]revious hunk' })
-        vim.keymap.set('n', ']h', require('gitsigns').next_hunk, { buffer = buffnr, desc = '[G]o to [N]revious hunk' })
-        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = buffnr, desc = '[P]review [H]unk' })
+        local gitsigns = require 'gitsigns'
+
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = buffnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        map('n', '[h', gitsigns.prev_hunk, { desc = '[G]o to [P]revious hunk' })
+        map('n', ']h', gitsigns.next_hunk, { desc = '[G]o to [N]revious hunk' })
+        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = '[H]unk [P]review' })
+        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = '[H]unk [R]eset' })
       end,
     },
   },
