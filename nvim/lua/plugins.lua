@@ -95,11 +95,11 @@ return require('lazy').setup {
   {
     'nvim-tree/nvim-tree.lua',
     lazy = false,
-    version = '^1.3.1',
+    version = '~1.9.0',
     dependencies = 'nvim-tree/nvim-web-devicons',
     opts = {
       filters = { custom = { '^.git$' } },
-      filesystem_watchers = { ignore_dirs = { 'node_modules', '.git' } },
+      filesystem_watchers = { ignore_dirs = { 'node_modules', '.git', 'build' } },
       view = {
         -- by setting this to an empty table, we allow the tree to auto-resize when opening new dirs
         width = {},
