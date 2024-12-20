@@ -28,13 +28,14 @@ return require('lazy').setup {
 
   -- UI
   {
-    'maxmx03/solarized.nvim',
+    'catppuccin/nvim',
+    as = 'catppuccin',
     lazy = false,
     priority = 1000,
     config = function()
       vim.o.background = 'dark' -- or 'light'
 
-      vim.cmd.colorscheme 'solarized'
+      vim.cmd.colorscheme 'catppuccin'
     end,
   },
   {
