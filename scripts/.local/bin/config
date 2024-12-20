@@ -14,6 +14,7 @@ except KeyError:
 
 # Add entries here
 entries = {
+    "aerospace": f"{home}/.config/aerospace/aerospace.toml",
     "awesome": f"{home}/.config/awesome/rc.lua",
     "config": f"{home}/.local/bin/config",
     "fish": f"{home}/.config/fish",
@@ -28,6 +29,7 @@ entries = {
     "sway": f"{home}/.config/sway/config",
     "tmux": f"{home}/.tmux.conf",
     "waybar": f"{home}/.config/waybar",
+    "wezterm": f"{home}/.config/wezterm/wezterm.lua",
     "xinit": f"{home}/.xinitrc",
     "xmonad": f"{home}/.config/xmonad",
     "xresources": f"{home}/.XResources",
