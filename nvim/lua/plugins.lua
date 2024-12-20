@@ -387,7 +387,7 @@ return require('lazy').setup {
   -- Formatting
   {
     'stevearc/conform.nvim',
-    version = '^5.0.0',
+    version = '^8.0.0',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {
@@ -405,12 +405,21 @@ return require('lazy').setup {
       },
     },
     opts = {
+      async = true,
+      format_on_save = {
+        -- format on save can block for a max of 1 second
+        timeout_ms = 1000,
+        lsp_format = 'fallback',
+      },
       formatters_by_ft = {
         lua = { 'stylelua' },
-        javascript = { { 'eslintd', 'prettier' } },
-        typescript = { { 'eslintd', 'prettier' } },
-        typescriptreact = { { 'eslintd', 'prettier' } },
-        javascriptreact = { { 'eslintd', 'prettier' } },
+        javascript = { { 'eslint_d', 'prettier' }, 'biome' },
+        typescript = { { 'eslint_d', 'prettier' } },
+        typescriptreact = { { 'eslint_d', 'prettier' } },
+        javascriptreact = { { 'eslint_d', 'prettier' } },
+        terraform = { 'tofu_fmt' },
+        -- Don't format scss
+        scss = {},
       },
     },
   },
