@@ -15,7 +15,6 @@ vim.g.mapleader = ' '
 
 return require('lazy').setup {
   -- General
-  'tpope/vim-commentary',
   'tpope/vim-abolish',
   'tpope/vim-sleuth',
 
