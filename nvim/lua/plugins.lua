@@ -137,7 +137,7 @@ return require('lazy').setup {
 
   {
     'nvim-telescope/telescope.nvim',
-    version = '0.1.6',
+    version = '0.1.8',
     dependencies = {
       {
         'nvim-telescope/telescope-fzf-native.nvim',
@@ -219,7 +219,15 @@ return require('lazy').setup {
           local pickers = require 'telescope.pickers'
           local finders = require 'telescope.finders'
           local conf = require('telescope.config').values
-          local list = vim.fn.systemlist 'git diff --name-only --merge-base master'
+          -- A: Added
+          -- C: Copied
+          -- M: Modified
+          -- R: Renamed
+          -- T: Changed in the type (e.g., regular file to symbolic link)
+          -- U: Unmerged
+          -- X: Unknown
+          -- B: Broken pairing
+          local list = vim.fn.systemlist 'git diff --name-only --diff-filter=ACMRTUXB --merge-base master'
 
           pickers
             .new({}, {
