@@ -1,45 +1,46 @@
 return {
   {
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'petertriho/cmp-git',
-    },
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
     event = 'InsertEnter',
-    opts = function()
-      local cmp = require 'cmp'
-      return {
-        completion = { completeopt = 'menu,menuone,noinsert' },
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'path' },
-        }, {
-          { name = 'buffer' },
-        }),
-        mapping = cmp.mapping.preset.insert {
-          -- Select the [n]ext item
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          -- Select the [p]revious item
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-          -- Accept ([y]es) the selected
-          -- Will auto import if the LSP supports it.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+    opts = {
+      suggestion = { enabled = true },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
+  },
+  {
+    'saghen/blink.cmp',
+    dependencies = { 'fang2hou/blink-copilot' },
+    version = '0.14.0',
+
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      keymap = { preset = 'default' },
+
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+        -- Adjusts spacing to ensure icons are aligned
+        nerd_font_variant = 'mono',
+      },
+
+      sources = {
+        default = { 'copilot', 'lsp', 'path', 'buffer' },
+        providers = {
+          copilot = {
+            name = 'copilot',
+            module = 'blink-copilot',
+            score_offset = 100,
+            async = true,
+          },
         },
-      }
-    end,
-    config = function(_, opts)
-      local cmp = require 'cmp'
-      cmp.setup(opts)
-      cmp.setup.filetype('gitcommit', {
-        sources = cmp.config.sources({
-          { name = 'git' },
-        }, {
-          { name = 'buffer' },
-          { name = 'path' },
-        }),
-      })
-    end,
+      },
+    },
+    opts_extend = { 'sources.default' },
   },
 }

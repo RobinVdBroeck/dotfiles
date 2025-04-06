@@ -4,6 +4,7 @@ return {
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
+      { 'j-hui/fidget.nvim', opts = {} },
     },
     config = function(_, opts)
       -- Setup binding between mason and lspconfig
@@ -14,9 +15,6 @@ return {
       }
       mlsp.setup_handlers {
         function(server_name)
-          if server_name == 'tsserver' then
-            return
-          end
           lspconfig[server_name].setup {}
         end,
         ['lua_ls'] = function()
@@ -47,6 +45,11 @@ return {
           map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
           map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
           map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          map('<leader>wd', function()
+            require('telescope.builtin').diagnostics {
+              severity = vim.diagnostic.severity.ERROR, -- Optional: filter only errors
+            }
+          end, '[W]orkspace [D]iagnostics')
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
           map('<leader>e', vim.diagnostic.open_float, 'Open diagnostic')
@@ -54,12 +57,5 @@ return {
         end,
       })
     end,
-  },
-  -- Use typescript tooling instead of mason-lspconfig for typescript, since it
-  -- has some nice performance optimisations
-  {
-    'pmizio/typescript-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {},
   },
 }
