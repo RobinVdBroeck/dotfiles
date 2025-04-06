@@ -34,7 +34,7 @@ return {
         }
       end,
       formatters_by_ft = {
-        lua = { 'stylelua' },
+        lua = { 'stylua' },
         javascript = { 'eslint_d', 'prettier', 'biome' },
         typescript = { 'eslint_d', 'prettier' },
         typescriptreact = { 'eslint_d', 'prettier' },
