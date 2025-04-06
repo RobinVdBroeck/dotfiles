@@ -76,3 +76,10 @@ if [ -x "$(command -v rclone)" ]; then
     echo "Linking rclone services"
     stow rclone -t "$HOME/.config"
 fi
+
+if [ -x "$(command -v wezterm)" ]; then
+    echo "Linking wezterm"
+    WEZTERM_DIR="$HOME/.config/wezterm"
+    mkdir -p $WEZTERM_DIR
+    stow wezterm -t "$WEZTERM_DIR"
+fi
