@@ -40,10 +40,10 @@ fi
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
+  export EDITOR='vim'
 else
-   alias vim="nvim"
-   export EDITOR='nvim'
+  alias vim="nvim"
+  export EDITOR='nvim'
 fi
 
 # Add local bin to path
