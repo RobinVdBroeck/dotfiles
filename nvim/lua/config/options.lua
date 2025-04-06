@@ -1,4 +1,8 @@
-local opt = vim.o
+local opt = vim.opt
+
+-- Disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Security
 opt.modelines = 0
@@ -13,6 +17,11 @@ opt.mouse = 'a'
 -- Splits
 opt.splitbelow = true
 opt.splitright = true
+
+-- Spelling
+opt.spell = true
+opt.spelllang = 'en_us'
+opt.splitkeep = 'screen'
 
 -- Visual settings
 opt.number = true
