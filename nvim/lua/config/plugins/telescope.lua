@@ -1,3 +1,20 @@
+local function find_nearest_package_json()
+  local path = vim.fn.expand '%:p:h' -- Start from the current file's directory
+  while path do
+    local package_path = path .. '/package.json'
+    local stat = vim.loop.fs_stat(package_path) -- Check if package.json exists
+    if stat then
+      return path -- Return the directory containing package.json
+    end
+    local parent = vim.fn.fnamemodify(path, ':h') -- Move up one directory
+    if parent == path then
+      break -- Stop if we've reached the root directory
+    end
+    path = parent
+  end
+  return nil -- Fallback to nil if no package.json is found
+end
+
 return {
   {
     'nvim-telescope/telescope.nvim',
@@ -12,32 +29,87 @@ return {
     cmd = 'Telescope',
     keys = {
       {
-        '<leader>ff',
+        '<leader>sf',
         ':Telescope find_files<CR>',
-        desc = '[F]ind [F]iles',
+        desc = '[S]earch [F]iles',
       },
       {
-        '<leader>fa',
+        '<leader>sa',
         ':Telescope find_files follow=true no_ignore=true hidden=true<CR>',
-        desc = '[F]ind [A]ll',
+        desc = '[S]earch [A]ll',
       },
       {
-        '<leader>fb',
+        '<leader>sb',
         ':Telescope buffers<CR>',
-        desc = '[F]ind [B]uffers',
+        desc = '[S]earch [B]uffers',
       },
       {
-        '<leader>fr',
+        '<leader>sr',
         ':Telescope oldfiles<CR>',
-        desc = '[F]ind [R]ecent files',
+        desc = '[S]earch [R]ecent files',
       },
       {
-        '<leader>fg',
+        '<leader>sg',
         ':Telescope live_grep<CR>',
-        desc = '[F]ind using [G]rep',
+        desc = '[S]earch using [G]rep',
       },
       {
-        '<leader>F',
+        '<leader>st',
+        function()
+          if vim.fn.expand '%' == '' then
+            vim.notify('No file is currently open!', vim.log.levels.ERROR)
+            return
+          end
+
+          local filename = vim.fn.expand '%:t' -- Get the current file name (e.g., "foobar.component.tsx")
+          local base_name = filename:gsub('%.%w+$', '') -- Remove the file extension (e.g., "foobar.component")
+          local file_ext = vim.fn.expand '%:e' -- Get the current file extension (e.g., "tsx")
+
+          -- Determine test patterns based on the file extension
+          local test_patterns
+          if file_ext == 'ts' then
+            test_patterns = {
+              base_name .. '.test.ts',
+              base_name .. '.spec.ts',
+              base_name .. '.test.js',
+              base_name .. '.spec.js',
+            }
+          elseif file_ext == 'tsx' then
+            test_patterns = {
+              base_name .. '.test.tsx',
+              base_name .. '.spec.tsx',
+              base_name .. '.test.jsx',
+              base_name .. '.spec.jsx',
+            }
+          else
+            test_patterns = {
+              base_name .. '.test.' .. file_ext,
+              base_name .. '.spec.' .. file_ext,
+            }
+          end
+
+          -- Determine the search root
+          local root = find_nearest_package_json() or vim.fn.getcwd() -- Fallback to CWD if no package.json is found
+
+          -- Build the find_command with multiple --glob options
+          local find_command = { 'rg', '--files' }
+          for _, pattern in ipairs(test_patterns) do
+            table.insert(find_command, '--glob')
+            table.insert(find_command, pattern)
+          end
+
+          -- Use Telescope to find files matching any of the test patterns
+          require('telescope.builtin').find_files {
+            prompt_title = 'Find Test File',
+            search_dirs = { root }, -- Optional: Restrict search to the current working directory
+            find_command = find_command,
+          }
+        end,
+        desc = '[S]earch for [t]ests',
+      },
+      {
+
+        '<leader>S',
         ':Telescope<CR>',
         desc = 'Open telescope window',
       },
@@ -87,7 +159,7 @@ return {
             },
           },
         },
-        extentions = { 'fzf' },
+        extentions = { 'fzf', 'fidget' },
       }
     end,
   },
