@@ -1,7 +1,7 @@
 return {
   {
     'stevearc/conform.nvim',
-    version = '^8.0.0',
+    version = '^9.0.0',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {
