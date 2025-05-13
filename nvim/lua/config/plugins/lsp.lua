@@ -1,35 +1,37 @@
 return {
   {
     'neovim/nvim-lspconfig',
+    version = '~2.1.0',
     dependencies = {
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
+      { 'mason-org/mason.nvim', opts = {}, version = '~2.0.0' },
+      {
+        'mason-org/mason-lspconfig.nvim',
+        version = '~2.0.0',
+        opts = { ensure_installed = { 'lua_ls' } },
+      },
       { 'j-hui/fidget.nvim', opts = {} },
     },
-    config = function(_, opts)
-      -- Setup binding between mason and lspconfig
-      local mlsp = require 'mason-lspconfig'
-      local lspconfig = require 'lspconfig'
-      mlsp.setup {
-        ensure_installed = { 'lua_ls' },
-      }
-      mlsp.setup_handlers {
-        function(server_name)
-          lspconfig[server_name].setup {}
-        end,
-        ['lua_ls'] = function()
-          lspconfig.lua_ls.setup {
-            settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { 'vim' },
-                },
-              },
-            },
-          }
-        end,
-      }
+    config = function()
+      -- Setup global LSP options
+      vim.lsp.config('*', {
+        root_markers = { '.git' },
+      })
 
+      -- Setup lua lsp for neovim configuration
+      vim.lsp.config('lua_ls', {
+        settings = {
+          Lua = {
+            runtime = {
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              globals = { 'vim', 'require' },
+            },
+          },
+        },
+      })
+
+      -- Add keybindings for lsp commands
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
         callback = function(event)
