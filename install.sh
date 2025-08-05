@@ -9,13 +9,6 @@ echo "Linking scripts"
 mkdir -p "$HOME/.local/bin"
 stow scripts
 
-
-if [ -x "$(command -v fish)" ]; then
-    echo "Linking fish"
-    mkdir -p "$HOME/.config/fish"
-    stow fish -t "$HOME/.config/fish/"
-fi
-
 if [ -x "$(command -v polybar)" ]; then
     echo "Linking polybar" mkdir -p "$HOME/.config/polybar"
     stow polybar -t "$HOME/.config/polybar"
