@@ -34,12 +34,6 @@ if [ -x "$(command -v zsh)" ]; then
     stow zsh -t $HOME
 fi
 
-if [ -x "$(command -v waybar)" ]; then
-    echo "Linking waybar"
-    mkdir -p "$HOME/.config/waybar"
-    stow waybar -t "$HOME/.config/waybar"
-fi
-
 if [ -x "$(command -v oh-my-posh)" ]; then
     echo "Linking oh-my-posh"
     OH_MY_POSH_DIR="$HOME/.config/oh-my-posh"
