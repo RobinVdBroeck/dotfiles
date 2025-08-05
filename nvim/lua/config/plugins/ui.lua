@@ -2,6 +2,7 @@ return {
   {
     'catppuccin/nvim',
     as = 'catppuccin',
+    version = 'v1.11.0',
     lazy = false,
     priority = 1000,
     config = function()

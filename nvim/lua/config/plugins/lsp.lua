@@ -1,12 +1,12 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    version = '~2.1.0',
+    version = '~2.4.0',
     dependencies = {
       { 'mason-org/mason.nvim', opts = {}, version = '~2.0.0' },
       {
         'mason-org/mason-lspconfig.nvim',
-        version = '~2.0.0',
+        version = '~2.1.0',
         opts = { ensure_installed = { 'lua_ls' } },
       },
       { 'j-hui/fidget.nvim', opts = {} },
