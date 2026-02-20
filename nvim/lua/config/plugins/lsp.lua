@@ -1,7 +1,7 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    version = '^2.5.0',
+    version = '^2.6.0',
     dependencies = {
       { 'mason-org/mason.nvim', opts = {}, version = '^2.1.0' },
       {
@@ -12,6 +12,8 @@ return {
       --      { 'j-hui/fidget.nvim', opts = {} },
     },
     config = function()
+      local lspconfig = vim.lsp.config
+
       -- Setup global LSP options
       vim.lsp.config('*', {
         root_markers = { '.git' },
