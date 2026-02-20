@@ -6,7 +6,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "fetch_version": false
           },
@@ -22,7 +22,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "cache_duration": "none"
           },
           "template": "# ",
@@ -31,7 +31,7 @@
           "style": "plain"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none"
           },
           "template": " % ",
@@ -40,7 +40,7 @@
           "style": "plain"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none"
           },
           "template": "<cyan>{{ .UserName }}</> <darkGray>@</> <green>{{ .HostName }}</> ",
@@ -48,7 +48,7 @@
           "style": "plain"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "style": "full"
           },
@@ -58,7 +58,7 @@
           "style": "plain"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "fetch_status": true
           },
@@ -67,7 +67,7 @@
           "style": "plain"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none"
           },
           "template": "[{{ .CurrentDate | date .Format }}]",
@@ -76,7 +76,7 @@
           "style": "plain"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none"
           },
           "template": " C:{{ if gt .Code 0 }}{{ .Code }}{{ end }} ",
@@ -92,7 +92,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "cache_duration": "none"
           },
           "template": "$",
@@ -104,6 +104,6 @@
       "newline": true
     }
   ],
-  "version": 3,
+  "version": 4,
   "final_space": true
 }
