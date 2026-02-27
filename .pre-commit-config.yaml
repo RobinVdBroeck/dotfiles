@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: check-toml
       - id: check-case-conflict
@@ -9,10 +9,10 @@ repos:
     hooks:
       - id: prettier
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 26.1.0
     hooks:
       - id: black
   - repo: https://github.com/JohnnyMorganz/StyLua
-    rev: v0.20.0
+    rev: v2.3.1
     hooks:
       - id: stylua-github
