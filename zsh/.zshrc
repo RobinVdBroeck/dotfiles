@@ -105,3 +105,6 @@ function grename() {
     git push --set-upstream origin "$target"
   fi
 }
+
+alias compose='docker compose'
+
