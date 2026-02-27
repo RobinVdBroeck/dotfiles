@@ -1,0 +1,146 @@
+#!/usr/bin/env zsh
+
+# npmx - Open npm packages in npmx.dev
+# Usage: npmx [--search] <package-name>
+
+# Ensure we're running in zsh
+if [[ -z $ZSH_VERSION ]]; then
+    echo "Error: This script requires zsh" >&2
+    exit 1
+fi
+
+setopt ERR_EXIT PIPE_FAIL
+
+# Colors
+typeset -r RED=$'\033[0;31m'
+typeset -r GREEN=$'\033[0;32m'
+typeset -r YELLOW=$'\033[1;33m'
+typeset -r NC=$'\033[0m'
+
+error_exit() { print -P "%F{red}Error: $1%f" >&2; exit 1 }
+info() { print -P "%F{green}$1%f" }
+warn() { print -P "%F{yellow}$1%f" }
+
+show_usage() {
+    cat << EOF
+Usage: npmx [--search] <package-name>
+Example: npmx turbo
+         npmx @hotwired/turbo
+         npmx --search turbo
+
+Options:
+  --search, -s    Always open search page
+EOF
+}
+
+# Parse arguments
+typeset force_search=false
+typeset package=""
+
+while (( $# > 0 )); do
+    case "$1" in
+        --search|-s) force_search=true; shift ;;
+        --help|-h) show_usage; exit 0 ;;
+        -*) error_exit "Unknown option: $1" ;;
+        *)
+            if [[ -n $package ]]; then
+                error_exit "Too many arguments"
+            fi
+            package="$1"
+            shift
+            ;;
+    esac
+done
+
+if [[ -z $package ]]; then
+    show_usage
+    exit 1
+fi
+
+# Validate package name (basic check)
+if [[ ! $package =~ '^(@?[a-zA-Z0-9][a-zA-Z0-9._-]*(/[a-zA-Z0-9][a-zA-Z0-9._-]*)?)$' ]]; then
+    warn "Warning: '$package' doesn't look like a valid npm package name"
+fi
+
+# URL encode
+typeset encoded_package=${package//@/%40}
+encoded_package=${encoded_package//\//%2F}
+
+typeset -r package_url="https://npmx.dev/package/$encoded_package"
+typeset -r search_url="https://npmx.dev/search?q=$encoded_package"
+
+# Function to open URL and focus browser window
+open_and_focus() {
+    typeset url="$1"
+    
+    # Open the URL
+    $open_cmd "$url" 2>/dev/null || error_exit "Failed to open browser"
+    
+    # Focus the browser window (Linux with X11/Wayland)
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # Wait a moment for browser to open
+        sleep 0.5
+        
+        # Try to focus Firefox
+        if (( $+commands[wmctrl] )); then
+            wmctrl -a "Firefox" 2>/dev/null || \
+            wmctrl -a "Chrome" 2>/dev/null || \
+            wmctrl -a "Chromium" 2>/dev/null
+        elif (( $+commands[xdotool] )); then
+            typeset window_id=$(xdotool search --name "Firefox|Chrome|Chromium" | tail -1)
+            [[ -n $window_id ]] && xdotool windowactivate "$window_id" 2>/dev/null
+        fi
+    # macOS
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        sleep 0.3
+        osascript -e 'tell application "Firefox" to activate' 2>/dev/null || \
+        osascript -e 'tell application "Google Chrome" to activate' 2>/dev/null || \
+        osascript -e 'tell application "Chromium" to activate' 2>/dev/null
+    fi
+}
+
+# Detect browser command
+if (( $+commands[xdg-open] )); then
+    typeset -r open_cmd="xdg-open"
+elif (( $+commands[open] )); then
+    typeset -r open_cmd="open"
+elif (( $+commands[wslview] )); then
+    typeset -r open_cmd="wslview"
+elif (( $+commands[start] )); then
+    typeset -r open_cmd="start"
+else
+    error_exit "No browser command found"
+fi
+
+if ! (( $+commands[curl] )); then
+    error_exit "curl is required but not installed"
+fi
+
+# If --search flag, go directly to search
+if [[ $force_search == true ]]; then
+    info "Opening search page: $search_url"
+    open_and_focus "$search_url"
+    exit 0
+fi
+
+# Check if package exists
+info "Checking package '$package'..."
+typeset http_status=$(curl -s -o /dev/null -w "%{http_code}" -L -m 10 "$package_url" 2>/dev/null || print "000")
+
+# Open appropriate URL
+case $http_status in
+    200)
+        info "Opening package page: $package_url"
+        open_and_focus "$package_url"
+        ;;
+    000)
+        warn "Could not reach npmx.dev (network error)"
+        warn "Opening search page: $search_url"
+        open_and_focus "$search_url"
+        ;;
+    *)
+        warn "Package not found (HTTP $http_status)"
+        warn "Opening search page: $search_url"
+        open_and_focus "$search_url"
+        ;;
+esac

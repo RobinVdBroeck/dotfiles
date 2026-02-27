@@ -7,8 +7,7 @@ fi
 
 echo "Linking scripts"
 mkdir -p "$HOME/.local/bin"
-stow scripts
-
+https://npmx.dev/search?q=turbo
 if [ -x "$(command -v nvim)" ]; then
     echo "Linking nvim"
     mkdir -p "$HOME/.config/nvim"
