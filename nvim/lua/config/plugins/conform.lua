@@ -1,7 +1,6 @@
 local js_formatters = {
   'eslint_d',
   'prettier',
-  'biome',
 }
 
 local M = {}
