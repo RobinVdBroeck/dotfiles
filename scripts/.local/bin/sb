@@ -1,0 +1,11 @@
+#!/bin/sh
+branch=$(git branch --sort=committerdate | fzf --no-sort --tac) || exit
+branch=$(echo "$branch" | sed 's/^[* +]*//')
+
+wt_path=$(git worktree list | grep "\[$branch\]" | awk '{print $1}')
+
+if [ -n "$wt_path" ]; then
+    echo "Branch '$branch' is in worktree: $wt_path"
+else
+    git switch "$branch"
+fi

@@ -24,7 +24,7 @@
         base=$(git show-ref --verify --quiet refs/remotes/origin/main && echo main || echo master); \
         git log $base.. --pretty=format:'%h %s' --no-merges | fzf | cut -c -9 | xargs -o git commit --fixup; \
     }; f"
-    switch-branch = "!git b --sort=committerdate | fzf --no-sort --tac | xargs git checkout"
+    switch-branch = "!sb"
     sb = switch-branch
     b = branch
     bs = b --format='%(refname:short)'
