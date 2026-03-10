@@ -58,3 +58,10 @@ opt.shell = '/bin/sh'
 
 -- Completion options
 opt.completeopt = 'menu,menuone,noselect'
+
+-- Filetype overrides
+vim.filetype.add {
+  filename = {
+    ['turbo.json'] = 'jsonc',
+  },
+}
