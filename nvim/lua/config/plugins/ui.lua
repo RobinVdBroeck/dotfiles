@@ -20,6 +20,7 @@ return {
       },
     },
   },
+  { 'j-hui/fidget.nvim', opts = {} },
   -- {
   --   "folke/noice.nvim",
   --   event = "VeryLazy",
