@@ -15,7 +15,7 @@ return {
   {
     'saghen/blink.cmp',
     dependencies = { 'fang2hou/blink-copilot' },
-    version = '1.9.1',
+    version = '1.10.1',
 
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config

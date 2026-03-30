@@ -1,7 +1,7 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    version = '^2.6.0',
+    version = '^2.7.0',
     dependencies = {
       { 'mason-org/mason.nvim', opts = {}, version = '^2.1.0' },
       {
