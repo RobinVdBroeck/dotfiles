@@ -47,23 +47,27 @@ def open_dmenu() -> str:
     import shutil
     import subprocess
 
-    if shutil.which("dmenu") is None:
+    if shutil.which("dmenu") is not None:
+        menu_cmd = ["dmenu", "-i", "-l", str(20), "-p", "Edit config"]
+    elif shutil.which("fzf") is not None:
+        menu_cmd = ["fzf", "--prompt=Edit config> ", "--height=20", "--layout=reverse"]
+    else:
         print(
-            "cannot run config without arguments when dmenu is not installed",
-            file=sys.stdout,
+            "Neither dmenu nor fzf is installed. Please install one of them.",
+            file=sys.stderr,
         )
         sys.exit(1)
-    dmenu = subprocess.Popen(
-        ["dmenu", "-i", "-l", str(20), "-p", "Edit config"],
+    menu = subprocess.Popen(
+        menu_cmd,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=sys.stderr,
     )
 
-    stdin = dmenu.stdin
+    stdin = menu.stdin
     if stdin is None:
         sys.exit(1)
-    stdout = dmenu.stdout
+    stdout = menu.stdout
     if stdout is None:
         sys.exit(1)
 
@@ -73,7 +77,7 @@ def open_dmenu() -> str:
     stdin.close()
 
     # wait for dmenu to be closed
-    dmenu.wait()
+    menu.wait()
     val = str(stdout.read(), "utf-8").strip()
     return val
 
@@ -113,4 +117,4 @@ if __name__ == "__main__":
         if sys.platform == "darwin":
             editor = "open"
 
-    os.system(editor + " " + entry)
+    os.system(f"{editor} {entry}")
