@@ -1,9 +1,15 @@
+local js_formatters = {
+  'eslint_d',
+  'prettier',
+  'biome',
+}
+
 return {
   {
     'stevearc/conform.nvim',
     version = '^9.0.0',
-    event = { 'BufWritePre' },
-    cmd = { 'ConformInfo' },
+    event = 'BufWritePre',
+    cmd = 'ConformInfo',
     keys = {
       {
         '<leader>cf',
@@ -21,6 +27,7 @@ return {
     opts = {
       async = true,
       stop_after_first = true,
+      -- lsp_format = 'prefer',
       format_on_save = function(bufnr)
         local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
         -- Disable auto format on save for scss and css
@@ -28,17 +35,17 @@ return {
           return nil
         end
         return {
-          -- format on save can block for a max of 1 second
-          timeout_ms = 1000,
-          lsp_format = 'fallback',
+          -- format on save can block for a max of 5 second
+          timeout_ms = 5000,
+          lsp_format = 'never',
         }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        javascript = { 'eslint_d', 'prettier', 'biome' },
-        typescript = { 'eslint_d', 'prettier' },
-        typescriptreact = { 'eslint_d', 'prettier' },
-        javascriptreact = { 'eslint_d', 'prettier' },
+        javascript = js_formatters,
+        typescript = js_formatters,
+        typescriptreact = js_formatters,
+        javascriptreact = js_formatters,
         terraform = { 'tofu_fmt' },
       },
     },
