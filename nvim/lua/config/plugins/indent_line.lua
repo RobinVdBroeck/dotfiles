@@ -1,9 +1,7 @@
-return {
-  {
-    'lukas-reineke/indent-blankline.nvim',
-    version = '^3.0.0',
-    main = 'ibl',
-    event = 'BufReadPost',
-    opts = {},
-  },
-}
+local M = {}
+
+function M.setup()
+  require('ibl').setup {}
+end
+
+return M

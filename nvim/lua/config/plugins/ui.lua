@@ -1,37 +1,13 @@
-return {
-  {
-    'catppuccin/nvim',
-    as = 'catppuccin',
-    version = 'v1.11.0',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.o.background = 'dark' -- or 'light'
+local M = {}
 
-      vim.cmd.colorscheme 'catppuccin'
-    end,
-  },
-  {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = {
-      options = {
-        globalstatus = true,
-      },
+-- catppuccin is applied in lua/config/pack.lua immediately after vim.pack.add
+-- so the colorscheme is active before any buffer is drawn.
+function M.setup()
+  require('lualine').setup {
+    options = {
+      globalstatus = true,
     },
-  },
-  { 'j-hui/fidget.nvim', opts = {} },
-  -- {
-  --   "folke/noice.nvim",
-  --   event = "VeryLazy",
-  --   opts = {
-  --     presets = {
-  --       command_plate = false,
-  --     },
-  --   },
-  --   dependencies = {
-  --     "MunifTanjim/nui.nvim",
-  --     "rcarriga/nvim-notify",
-  --   }
-  -- }
-}
+  }
+end
+
+return M

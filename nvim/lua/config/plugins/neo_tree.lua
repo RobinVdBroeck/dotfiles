@@ -1,18 +1,7 @@
-return {
-  'nvim-neo-tree/neo-tree.nvim',
-  version = '^3.38.0',
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-    'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
-    'MunifTanjim/nui.nvim',
-  },
-  cmd = 'Neotree',
-  keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
-    { '<C-n><C-f>', ':Neotree reveal<CR>', desc = '[N]eoTree [F]ind', silent = true },
-    { '<C-n><C-t>', ':Neotree toggle<CR>', desc = '[N]eoTree [T]oggle', silent = true },
-  },
-  opts = {
+local M = {}
+
+function M.setup()
+  require('neo-tree').setup {
     filesystem = {
       window = {
         mappings = {
@@ -20,5 +9,11 @@ return {
         },
       },
     },
-  },
-}
+  }
+
+  vim.keymap.set('n', '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal', silent = true })
+  vim.keymap.set('n', '<C-n><C-f>', ':Neotree reveal<CR>', { desc = '[N]eoTree [F]ind', silent = true })
+  vim.keymap.set('n', '<C-n><C-t>', ':Neotree toggle<CR>', { desc = '[N]eoTree [T]oggle', silent = true })
+end
+
+return M

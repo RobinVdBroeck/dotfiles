@@ -1,3 +1,2 @@
 #!/bin/sh
-
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+nvim --headless +'lua vim.pack.update(nil, { force = true })' +qa
