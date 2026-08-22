@@ -1,0 +1,1 @@
+ACTION=="add|change", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{power_dpm_force_performance_level}=="*", RUN+="/usr/bin/chgrp gpulock /sys/bus/pci/devices/%k/power_dpm_force_performance_level", RUN+="/usr/bin/chmod 0660 /sys/bus/pci/devices/%k/power_dpm_force_performance_level"

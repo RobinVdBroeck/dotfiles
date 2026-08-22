@@ -1,0 +1,51 @@
+# Maintainer: Robin Van den Broeck <robin.broeck@gmail.com>
+
+pkgname=gpu-power-manager-git
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Switch an AMD GPU's power profile on screen lock/unlock events (git)"
+arch=('x86_64')
+url="https://github.com/RobinVdBroeck/gpu-power-manager"
+license=('custom')
+depends=('glibc' 'dbus')
+makedepends=('cargo' 'git')
+optdepends=('systemd: to run the shipped service unit')
+provides=("${pkgname%-git}=$pkgver")
+conflicts=("${pkgname%-git}")
+install=gpu-power-manager-git.install
+source=("$pkgname::git+https://github.com/RobinVdBroeck/gpu-power-manager.git"
+        "gpu-power-manager.service"
+        "99-gpu-power-manager.rules")
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP')
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    ver=$(git describe --long --tags --abbrev=7 2>/dev/null) || true
+    if [ -z "$ver" ]; then
+        printf '0.1.0'
+    else
+        printf '%s' "${ver#v}" | sed 's/-/./g'
+    fi
+}
+
+build() {
+    cd "$srcdir/$pkgname"
+    cargo build --release --locked --frozen
+}
+
+check() {
+    cd "$srcdir/$pkgname"
+    cargo test --release --locked --frozen
+}
+
+package() {
+    cd "$srcdir/$pkgname"
+    install -Dm755 "target/release/gpu-power-manager" "$pkgdir/usr/bin/gpu-power-manager"
+    install -Dm644 "$srcdir/gpu-power-manager.service" \
+        "$pkgdir/usr/lib/systemd/user/gpu-power-manager.service"
+    install -Dm644 "$srcdir/99-gpu-power-manager.rules" \
+        "$pkgdir/usr/lib/udev/rules.d/99-gpu-power-manager.rules"
+    install -d "$pkgdir/usr/share/licenses/$pkgname"
+}

@@ -1,0 +1,34 @@
+_user() {
+    printf '%s\n' "${SUDO_USER:-$(logname 2>/dev/null || echo "$USER")}"
+}
+
+_ctl() {
+    systemctl --user --machine="$(_user)@.host" "$@"
+}
+
+pre_install() {
+    groupadd -f gpulock 2>/dev/null || true
+}
+
+pre_upgrade() {
+    pre_install
+}
+
+post_install() {
+    usermod -aG gpulock "$(_user)" 2>/dev/null || true
+    loginctl enable-linger "$(_user)" 2>/dev/null || true
+    _ctl enable --now gpu-power-manager.service 2>/dev/null || true
+    udevadm control --reload 2>/dev/null || true
+    udevadm trigger 2>/dev/null || true
+}
+
+post_upgrade() {
+    udevadm control --reload 2>/dev/null || true
+    udevadm trigger 2>/dev/null || true
+    _ctl restart gpu-power-manager.service 2>/dev/null \
+        || _ctl enable --now gpu-power-manager.service 2>/dev/null || true
+}
+
+post_remove() {
+    _ctl disable --now gpu-power-manager.service 2>/dev/null || true
+}

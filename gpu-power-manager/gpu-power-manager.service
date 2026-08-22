@@ -1,0 +1,20 @@
+[Unit]
+Description=GPU Power Management on Screen Lock Events
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/gpu-power-manager --watch 1.0
+Restart=on-failure
+RestartSec=3
+
+# Sandboxing
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/share/gpu-power-manager
+NoNewPrivileges=true
+ProtectKernelTunables=false
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX
+
+[Install]
+WantedBy=graphical-session.target
