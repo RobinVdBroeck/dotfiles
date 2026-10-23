@@ -1,0 +1,7 @@
+*
+!.gitignore
+!99-gpu-power-manager.rules
+!PKGBUILD
+!gpu-power-manager-git.install
+!gpu-power-manager.service
+!gpu-power-manager.sysusers

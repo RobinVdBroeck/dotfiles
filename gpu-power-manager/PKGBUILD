@@ -6,46 +6,59 @@ pkgrel=1
 pkgdesc="Switch an AMD GPU's power profile on screen lock/unlock events (git)"
 arch=('x86_64')
 url="https://github.com/RobinVdBroeck/gpu-power-manager"
-license=('custom')
-depends=('glibc' 'dbus')
+license=('Unlicense')
+depends=('glibc' 'gcc-libs' 'dbus')
 makedepends=('cargo' 'git')
-optdepends=('systemd: to run the shipped service unit')
+optdepends=('systemd: journald logging and the shipped service unit')
 provides=("${pkgname%-git}=$pkgver")
 conflicts=("${pkgname%-git}")
 install=gpu-power-manager-git.install
 source=("$pkgname::git+https://github.com/RobinVdBroeck/gpu-power-manager.git"
         "gpu-power-manager.service"
-        "99-gpu-power-manager.rules")
+        "99-gpu-power-manager.rules"
+        "gpu-power-manager.sysusers")
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             'SKIP')
 
 pkgver() {
     cd "$srcdir/$pkgname"
-    ver=$(git describe --long --tags --abbrev=7 2>/dev/null) || true
-    if [ -z "$ver" ]; then
-        printf '0.1.0'
+    if git describe --long --tags --abbrev=7 >/dev/null 2>&1; then
+        git describe --long --tags --abbrev=7 \
+            | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
     else
-        printf '%s' "${ver#v}" | sed 's/-/./g'
+        printf 'r%s.%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
     fi
+}
+
+prepare() {
+    cd "$srcdir/$pkgname"
+    export RUSTUP_TOOLCHAIN=stable
+    cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
 }
 
 build() {
     cd "$srcdir/$pkgname"
-    cargo build --release --locked --frozen
+    export RUSTUP_TOOLCHAIN=stable
+    export CARGO_TARGET_DIR=target
+    cargo build --release --frozen
 }
 
 check() {
     cd "$srcdir/$pkgname"
-    cargo test --release --locked --frozen
+    export RUSTUP_TOOLCHAIN=stable
+    export CARGO_TARGET_DIR=target
+    cargo test --release --frozen
 }
 
 package() {
     cd "$srcdir/$pkgname"
-    install -Dm755 "target/release/gpu-power-manager" "$pkgdir/usr/bin/gpu-power-manager"
+    install -Dm755 target/release/gpu-power-manager "$pkgdir/usr/bin/gpu-power-manager"
     install -Dm644 "$srcdir/gpu-power-manager.service" \
         "$pkgdir/usr/lib/systemd/user/gpu-power-manager.service"
     install -Dm644 "$srcdir/99-gpu-power-manager.rules" \
         "$pkgdir/usr/lib/udev/rules.d/99-gpu-power-manager.rules"
-    install -d "$pkgdir/usr/share/licenses/$pkgname"
+    install -Dm644 "$srcdir/gpu-power-manager.sysusers" \
+        "$pkgdir/usr/lib/sysusers.d/gpu-power-manager.conf"
 }

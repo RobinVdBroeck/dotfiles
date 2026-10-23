@@ -2,12 +2,14 @@ _user() {
     printf '%s\n' "${SUDO_USER:-$(logname 2>/dev/null || echo "$USER")}"
 }
 
-_ctl() {
-    systemctl --user --machine="$(_user)@.host" "$@"
+_reload_udev() {
+    udevadm control --reload 2>/dev/null || true
+    udevadm trigger --subsystem-match=pci --action=add 2>/dev/null || true
 }
 
 pre_install() {
-    groupadd -f gpulock 2>/dev/null || true
+    # sysusers runs after this scriptlet, so create the group now for usermod
+    getent group gpulock >/dev/null || groupadd -r gpulock
 }
 
 pre_upgrade() {
@@ -16,19 +18,20 @@ pre_upgrade() {
 
 post_install() {
     usermod -aG gpulock "$(_user)" 2>/dev/null || true
-    loginctl enable-linger "$(_user)" 2>/dev/null || true
-    _ctl enable --now gpu-power-manager.service 2>/dev/null || true
-    udevadm control --reload 2>/dev/null || true
-    udevadm trigger 2>/dev/null || true
+    _reload_udev
+    systemctl --global enable gpu-power-manager.service 2>/dev/null || true
+
+    echo ">> Added '$(_user)' to group 'gpulock' and enabled the user service."
+    echo ">> Log out and back in once; the service starts with your session."
 }
 
 post_upgrade() {
-    udevadm control --reload 2>/dev/null || true
-    udevadm trigger 2>/dev/null || true
-    _ctl restart gpu-power-manager.service 2>/dev/null \
-        || _ctl enable --now gpu-power-manager.service 2>/dev/null || true
+    _reload_udev
+    systemctl --global enable gpu-power-manager.service 2>/dev/null || true
+    systemctl --user --machine="$(_user)@.host" restart gpu-power-manager.service 2>/dev/null || true
 }
 
-post_remove() {
-    _ctl disable --now gpu-power-manager.service 2>/dev/null || true
+pre_remove() {
+    systemctl --user --machine="$(_user)@.host" stop gpu-power-manager.service 2>/dev/null || true
+    systemctl --global disable gpu-power-manager.service 2>/dev/null || true
 }
